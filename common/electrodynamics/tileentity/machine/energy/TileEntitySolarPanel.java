@@ -25,17 +25,16 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 
 	private boolean prevPanelDisabled;
 	public boolean panelDisabled = false;
-	public boolean showStand = true;
-	
+
 	public ForgeDirection attached;
 	
 	@Override
 	public void onBlockAdded(EntityPlayer player, ForgeDirection side) {
 		if (player.isSneaking()) {
-			this.showStand = false;
+			this.attached = ForgeDirection.UNKNOWN;
+		} else {
+			this.attached = side;
 		}
-		
-		this.attached = side;
 	}
 
 	@Override
@@ -180,7 +179,6 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 		super.writeToNBT(nbt);
 		
 		nbt.setByte("attach", (byte) this.attached.ordinal());
-		nbt.setBoolean("showStand", this.showStand);
 	}
 	
 	@Override
@@ -188,7 +186,6 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 		super.readFromNBT(nbt);
 		
 		this.attached = ForgeDirection.values()[nbt.getByte("attach")];
-		this.showStand = nbt.getBoolean("showStand");
 	}
 	
 	@Override

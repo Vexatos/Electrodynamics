@@ -49,7 +49,7 @@ public class RenderSolarPanel extends TileEntitySpecialRenderer {
 		GL11.glTranslatef(0, -0.75F, 0);
 		this.solarPanel.renderPipe(0.0625F);
 
-		if (((TileEntitySolarPanel)tileentity).showStand) {
+		if (attachedSide != ForgeDirection.UNKNOWN) {
 			GL11.glTranslatef(0, 1F, 0);
 			rotations = getGLRotations(attachedSide);
 			if (rotations != null && rotations.length > 0) {
