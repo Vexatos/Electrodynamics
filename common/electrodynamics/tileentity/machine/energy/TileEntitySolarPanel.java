@@ -3,6 +3,7 @@ package electrodynamics.tileentity.machine.energy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.ForgeDirection;
@@ -41,6 +42,12 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 			this.attached = ForgeDirection.UNKNOWN;
 			sendStateUpdate();
 		}
+	}
+	
+	@Override
+	public AxisAlignedBB getCollisionBox() {
+		// TODO
+		return super.getCollisionBox();
 	}
 	
 	@Override

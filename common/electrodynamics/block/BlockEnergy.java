@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import electrodynamics.core.CreativeTabED;
@@ -52,6 +53,16 @@ public class BlockEnergy extends BlockContainer {
 		if (tile != null && tile instanceof TileEntityEDRoot) {
 			((TileEntityEDRoot)tile).onNeighborUpdate();
 		}
+	}
+	
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		
+		if (tile != null && tile instanceof TileEntityEDRoot) {
+			return ((TileEntityEDRoot)tile).getCollisionBox();
+		}
+		
+		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
 	}
 	
 	@Override
