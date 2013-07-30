@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 
 import electrodynamics.client.model.ModelSolarPanel;
 import electrodynamics.client.render.util.RenderUtil;
+import electrodynamics.interfaces.energy.IEnergyConnection;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.machine.energy.TileEntitySolarPanel;
 
@@ -21,6 +22,8 @@ public class RenderSolarPanel extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double d0, double d1, double d2, float f) {
+		GLRotation[] rotations = null;
+		
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		
@@ -47,14 +50,49 @@ public class RenderSolarPanel extends TileEntitySpecialRenderer {
 		this.solarPanel.renderPipe(0.0625F);
 
 		GL11.glTranslatef(0, 1F, 0);
-		GLRotation[] rotations = getGLRotations(attachedSide);
+		rotations = getGLRotations(attachedSide);
 		if (rotations != null && rotations.length > 0) {
 			for (GLRotation glRotation : getGLRotations(attachedSide)) {
-				glRotation.apply();
+				glRotation.apply(false);
 			}
 		}
 		GL11.glTranslatef(0, -1F, 0);
 		this.solarPanel.renderPipeBase(0.0625F);
+		this.solarPanel.renderPipeBaseConnector(0.0625F);
+		GL11.glTranslatef(0, 1F, 0);
+		if (rotations != null && rotations.length > 0) {
+			for (GLRotation glRotation : getGLRotations(attachedSide)) {
+				glRotation.apply(true);
+			}
+		}
+		GL11.glTranslatef(0, -1F, 0);
+		
+		for (ForgeDirection forgeDir : ForgeDirection.VALID_DIRECTIONS) {
+			if (forgeDir != ForgeDirection.UP && forgeDir != ForgeDirection.DOWN && forgeDir != attachedSide.getOpposite()) {
+				TileEntity tile = tileentity.worldObj.getBlockTileEntity(tileentity.xCoord + forgeDir.offsetX, tileentity.yCoord + forgeDir.offsetY, tileentity.zCoord + forgeDir.offsetZ);
+				
+				if (tile != null && tile instanceof IEnergyConnection) {
+					GL11.glTranslatef(0, 1F, 0);
+					rotations = getGLRotations(forgeDir);
+					
+					for (GLRotation glRotation : rotations) {
+						glRotation.apply(false);
+					}
+					GL11.glTranslatef(0, -1F, 0);
+					
+					this.solarPanel.renderPipeBase(0.0625F);
+					this.solarPanel.renderPipeBaseConnector(0.0625F);
+					
+					GL11.glTranslatef(0, 1F, 0);
+					rotations = getGLRotations(forgeDir);
+
+					for (GLRotation glRotation : rotations) {
+						glRotation.apply(true);
+					}
+					GL11.glTranslatef(0, -1F, 0);
+				}
+			}
+		}
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
@@ -102,8 +140,8 @@ public class RenderSolarPanel extends TileEntitySpecialRenderer {
 			this.z = z;
 		}
 		
-		public void apply() {
-			GL11.glRotatef(angle, x, y, z);
+		public void apply(boolean reverse) {
+			GL11.glRotatef(reverse == true ? -angle : angle, x, y, z);
 		}
 	}
 	

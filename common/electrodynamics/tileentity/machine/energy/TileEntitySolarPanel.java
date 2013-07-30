@@ -8,11 +8,12 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import electrodynamics.interfaces.energy.IEnergyConnection;
 import electrodynamics.lib.block.EnergyProduction;
 import electrodynamics.tileentity.TileEntityEDRoot;
 import electrodynamics.util.BlockUtil;
 
-public class TileEntitySolarPanel extends TileEntityEDRoot {
+public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyConnection {
 
 	@SideOnly(Side.CLIENT)
 	public float vertOffset = 0.0F;
@@ -29,7 +30,6 @@ public class TileEntitySolarPanel extends TileEntityEDRoot {
 	@Override
 	public void onBlockAdded(ForgeDirection side) {
 		this.attached = side;
-		//TODO: Reeeender
 	}
 
 	@Override
@@ -52,6 +52,21 @@ public class TileEntitySolarPanel extends TileEntityEDRoot {
 			
 			if (this.setAngle < -0.45F) {
 				this.setAngle = -0.45F;
+			}
+			
+			ForgeDirection facing = null;
+			if (this.setAngle == 0) {
+				facing = ForgeDirection.UP;
+			} else if (this.setAngle > 0 && this.setAngle <= 0.45F) {
+				facing = ForgeDirection.EAST;
+			} else if (this.setAngle < 0 && this.setAngle >= -0.45F) {
+				facing = ForgeDirection.WEST;
+			}
+			
+			if (this.attached == facing) {
+				this.setAngle = 0;
+			} else if (this.worldObj.getBlockId(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ) > 0) {
+				this.setAngle = 0;
 			}
 		} else {
 			this.setAngle = 0;

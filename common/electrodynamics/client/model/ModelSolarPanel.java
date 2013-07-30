@@ -76,8 +76,11 @@ public class ModelSolarPanel extends ModelTechne {
 	}
 	
 	public void renderPipeBase(float scale) {
-		solarPanelPipeConnector2.render(scale);
 		solarPanelPipe2.render(scale);		
+	}
+
+	public void renderPipeBaseConnector(float scale) {
+		solarPanelPipeConnector2.render(scale);
 	}
 	
 	public void renderPanel(float scale) {
