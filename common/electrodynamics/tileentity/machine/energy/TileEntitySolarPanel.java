@@ -2,6 +2,7 @@ package electrodynamics.tileentity.machine.energy;
 
 import java.util.Random;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -24,11 +25,16 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 
 	private boolean prevPanelDisabled;
 	public boolean panelDisabled = false;
+	public boolean showStand = true;
 	
 	public ForgeDirection attached;
 	
 	@Override
-	public void onBlockAdded(ForgeDirection side) {
+	public void onBlockAdded(EntityPlayer player, ForgeDirection side) {
+		if (player.isSneaking()) {
+			this.showStand = false;
+		}
+		
 		this.attached = side;
 	}
 
@@ -174,13 +180,15 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 		super.writeToNBT(nbt);
 		
 		nbt.setByte("attach", (byte) this.attached.ordinal());
+		nbt.setBoolean("showStand", this.showStand);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		this.attached = ForgeDirection.VALID_DIRECTIONS[nbt.getByte("attach")];
+		this.attached = ForgeDirection.values()[nbt.getByte("attach")];
+		this.showStand = nbt.getBoolean("showStand");
 	}
 	
 	@Override

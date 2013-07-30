@@ -17,7 +17,7 @@ public abstract class TileEntityEDRoot extends TileEntity {
 
 	}
 
-	public void onBlockAdded(ForgeDirection side) {
+	public void onBlockAdded(EntityPlayer player, ForgeDirection side) {
 
 	}
 

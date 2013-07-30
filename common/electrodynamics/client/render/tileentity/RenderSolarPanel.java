@@ -49,23 +49,25 @@ public class RenderSolarPanel extends TileEntitySpecialRenderer {
 		GL11.glTranslatef(0, -0.75F, 0);
 		this.solarPanel.renderPipe(0.0625F);
 
-		GL11.glTranslatef(0, 1F, 0);
-		rotations = getGLRotations(attachedSide);
-		if (rotations != null && rotations.length > 0) {
-			for (GLRotation glRotation : getGLRotations(attachedSide)) {
-				glRotation.apply(false);
+		if (((TileEntitySolarPanel)tileentity).showStand) {
+			GL11.glTranslatef(0, 1F, 0);
+			rotations = getGLRotations(attachedSide);
+			if (rotations != null && rotations.length > 0) {
+				for (GLRotation glRotation : getGLRotations(attachedSide)) {
+					glRotation.apply(false);
+				}
 			}
-		}
-		GL11.glTranslatef(0, -1F, 0);
-		this.solarPanel.renderPipeBase(0.0625F);
-		this.solarPanel.renderPipeBaseConnector(0.0625F);
-		GL11.glTranslatef(0, 1F, 0);
-		if (rotations != null && rotations.length > 0) {
-			for (GLRotation glRotation : getGLRotations(attachedSide)) {
-				glRotation.apply(true);
+			GL11.glTranslatef(0, -1F, 0);
+			this.solarPanel.renderPipeBase(0.0625F);
+			this.solarPanel.renderPipeBaseConnector(0.0625F);
+			GL11.glTranslatef(0, 1F, 0);
+			if (rotations != null && rotations.length > 0) {
+				for (GLRotation glRotation : getGLRotations(attachedSide)) {
+					glRotation.apply(true);
+				}
 			}
+			GL11.glTranslatef(0, -1F, 0);
 		}
-		GL11.glTranslatef(0, -1F, 0);
 		
 		for (ForgeDirection forgeDir : ForgeDirection.VALID_DIRECTIONS) {
 			if (forgeDir != ForgeDirection.UP && forgeDir != ForgeDirection.DOWN && forgeDir != attachedSide.getOpposite()) {

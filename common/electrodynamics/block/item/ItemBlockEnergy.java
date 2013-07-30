@@ -35,7 +35,7 @@ public class ItemBlockEnergy extends ItemBlock {
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
 		
 		if (tile != null && tile instanceof TileEntityEDRoot) {
-			((TileEntityEDRoot)tile).onBlockAdded(sideForge.getOpposite());
+			((TileEntityEDRoot)tile).onBlockAdded(player, sideForge.getOpposite());
 		}
 		
 		return true;
