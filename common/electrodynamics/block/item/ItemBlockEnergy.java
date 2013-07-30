@@ -46,7 +46,7 @@ public class ItemBlockEnergy extends ItemBlock {
 		if (stack.getItemDamage() == EnergyProduction.SOLAR_PANEL.ordinal()) {
 			ForgeDirection sideForge = ForgeDirection.getOrientation(side);
 			
-			if (!world.isBlockSolidOnSide(x, y, z, sideForge, false)) {
+			if (!world.isBlockSolidOnSide(x, y, z, sideForge, false) && !player.isSneaking()) {
 				return false;
 			}
 			

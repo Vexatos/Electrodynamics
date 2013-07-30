@@ -1,7 +1,6 @@
 package electrodynamics.tileentity.machine.energy;
 
-import java.util.Random;
-
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
@@ -10,7 +9,6 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.interfaces.energy.IEnergyConnection;
-import electrodynamics.lib.block.EnergyProduction;
 import electrodynamics.tileentity.TileEntityEDRoot;
 import electrodynamics.util.BlockUtil;
 
@@ -40,9 +38,8 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 	@Override
 	public void onNeighborUpdate() {
 		if (BlockUtil.getBlockOnSide(worldObj, xCoord, yCoord, zCoord, attached) == 0 || this.attached == null) {
-			BlockUtil.dropItemFromBlock(worldObj, xCoord, yCoord, zCoord, EnergyProduction.SOLAR_PANEL.toItemStack(), new Random());
-			this.invalidate();
-			this.worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+			this.attached = ForgeDirection.UNKNOWN;
+			sendStateUpdate();
 		}
 	}
 	
@@ -70,8 +67,14 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 			
 			if (this.attached == facing) {
 				this.setAngle = 0;
-			} else if (this.worldObj.getBlockId(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ) > 0) {
-				this.setAngle = 0;
+			} else {
+				Block block = Block.blocksList[this.worldObj.getBlockId(xCoord + facing.offsetX, yCoord + facing.offsetY, zCoord + facing.offsetZ)];
+				
+				if (block != null) {
+					if (block.isOpaqueCube() || block.renderAsNormalBlock()) {
+						this.setAngle = 0;
+					}
+				}
 			}
 		} else {
 			this.setAngle = 0;
@@ -215,6 +218,10 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 		if (nbt.hasKey("state")) {
 			this.panelDisabled = nbt.getBoolean("state");
 		}
+		
+		if (nbt.hasKey("attach")) {
+			this.attached = ForgeDirection.values()[nbt.getByte("attach")];
+		}
 	}
 	
 	private void sendAngleUpdate() {
@@ -226,6 +233,7 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 	private void sendStateUpdate() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setBoolean("state", this.panelDisabled);
+		nbt.setByte("attach", (byte) this.attached.ordinal());
 		sendUpdatePacket(nbt);
 	}
 	
