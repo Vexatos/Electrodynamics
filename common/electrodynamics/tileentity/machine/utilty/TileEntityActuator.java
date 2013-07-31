@@ -42,7 +42,7 @@ public class TileEntityActuator extends TileEntityInventoryWrapper implements IS
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		ForgeDirection sideDir = ForgeDirection.getOrientation(side);
-		return sideDir == this.rotation.getOpposite() ? new int[] { 0 } : null;
+		return sideDir == this.rotation.getOpposite() ? new int[] { 0 } : new int[] {};
 	}
 
 	@Override
