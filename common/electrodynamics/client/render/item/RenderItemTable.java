@@ -7,9 +7,9 @@ import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import electrodynamics.client.model.ModelStoneTable;
+import electrodynamics.client.model.ModelTableStone;
 import electrodynamics.client.model.ModelTable;
-import electrodynamics.client.model.ModelWoodTable;
+import electrodynamics.client.model.ModelTableWood;
 import electrodynamics.lib.client.Textures;
 
 public class RenderItemTable implements IItemRenderer {
@@ -19,8 +19,8 @@ public class RenderItemTable implements IItemRenderer {
 	private ResourceLocation[] textures = new ResourceLocation[] {Textures.TABLE_WOOD.resource, Textures.TABLE_STONE.resource};
 
 	public RenderItemTable() {
-		tables[0] = new ModelWoodTable();
-		tables[1] = new ModelStoneTable();
+		tables[0] = new ModelTableWood();
+		tables[1] = new ModelTableStone();
 	}
 	
 	@Override
