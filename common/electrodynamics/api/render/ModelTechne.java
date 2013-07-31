@@ -1,4 +1,4 @@
-package electrodynamics.client.model;
+package electrodynamics.api.render;
 
 import net.minecraft.client.model.ModelBase;
 

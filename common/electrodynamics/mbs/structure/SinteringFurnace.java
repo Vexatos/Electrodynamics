@@ -1,7 +1,7 @@
 package electrodynamics.mbs.structure;
 
+import electrodynamics.api.render.ModelTechne;
 import electrodynamics.client.model.ModelSinteringFurnace;
-import electrodynamics.client.model.ModelTechne;
 import electrodynamics.lib.block.StructureComponent;
 import electrodynamics.mbs.MultiBlockStructure;
 import electrodynamics.mbs.Pattern;

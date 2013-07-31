@@ -7,10 +7,10 @@ import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
 
+import electrodynamics.api.render.ModelTechne;
 import electrodynamics.block.EDBlocks;
 import electrodynamics.block.SubBlock;
 import electrodynamics.client.model.ModelMobGrinder;
-import electrodynamics.client.model.ModelTechne;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.lib.core.Strings;

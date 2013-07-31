@@ -1,5 +1,6 @@
 package electrodynamics.client.model;
 
+import electrodynamics.api.render.ModelTechne;
 import net.minecraft.client.model.ModelRenderer;
 
 public class ModelBasicSieve extends ModelTechne {

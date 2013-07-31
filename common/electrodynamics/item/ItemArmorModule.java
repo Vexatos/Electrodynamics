@@ -2,6 +2,8 @@ package electrodynamics.item;
 
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,6 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import electrodynamics.api.render.ICustomRender;
+import electrodynamics.api.render.ModelTechne;
 import electrodynamics.api.tool.IArmorModule;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.lang.EDLanguage;
@@ -17,7 +21,7 @@ import electrodynamics.lib.core.Strings;
 import electrodynamics.lib.item.ArmorModule;
 import electrodynamics.util.StringUtil;
 
-public class ItemArmorModule extends Item implements IArmorModule {
+public class ItemArmorModule extends Item implements IArmorModule, ICustomRender {
 
 	private Icon[] textures;
 	
@@ -99,6 +103,18 @@ public class ItemArmorModule extends Item implements IArmorModule {
 		for (ArmorModule module : ArmorModule.values()) {
 			this.textures[module.ordinal()] = register.registerIcon(module.getTextureFile());
 		}
+	}
+
+	@Override
+	public void glManipulation() {
+		GL11.glTranslated(0, 0.25, 0);
+		GL11.glScaled(.5, .5, 0);
+		GL11.glTranslated(0, -0.25, 0);
+	}
+
+	@Override
+	public ModelTechne getCustomModel() {
+		return null;
 	}
 
 }

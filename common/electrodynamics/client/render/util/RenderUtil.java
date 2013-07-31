@@ -16,6 +16,8 @@ import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import electrodynamics.api.render.ICustomRender;
+
 public class RenderUtil {
 
 	public static final double OFFSET_CONSTANT = 0.01;
@@ -32,10 +34,21 @@ public class RenderUtil {
 				Minecraft.getMinecraft().gameSettings.fancyGraphics = true;
 			}
 			
-			EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack);
-			entityitem.getEntityItem().stackSize = 1;
-			entityitem.hoverStart = 0.0F;
-			RenderManager.instance.renderEntityWithPosYaw(entityitem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+			ICustomRender renderer = null;
+			if (stack.getItem() instanceof ICustomRender) {
+				renderer = (ICustomRender) stack.getItem();
+			}
+			
+			renderer.glManipulation();
+			
+			if (renderer.getCustomModel() != null) {
+				renderer.getCustomModel().render(0.0625F);
+			} else {
+				EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack);
+				entityitem.getEntityItem().stackSize = 1;
+				entityitem.hoverStart = 0.0F;
+				RenderManager.instance.renderEntityWithPosYaw(entityitem, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F);
+			}
 			
 			if (forceFancy) {
 				Minecraft.getMinecraft().gameSettings.fancyGraphics = fancy;

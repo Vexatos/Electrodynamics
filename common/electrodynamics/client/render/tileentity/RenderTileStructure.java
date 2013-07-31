@@ -6,9 +6,9 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
+import electrodynamics.api.render.ModelTechne;
 import electrodynamics.client.model.ModelMobGrinder;
 import electrodynamics.client.model.ModelSinteringFurnace;
-import electrodynamics.client.model.ModelTechne;
 import electrodynamics.lib.block.StructureComponent;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.mbs.MultiBlockStructure;
