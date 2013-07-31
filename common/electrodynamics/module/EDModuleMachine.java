@@ -63,8 +63,8 @@ public class EDModuleMachine extends EDModule {
 	@Override
 	public void preInit() {
 		/* BLOCK */
-		EDBlocks.blockTable = new BlockTable(BlockIDs.BLOCK_TABLE_ID).setUnlocalizedName(Strings.BLOCK_TABLE_NAME);
-		GameRegistry.registerBlock(EDBlocks.blockTable, ItemBlockTable.class, Strings.BLOCK_TABLE_NAME);
+		EDBlocks.blockTable = new BlockTable(BlockIDs.BLOCK_TABLE_ID).setUnlocalizedName(Strings.BLOCK_TABLE);
+		GameRegistry.registerBlock(EDBlocks.blockTable, ItemBlockTable.class, Strings.BLOCK_TABLE);
 		for (int i = 0; i < 2; i++) {
 			EDLanguage.getInstance().registerItemStack(new ItemStack(EDBlocks.blockTable, 1, i), BlockTable.subNames[i]);
 		}
@@ -94,8 +94,8 @@ public class EDModuleMachine extends EDModule {
 		}
 		
 		/* ITEM */
-		EDItems.itemDust = new ItemDust(ItemIDs.ITEM_DUST_ID).setUnlocalizedName(Strings.ITEM_DUST_NAME);
-		GameRegistry.registerItem(EDItems.itemDust, Strings.ITEM_DUST_NAME);
+		EDItems.itemDust = new ItemDust(ItemIDs.ITEM_DUST_ID).setUnlocalizedName(Strings.ITEM_DUST);
+		GameRegistry.registerItem(EDItems.itemDust, Strings.ITEM_DUST);
 		for (Dust dust : Dust.values()) {
 			// dust.registerWithOreDictionary();
 			EDLanguage.getInstance().registerItemStack(dust.toItemStack(), dust.unlocalizedName);
@@ -104,34 +104,34 @@ public class EDModuleMachine extends EDModule {
 			EDLanguage.getInstance().registerItemStack(grinding.toItemStack(), grinding.unlocalizedName);
 		}
 
-		EDItems.itemIngot = new ItemIngot(ItemIDs.ITEM_INGOT_ID).setUnlocalizedName(Strings.ITEM_INGOT_NAME);
-		GameRegistry.registerItem(EDItems.itemIngot, Strings.ITEM_INGOT_NAME);
+		EDItems.itemIngot = new ItemIngot(ItemIDs.ITEM_INGOT_ID).setUnlocalizedName(Strings.ITEM_INGOT);
+		GameRegistry.registerItem(EDItems.itemIngot, Strings.ITEM_INGOT);
 		for (Ingot ingot : Ingot.values()) {
 			EDLanguage.getInstance().registerItemStack(ingot.toItemStack(), ingot.unlocalizedName);
 		}
 
-		EDItems.itemStoneHammer = new ItemStoneHammer(ItemIDs.ITEM_STONE_HAMMER_ID).setUnlocalizedName(Strings.ITEM_STONE_HAMMER_NAME);
-		GameRegistry.registerItem(EDItems.itemStoneHammer, Strings.ITEM_STONE_HAMMER_NAME);
+		EDItems.itemStoneHammer = new ItemStoneHammer(ItemIDs.ITEM_STONE_HAMMER_ID).setUnlocalizedName(Strings.ITEM_STONE_HAMMER);
+		GameRegistry.registerItem(EDItems.itemStoneHammer, Strings.ITEM_STONE_HAMMER);
 		EDLanguage.getInstance().registerItem(EDItems.itemStoneHammer);
 
-		EDItems.itemSteelHammer = new ItemSteelHammer(ItemIDs.ITEM_STEEL_HAMMER_ID).setUnlocalizedName(Strings.ITEM_STEEL_HAMMER_NAME);
-		GameRegistry.registerItem(EDItems.itemSteelHammer, Strings.ITEM_STEEL_HAMMER_NAME);
+		EDItems.itemSteelHammer = new ItemSteelHammer(ItemIDs.ITEM_STEEL_HAMMER_ID).setUnlocalizedName(Strings.ITEM_STEEL_HAMMER);
+		GameRegistry.registerItem(EDItems.itemSteelHammer, Strings.ITEM_STEEL_HAMMER);
 		EDLanguage.getInstance().registerItem(EDItems.itemSteelHammer);
 
-		EDItems.itemSledgeHammer = new ItemSledgeHammer(ItemIDs.ITEM_SLEDGE_HAMMER_ID).setUnlocalizedName(Strings.ITEM_SLEDGE_HAMMER_NAME);
-		GameRegistry.registerItem(EDItems.itemSledgeHammer, Strings.ITEM_SLEDGE_HAMMER_NAME);
+		EDItems.itemSledgeHammer = new ItemSledgeHammer(ItemIDs.ITEM_SLEDGE_HAMMER_ID).setUnlocalizedName(Strings.ITEM_SLEDGE_HAMMER);
+		GameRegistry.registerItem(EDItems.itemSledgeHammer, Strings.ITEM_SLEDGE_HAMMER);
 		EDLanguage.getInstance().registerItem(EDItems.itemSledgeHammer);
 
-		EDItems.itemHandheldSieve = new ItemHandheldSieve(ItemIDs.ITEM_HANDHELD_SIEVE_ID).setUnlocalizedName(Strings.ITEM_HANDHELD_SIEVE_NAME);
-		GameRegistry.registerItem(EDItems.itemHandheldSieve, Strings.ITEM_HANDHELD_SIEVE_NAME);
+		EDItems.itemHandheldSieve = new ItemHandheldSieve(ItemIDs.ITEM_HANDHELD_SIEVE_ID).setUnlocalizedName(Strings.ITEM_HANDHELD_SIEVE);
+		GameRegistry.registerItem(EDItems.itemHandheldSieve, Strings.ITEM_HANDHELD_SIEVE);
 		EDLanguage.getInstance().registerItem(EDItems.itemHandheldSieve);
 
-		EDItems.itemTray = new ItemTray(ItemIDs.ITEM_TRAY_ID, ItemTray.TrayType.OVEN_TRAY).setUnlocalizedName(Strings.ITEM_TRAY_NAME);
-		GameRegistry.registerItem(EDItems.itemTray, Strings.ITEM_TRAY_NAME);
+		EDItems.itemTray = new ItemTray(ItemIDs.ITEM_TRAY_ID, ItemTray.TrayType.OVEN_TRAY).setUnlocalizedName(Strings.ITEM_TRAY);
+		GameRegistry.registerItem(EDItems.itemTray, Strings.ITEM_TRAY);
 		EDLanguage.getInstance().registerItem(EDItems.itemTray);
 
-		EDItems.itemTrayKiln = new ItemTray(ItemIDs.ITEM_TRAY_KILN_ID, ItemTray.TrayType.KILN_TRAY).setUnlocalizedName(Strings.ITEM_TRAY_KILN_NAME);
-		GameRegistry.registerItem(EDItems.itemTrayKiln, Strings.ITEM_TRAY_KILN_NAME);
+		EDItems.itemTrayKiln = new ItemTray(ItemIDs.ITEM_TRAY_KILN_ID, ItemTray.TrayType.KILN_TRAY).setUnlocalizedName(Strings.ITEM_TRAY_KILN);
+		GameRegistry.registerItem(EDItems.itemTrayKiln, Strings.ITEM_TRAY_KILN);
 		EDLanguage.getInstance().registerItem(EDItems.itemTrayKiln);
 	}
 
@@ -189,7 +189,7 @@ public class EDModuleMachine extends EDModule {
 		FurnaceRecipes.smelting().addSmelting(BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), Ingot.TUNGSTEN.toItemStack(), 0F);
 		
 		GameRegistry.registerTileEntity(TileEntitySinteringOven.class, Strings.MACHINE_SINTERING_OVEN);
-		GameRegistry.registerTileEntity(TileEntityTable.class, Strings.BLOCK_TABLE_NAME);
+		GameRegistry.registerTileEntity(TileEntityTable.class, Strings.BLOCK_TABLE);
 		GameRegistry.registerTileEntity(TileEntityBasicSieve.class, Strings.MACHINE_BASIC_SIEVE);
 		GameRegistry.registerTileEntity(TileEntityBasicKiln.class, Strings.MACHINE_BASIC_KILN);
 		GameRegistry.registerTileEntity(TileEntityConveyorBelt.class, Strings.MACHINE_CONVEYOR_BELT);
@@ -197,7 +197,7 @@ public class EDModuleMachine extends EDModule {
 		GameRegistry.registerTileEntity(TileEntityMobGrinder.class, "edxMobGrinder");
 		GameRegistry.registerTileEntity(TileEntityValve.class, Strings.STRUCTURE_COMPONENT_MACHINE_VALVE);
 		GameRegistry.registerTileEntity(TileEntityHatch.class, Strings.STRUCTURE_COMPONENT_MACHINE_HATCH);
-		GameRegistry.registerTileEntity(TileEntityActuator.class, Strings.UTILITY_BLOCK_DEPLOYER);
+		GameRegistry.registerTileEntity(TileEntityActuator.class, Strings.UTILITY_ACTUATOR);
 		GameRegistry.registerTileEntity(TileEntityRedstoneConductor.class, Strings.STRUCTURE_COMPONENT_MACHINE_RS_CONDUCTOR);
 		
 		CraftingManager.getInstance().tableManager = new RecipeManagerTable();

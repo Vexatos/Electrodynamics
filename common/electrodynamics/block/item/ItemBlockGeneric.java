@@ -1,6 +1,5 @@
 package electrodynamics.block.item;
 
-
 import electrodynamics.block.BlockGeneric;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;

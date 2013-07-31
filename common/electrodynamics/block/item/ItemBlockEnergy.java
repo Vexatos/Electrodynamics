@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.block.EnergyProduction;
 import electrodynamics.tileentity.TileEntityEDRoot;
 
@@ -59,8 +60,8 @@ public class ItemBlockEnergy extends ItemBlock {
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return super.getUnlocalizedName() + "." + EnergyProduction.values()[stack.getItemDamage()].unlocalizedName;
+	public String getUnlocalizedName(ItemStack itemstack) {
+		return EDLanguage.getFormattedBlockName(EnergyProduction.get(itemstack.getItemDamage()).unlocalizedName);
 	}
 	
 }

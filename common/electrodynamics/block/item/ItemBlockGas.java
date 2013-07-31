@@ -1,5 +1,6 @@
 package electrodynamics.block.item;
 
+import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.block.Gas;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -18,7 +19,7 @@ public class ItemBlockGas extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Gas.get(itemstack.getItemDamage()).unlocalizedName;
+		return EDLanguage.getFormattedBlockName(Gas.get(itemstack.getItemDamage()).unlocalizedName);
 	}
 	
 }

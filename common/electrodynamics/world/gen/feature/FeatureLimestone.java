@@ -7,7 +7,6 @@ import java.util.List;
 
 import electrodynamics.lib.block.Decorative;
 import electrodynamics.lib.block.BlockIDs;
-import electrodynamics.world.gen.feature.FeatureHandler.FeatureType;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;

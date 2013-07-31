@@ -11,6 +11,7 @@ import net.minecraft.util.Icon;
 import java.util.List;
 
 import electrodynamics.core.CreativeTabED;
+import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.item.Component;
 
 public class ItemComponent extends Item {
@@ -30,7 +31,7 @@ public class ItemComponent extends Item {
 
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return Component.values()[stack.getItemDamage()].getUnlocalizedName();
+		return EDLanguage.getFormattedItemName(Component.get(stack.getItemDamage()).unlocalizedName);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

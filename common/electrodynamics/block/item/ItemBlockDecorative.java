@@ -2,6 +2,7 @@ package electrodynamics.block.item;
 
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.block.Decorative;
 
 public class ItemBlockDecorative extends ItemBlock {
@@ -18,7 +19,7 @@ public class ItemBlockDecorative extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemstack) {
-		return Decorative.get(itemstack.getItemDamage()).unlocalizedName;
+		return EDLanguage.getFormattedBlockName(Decorative.get(itemstack.getItemDamage()).unlocalizedName);
 	}
 	
 }

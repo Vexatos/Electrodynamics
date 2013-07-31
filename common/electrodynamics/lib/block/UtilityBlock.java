@@ -8,7 +8,7 @@ import electrodynamics.tileentity.machine.utilty.TileEntityActuator;
 
 public enum UtilityBlock {
 
-	BLOCK_DEPLOYER(Strings.BLOCK_UTILITY) {
+	BLOCK_DEPLOYER(Strings.UTILITY_ACTUATOR) {
 		
 		@Override
 		public String[] getTextures() {
@@ -31,6 +31,10 @@ public enum UtilityBlock {
 	
 	public ItemStack toItemStack() {
 		return new ItemStack(BlockIDs.BLOCK_UTILITY_ID, 1, this.ordinal());
+	}
+	
+	public static UtilityBlock get(int id) {
+		return UtilityBlock.values()[id];
 	}
 	
 	/**

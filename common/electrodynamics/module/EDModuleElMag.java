@@ -27,20 +27,20 @@ public class EDModuleElMag extends EDModule {
 		// Keybindings
 		Electrodynamics.proxy.setKeyBinding("Backtrack", Keyboard.KEY_B, false);
 		
-		EDItems.itemTeslaHelm = new ItemElMagArmor(ItemIDs.ITEM_ELMAG_HELM_ID, 0).setUnlocalizedName(Strings.ITEM_ELMAG_HAT_NAME);
-		GameRegistry.registerItem(EDItems.itemTeslaHelm, Strings.ITEM_ELMAG_HAT_NAME);
+		EDItems.itemTeslaHelm = new ItemElMagArmor(ItemIDs.ITEM_ELMAG_HELM_ID, 0).setUnlocalizedName(Strings.ITEM_ELMAG_HAT);
+		GameRegistry.registerItem(EDItems.itemTeslaHelm, Strings.ITEM_ELMAG_HAT);
 		EDLanguage.getInstance().registerItem(EDItems.itemTeslaHelm);
 		
-		EDItems.itemTeslaChest = new ItemElMagArmor(ItemIDs.ITEM_ELMAG_CHEST_ID, 1).setUnlocalizedName(Strings.ITEM_ELMAG_CHEST_NAME);
-		GameRegistry.registerItem(EDItems.itemTeslaChest, Strings.ITEM_ELMAG_CHEST_NAME);
+		EDItems.itemTeslaChest = new ItemElMagArmor(ItemIDs.ITEM_ELMAG_CHEST_ID, 1).setUnlocalizedName(Strings.ITEM_ELMAG_CHEST);
+		GameRegistry.registerItem(EDItems.itemTeslaChest, Strings.ITEM_ELMAG_CHEST);
 		EDLanguage.getInstance().registerItem(EDItems.itemTeslaChest);
 		
-		EDItems.itemTeslaLegs = new ItemElMagArmor(ItemIDs.ITEM_ELMAG_LEGS_ID, 2).setUnlocalizedName(Strings.ITEM_ELMAG_LEGS_NAME);
-		GameRegistry.registerItem(EDItems.itemTeslaLegs, Strings.ITEM_ELMAG_LEGS_NAME);
+		EDItems.itemTeslaLegs = new ItemElMagArmor(ItemIDs.ITEM_ELMAG_LEGS_ID, 2).setUnlocalizedName(Strings.ITEM_ELMAG_LEGS);
+		GameRegistry.registerItem(EDItems.itemTeslaLegs, Strings.ITEM_ELMAG_LEGS);
 		EDLanguage.getInstance().registerItem(EDItems.itemTeslaLegs);
 		
-		EDItems.itemTeslaBoots = new ItemElMagArmor(ItemIDs.ITEM_ELMAG_BOOTS_ID, 3).setUnlocalizedName(Strings.ITEM_ELMAG_BOOTS_NAME);
-		GameRegistry.registerItem(EDItems.itemTeslaBoots, Strings.ITEM_ELMAG_BOOTS_NAME);
+		EDItems.itemTeslaBoots = new ItemElMagArmor(ItemIDs.ITEM_ELMAG_BOOTS_ID, 3).setUnlocalizedName(Strings.ITEM_ELMAG_BOOTS);
+		GameRegistry.registerItem(EDItems.itemTeslaBoots, Strings.ITEM_ELMAG_BOOTS);
 		EDLanguage.getInstance().registerItem(EDItems.itemTeslaBoots);
 	
 		EDItems.itemTeslaModule = new ItemArmorModule(ItemIDs.ITEM_ELMAG_MODULE_ID).setUnlocalizedName(Strings.ITEM_ELMAG_MODULE);

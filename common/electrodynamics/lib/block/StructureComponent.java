@@ -191,6 +191,10 @@ public enum StructureComponent implements SubBlock {
 		return new ItemStack( EDBlocks.blockStructureComponent, 1, ordinal() );
 	}
 
+	public static StructureComponent get(int id) {
+		return StructureComponent.values()[id];
+	}
+	
 	/**
 	 * Gets the matrix that describes the texture rotations to be used for this component.
 	 * The order of the values matches the order of <code>ForgeDirection</code> enum constants.

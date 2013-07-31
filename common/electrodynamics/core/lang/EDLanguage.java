@@ -33,6 +33,14 @@ public class EDLanguage {
 		return instance;
 	}
 	
+	public static String getFormattedBlockName(String tag) {
+		return "tile." + tag;
+	}
+	
+	public static String getFormattedItemName(String tag) {
+		return "item." + tag;
+	}
+	
 	public EDLanguage() {
 		loadDefaultLanguage("en_US");
 		loadDefaultLanguage("es_ES");
@@ -89,11 +97,11 @@ public class EDLanguage {
 	}
 	
 	public void registerItem(Item item) {
-		registerItemStack(new ItemStack(item), item.getUnlocalizedName());
+		registerItemStack(new ItemStack(item), item.getUnlocalizedName().substring("item.".length()));
 	}
 	
 	public void registerBlock(Block block) {
-		registerItemStack(new ItemStack(block), block.getUnlocalizedName());
+		registerItemStack(new ItemStack(block), block.getUnlocalizedName().substring("tile.".length()));
 	}
 	
 	public void registerItemStack(ItemStack stack, String unlocalized) {

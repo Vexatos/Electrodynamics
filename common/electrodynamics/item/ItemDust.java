@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import electrodynamics.core.CreativeTabED;
+import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.item.Dust;
 import electrodynamics.lib.item.Grinding;
 
@@ -31,9 +32,9 @@ public class ItemDust extends Item {
 		int damage = stack.getItemDamage();
 		
 		if (damage < Dust.values().length) {
-			return "item." + Dust.get(damage).unlocalizedName + ".name";
+			return EDLanguage.getFormattedItemName(Dust.get(damage).unlocalizedName);
 		} else {
-			return "item." + Grinding.get(damage - Dust.values().length).unlocalizedName + ".name";
+			return EDLanguage.getFormattedItemName(Grinding.get(damage - Dust.values().length).unlocalizedName);
 		}
 	}
 	

@@ -2,6 +2,7 @@ package electrodynamics.block.item;
 
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.block.UtilityBlock;
 
 public class ItemBlockUtility extends ItemBlock {
@@ -18,8 +19,8 @@ public class ItemBlockUtility extends ItemBlock {
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		return UtilityBlock.values()[stack.getItemDamage()].unlocalizedName;
+	public String getUnlocalizedName(ItemStack itemstack) {
+		return EDLanguage.getFormattedBlockName(UtilityBlock.get(itemstack.getItemDamage()).unlocalizedName);
 	}
 	
 }

@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import electrodynamics.core.CreativeTabED;
+import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.item.Ingot;
 import electrodynamics.util.GLColor;
 
@@ -73,7 +74,7 @@ public class ItemIngot extends Item {
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
-		return "item." + Ingot.get(stack.getItemDamage()).unlocalizedName + ".name";
+		return EDLanguage.getFormattedItemName(Ingot.get(stack.getItemDamage()).unlocalizedName);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

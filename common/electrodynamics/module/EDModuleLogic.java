@@ -23,10 +23,10 @@ public class EDModuleLogic extends EDModule{
 	public void preInit(){
 		EDBlocks.blockRedWire = new BlockWire(BlockIDs.BLOCK_RED_WIRE_ID);
 		EDBlocks.blockSignalDimmer = new BlockSignalDimmer(3001); // Change this to a configurable ID. Look at the BlockIDs class + ConfigurationHandler.class
-		GameRegistry.registerBlock(EDBlocks.blockRedWire, ItemBlockRedWire.class, Strings.BLOCK_RED_WIRE_NAME);
-		GameRegistry.registerBlock(EDBlocks.blockSignalDimmer, Strings.BLOCK_SIGNAL_DIMMER_NAME);
-		LanguageRegistry.addName(EDBlocks.blockSignalDimmer, EDLanguage.getInstance().translate("tile." + Strings.BLOCK_SIGNAL_DIMMER_NAME));
-		LanguageRegistry.addName(EDBlocks.blockRedWire, EDLanguage.getInstance().translate("tile." + Strings.BLOCK_RED_WIRE_NAME));
+		GameRegistry.registerBlock(EDBlocks.blockRedWire, ItemBlockRedWire.class, Strings.BLOCK_RED_WIRE);
+		GameRegistry.registerBlock(EDBlocks.blockSignalDimmer, Strings.BLOCK_SIGNAL_DIMMER);
+		LanguageRegistry.addName(EDBlocks.blockSignalDimmer, EDLanguage.getInstance().translate("tile." + Strings.BLOCK_SIGNAL_DIMMER));
+		LanguageRegistry.addName(EDBlocks.blockRedWire, EDLanguage.getInstance().translate("tile." + Strings.BLOCK_RED_WIRE));
 	}
 
 	@Override
