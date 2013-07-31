@@ -150,7 +150,7 @@ public class TileEntityTable extends TileEntityEDRoot {
 					if (displayedItem.getItem() instanceof ItemBlock) {
 						PacketFX packet = new PacketFX(FXType.BLOCK_BREAK, xCoord, yCoord, zCoord, new int[] {displayedItem.itemID, displayedItem.getItemDamage()});
 						PacketDispatcher.sendPacketToAllAround(xCoord, yCoord + 2, zCoord, 64D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(packet));
-						PacketSound sound = new PacketSound("electrodynamics.block.oreCrumble", xCoord, yCoord, zCoord, PacketSound.TYPE_SOUND);
+						PacketSound sound = new PacketSound("block.oreCrumble", xCoord, yCoord, zCoord, PacketSound.TYPE_SOUND);
 						PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(sound));
 					}
 					

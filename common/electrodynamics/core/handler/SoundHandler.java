@@ -20,7 +20,7 @@ public class SoundHandler {
 
 		for (int i = 0; i < soundFiles.length; i++) {
 			try {
-				e.manager.soundPoolSounds.addSound(ModInfo.GENERIC_MOD_ID.toLowerCase() + ":sounds/" + soundFiles[i]);
+				e.manager.soundPoolSounds.addSound(ModInfo.GENERIC_MOD_ID.toLowerCase() + ":" + soundFiles[i]);
 				EDLogger.info("Loaded sound: " + soundFiles[i]);
 			} catch (Exception ex) {
 				EDLogger.warn("Failed to load sound: " + soundFiles[i] + " - Reason: " + ex.getLocalizedMessage());
