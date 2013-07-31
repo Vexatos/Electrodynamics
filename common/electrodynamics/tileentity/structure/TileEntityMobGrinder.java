@@ -180,7 +180,7 @@ public class TileEntityMobGrinder extends TileEntityStructure implements IFluidH
 		double y = this.yCoord + 1;
 		double z = this.zCoord + .5;
 		
-		return AxisAlignedBB.getAABBPool().getAABB(x, y, z, x, y, z).expand(.75, 1, .75);
+		return AxisAlignedBB.getAABBPool().getAABB(x, y, z, x, y, z).expand(.75, 2, .75);
 	}
 	
 	@Override
