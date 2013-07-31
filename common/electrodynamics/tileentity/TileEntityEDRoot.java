@@ -26,7 +26,7 @@ public abstract class TileEntityEDRoot extends TileEntity {
 
 	}
 
-	public AxisAlignedBB getCollisionBox() {
+	public AxisAlignedBB getAABB() {
 		return AxisAlignedBB.getAABBPool().getAABB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
 	}
 	

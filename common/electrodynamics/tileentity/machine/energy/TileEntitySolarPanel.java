@@ -45,9 +45,41 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBox() {
-		// TODO
-		return super.getCollisionBox();
+	public AxisAlignedBB getAABB() {
+		double minX = xCoord + 0.4;
+		double minY = yCoord + 0.4;
+		double minZ = zCoord + 0.4;
+		double maxX = xCoord + 0.6;
+		double maxY = yCoord + 0.6;
+		double maxZ = zCoord + 0.6;
+		
+		switch (this.attached) {
+		case DOWN: {
+			minY = yCoord;
+			break;
+		}
+		case NORTH: {
+			minZ = zCoord;
+			break;
+		}
+		case SOUTH: {
+			maxZ = zCoord + 1;
+			break;
+		}
+		case EAST: {
+			maxX = xCoord + 1;
+			break;
+		}
+		case WEST: {
+			minX = xCoord;
+			break;
+		}
+		default: break;
+		}
+		
+		AxisAlignedBB aabb = AxisAlignedBB.getAABBPool().getAABB(minX, minY, minZ, maxX, maxY, maxZ);
+		
+		return aabb;
 	}
 	
 	@Override

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.EDLogger;
@@ -55,14 +56,21 @@ public class BlockEnergy extends BlockContainer {
 		}
 	}
 	
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
 		
 		if (tile != null && tile instanceof TileEntityEDRoot) {
-			return ((TileEntityEDRoot)tile).getCollisionBox();
+			AxisAlignedBB aabb = ((TileEntityEDRoot)tile).getAABB();
+			
+			float minX = (float) aabb.minX - x;
+			float minY = (float) aabb.minY - y;
+			float minZ = (float) aabb.minZ - z;
+			float maxX = (float) aabb.maxX - x;
+			float maxY = (float) aabb.maxY - y;
+			float maxZ = (float) aabb.maxZ - z;
+			
+			this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
 		}
-		
-		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
 	}
 	
 	@Override
