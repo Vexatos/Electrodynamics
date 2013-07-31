@@ -39,11 +39,18 @@ public class RenderUtil {
 				renderer = (ICustomRender) stack.getItem();
 			}
 			
-			renderer.glManipulation();
+			boolean useDefault = true;
 			
-			if (renderer.getCustomModel() != null) {
-				renderer.getCustomModel().render(0.0625F);
-			} else {
+			if (renderer != null) {
+				renderer.glManipulation();
+				
+				if (renderer.getCustomModel() != null) {
+					renderer.getCustomModel().render(0.0625F);
+					useDefault = false;
+				}
+			}
+			
+			if (useDefault) {
 				EntityItem entityitem = new EntityItem(world, 0.0D, 0.0D, 0.0D, stack);
 				entityitem.getEntityItem().stackSize = 1;
 				entityitem.hoverStart = 0.0F;
