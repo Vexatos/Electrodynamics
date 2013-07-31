@@ -1,7 +1,8 @@
 package electrodynamics.tileentity.structure;
 
-import electrodynamics.interfaces.IRedstoneUser;
+import electrodynamics.api.misc.IRedstoneUser;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.ForgeDirection;
 
 public class TileEntityRedstoneConductor extends TileEntityStructure {
 
@@ -11,7 +12,7 @@ public class TileEntityRedstoneConductor extends TileEntityStructure {
 			TileEntityStructure central = this.getCentralTileEntity();
 			
 			if (central != null && central instanceof IRedstoneUser) {
-				((IRedstoneUser)central).updateSignalStrength(this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) ? 15 : 0);
+				((IRedstoneUser)central).updateSignalStrength(ForgeDirection.UNKNOWN, this.worldObj.isBlockIndirectlyGettingPowered(this.xCoord, this.yCoord, this.zCoord) ? 15 : 0);
 			}
 		}
 	}

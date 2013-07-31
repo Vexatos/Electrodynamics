@@ -21,9 +21,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
+import electrodynamics.api.misc.IRedstoneUser;
 import electrodynamics.core.CoreUtils;
 import electrodynamics.core.misc.DamageSourceBlock;
-import electrodynamics.interfaces.IRedstoneUser;
 import electrodynamics.inventory.wrapper.InventoryWrapperStack;
 import electrodynamics.lib.block.StructureComponent;
 import electrodynamics.recipe.RecipeGrinder;
@@ -302,7 +302,7 @@ public class TileEntityMobGrinder extends TileEntityStructure implements IFluidH
 	}
 
 	@Override
-	public void updateSignalStrength(int strength) {
+	public void updateSignalStrength(ForgeDirection side, int strength) {
 		this.active = strength > 0;
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setBoolean("active", this.active);
