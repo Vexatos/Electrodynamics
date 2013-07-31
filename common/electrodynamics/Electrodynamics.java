@@ -17,9 +17,12 @@ import cpw.mods.fml.relauncher.CoreModManager;
 import electrodynamics.api.IEDApi;
 import electrodynamics.api.crafting.ICraftingManager;
 import electrodynamics.configuration.ConfigurationHandler;
+import electrodynamics.configuration.ConfigurationSettings;
 import electrodynamics.core.CommonProxy;
 import electrodynamics.core.lang.EDLanguage;
+import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.core.ModInfo;
+import electrodynamics.lib.item.ItemIDs;
 import electrodynamics.network.PacketHandler;
 import electrodynamics.recipe.manager.CraftingManager;
 
@@ -43,8 +46,10 @@ public class Electrodynamics implements IEDApi {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Electrodynamics.instance.configFolder = new File(event.getModConfigurationDirectory(), ModInfo.GENERIC_MOD_ID);
-		ConfigurationHandler.handleConfig(new File(configFolder, ModInfo.GENERIC_MOD_ID + ".cfg"));
-
+		ConfigurationHandler.handleClass(BlockIDs.class);
+		ConfigurationHandler.handleClass(ItemIDs.class);
+		ConfigurationHandler.handleClass(ConfigurationSettings.class);
+		
 		try {
 			Field deobfBool;
 			deobfBool = CoreModManager.class.getDeclaredField("deobfuscatedEnvironment");

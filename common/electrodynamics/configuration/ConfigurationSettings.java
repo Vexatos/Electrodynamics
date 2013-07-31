@@ -1,24 +1,22 @@
 package electrodynamics.configuration;
 
+import electrodynamics.configuration.annotation.EDXProperty;
+
 public class ConfigurationSettings {
 
 	/* ElMag armor ability settings */
-	public static double MAGNETIC_RANGE;
-	public static final String MAGNETIC_RANGE_CONFIGNAME = "elmag_armor.range";
-	public static final double MAGNETIC_RANGE_DEFAULT = 3D;
+	@EDXProperty(category = ConfigurationHandler.CATEGORY_ELMAG)
+	public static double MAGNETIC_RANGE = 3D;
 	
-	public static double MAGNETIC_ATTRACTION_SPEED;
-	public static final String MAGNETIC_ATTRACTION_SPEED_CONFIGNAME = "elmag_armor.speed";
-	public static final double MAGNETIC_ATTRACTION_SPEED_DEFAULT = 0.8D;
+	@EDXProperty(category = ConfigurationHandler.CATEGORY_ELMAG)
+	public static double MAGNETIC_ATTRACTION_SPEED = 0.8D;
 	
 	/* Audio settings */
-	public static boolean VOIDSTONE_AMBIENT_SOUND;
-	public static final String VOIDSTONE_AMBIENT_SOUND_NAME = "sound.voidstone.ambient";
-	public static final boolean VOIDSTONE_AMBIENT_SOUND_DEFAULT = true;
+	@EDXProperty(category = ConfigurationHandler.CATEGORY_SOUND)
+	public static boolean VOIDSTONE_AMBIENT_SOUND = true;
 	
 	/* General settings */
-	public static boolean SHOW_LOCALIZATION_ERRORS;
-	public static final String SHOW_LOCALIZATION_ERRORS_NAME = "general.localization.show_errors";
-	public static final boolean SHOW_LOCALIZATION_ERRORS_DEFAULT = false;
+	@EDXProperty(category = ConfigurationHandler.CATEGORY_SETTINGS)
+	public static boolean SHOW_LOCALIZATION_ERRORS = false;
 	
 }
