@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -109,8 +110,21 @@ public class InventoryUtil {
 		if (check == null || inv == null || inv.length == 0) return false;
 		
 		for (ItemStack stack : inv) {
-			if (stack == null) return true;
-			if (!check.isItemEqual(stack)) return false;
+			if (stack != null) {
+				if (!check.isItemEqual(stack)) return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public static boolean containsOnly(ItemStack[] inv, Item check) {
+		if (check == null || inv == null || inv.length == 0) return false;
+		
+		for (ItemStack stack : inv) {
+			if (stack != null) {
+				if (stack.getItem() != check) return false;
+			}
 		}
 		
 		return true;
