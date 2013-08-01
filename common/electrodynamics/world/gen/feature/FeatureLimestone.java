@@ -4,9 +4,12 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import electrodynamics.lib.block.Decorative;
 import electrodynamics.lib.block.BlockIDs;
+import electrodynamics.world.gen.feature.FeatureHandler.FeatureType;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
@@ -15,7 +18,9 @@ import net.minecraftforge.common.Configuration;
 
 public class FeatureLimestone extends FeatureBase {
 
-  private ArrayList<List> wouldDo;
+  private int frequency;
+  private int maxDepth;
+  private int maxSize;
 
   public FeatureLimestone(String name) {
     super(name);
@@ -31,32 +36,12 @@ public class FeatureLimestone extends FeatureBase {
     return false;
   }
 
-  public void limestone(World world, int x, int y, int z, int depth) {
-    List t = Arrays.asList(new Integer[] {new Integer(x),new Integer(y),new Integer(z)});
-    if(this.wouldDo.size() > 4095 || this.wouldDo.contains(t)) return;
-    if(world.getBlockId(x, y, z) == Block.stone.blockID){
-      this.wouldDo.add(t);
-      surrounding(world, x, y, z, depth);
-    }
-  }
-
-  public void surrounding(World world, int x, int y, int z, int depth) {
-    int[][] directions = new int [][] {{x+1,y,z},{x-1,y,z},{x,y+1,z},{x,y-1,z},{x,y,z+1},{x,y,z-1}};
-    if(depth < 3){
-      for(int[] i : directions){
-        limestone(world, i[0], i[1], i[2], exposed(world, i[0], i[1], i[2]) ? 0 : depth + 1);
-      }
-    }
-  }
-
   @Override
   public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean newGeneration) {
-    if(random.nextInt(15) != 7) return;
+    if(random.nextInt(frequency) != 1) return;
     if (world.getWorldInfo().getTerrainType() == WorldType.FLAT) {
       return;
     }
-
-    this.wouldDo = new ArrayList<List>();
 
     // Find exposed stone
     int y;
@@ -68,18 +53,54 @@ public class FeatureLimestone extends FeatureBase {
     }
     if(y == 39) return;
 
-System.out.println(String.format("Limestoning at %d, %d, %d",x,y,z));
+    int initialMapSize = (int)Math.floor(maxSize * 1.4);
 
-    limestone(world, x, y, z, 0);
-System.out.println(String.format("Blocks added: %d",wouldDo.size()));
-    for(List<Integer> i : this.wouldDo){
-      world.setBlock(i.get(0).intValue(), i.get(1).intValue(), i.get(2).intValue(), BlockIDs.BLOCK_DECORATIVE_ID, 0, Decorative.LIMESTONE.ordinal());
+    HashMap<List<Integer>,Integer> depthMap = new HashMap<List<Integer>,Integer>(initialMapSize);
+    LinkedList<List<Integer>> work = new LinkedList<List<Integer>>();
+    HashMap<List<Integer>,Boolean> placed = new HashMap<List<Integer>,Boolean>(initialMapSize);
+
+    List<Integer> t = new ArrayList<Integer>(Arrays.asList(new Integer(x), new Integer(y), new Integer(z)));
+    work.add(t);
+    depthMap.put(t,new Integer(0));
+    while(work.size() > 0 && placed.size() < maxSize){
+      t = work.remove();
+      Integer d = depthMap.get(t);
+
+      if(d > maxDepth) continue;
+      int x1 = t.get(0).intValue(); int y1 = t.get(1).intValue(); int z1 = t.get(2).intValue();
+      if(d > 0 && exposed(world, x1, y1, z1)){
+        d = 0; depthMap.put(t,new Integer(0));
+      }
+
+      if(world.getBlockId(x1, y1, z1) == Block.stone.blockID){
+        world.setBlock(x1, y1, z1, BlockIDs.BLOCK_DECORATIVE_ID, 0, Decorative.LIMESTONE.ordinal());
+        placed.put(t, true);
+
+        d++;
+        List<Integer> u;
+        Integer x2 = t.get(0); Integer y2 = t.get(1); Integer z2 = t.get(2);
+        u = new ArrayList<Integer>(Arrays.asList(x2+1, y2, z2));
+        if(!placed.containsKey(u)) work.add(u); if(depthMap.get(u) == null || depthMap.get(u) > d) depthMap.put(u,d);
+        u = new ArrayList<Integer>(Arrays.asList(x2-1, y2, z2));
+        if(!placed.containsKey(u)) work.add(u); if(depthMap.get(u) == null || depthMap.get(u) > d) depthMap.put(u,d);
+        u = new ArrayList<Integer>(Arrays.asList(x2, y2+1, z2));
+        if(!placed.containsKey(u)) work.add(u); if(depthMap.get(u) == null || depthMap.get(u) > d) depthMap.put(u,d);
+        u = new ArrayList<Integer>(Arrays.asList(x2, y2-1, z2));
+        if(!placed.containsKey(u)) work.add(u); if(depthMap.get(u) == null || depthMap.get(u) > d) depthMap.put(u,d);
+        u = new ArrayList<Integer>(Arrays.asList(x2, y2, z2+1));
+        if(!placed.containsKey(u)) work.add(u); if(depthMap.get(u) == null || depthMap.get(u) > d) depthMap.put(u,d);
+        u = new ArrayList<Integer>(Arrays.asList(x2, y2, z2-1));
+        if(!placed.containsKey(u)) work.add(u); if(depthMap.get(u) == null || depthMap.get(u) > d) depthMap.put(u,d);
+      }
     }
   }
 
   @Override
   public void handleConfig(Configuration config) {
-    //Todo: load frequency, max depth, and max count
+    //Todo: double defaults?
+    this.frequency = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "frequency", 15).getInt(15);
+    this.maxDepth = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "max_depth", 3).getInt(3) - 1;
+    this.maxSize = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "max_size", 4096).getInt(4096);
   }
 
 }
