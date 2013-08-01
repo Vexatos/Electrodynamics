@@ -215,4 +215,22 @@ public class Strings {
 	public static final String STORAGE_TELLURIUM = "storage.tellurium";
 	public static final String STORAGE_TUNGSTEN = "storage.tungsten";
 
+	/* Internal alloy attribute names */
+	public static final String ATTRIBUTE_DURABILITY = "attribute.durability";
+	public static final String ATTRIBUTE_MINE_SPEED = "attribute.mine_speed";
+	public static final String ATTRIBUTE_CONDUCT = "attribute.conductivity";
+	public static final String ATTRIBUTE_CRIT = "attribute.critical";
+	public static final String ATTRIBUTE_SHARP = "attribute.sharpness";
+	public static final String ATTRIBUTE_RADIO = "attribute.radioactive";
+	public static final String ATTRIBUTE_BLING = "attribute.bling";
+	public static final String ATTRIBUTE_THERM_RESIST = "attribute.thermal_resistance";
+	public static final String ATTRIBUTE_KNOCK = "attribute.knockback";
+	public static final String ATTRIBUTE_KNOCK_RESIST = "attribute.knockback_resist";
+	public static final String ATTRIBUTE_REDUC_WEIGHT = "attribute.reduced_weight";
+	public static final String ATTRIBUTE_ATTACK_SPEED = "attribute.attack_speed";
+	public static final String ATTRIBUTE_PICKUP_RADIUS = "attribute.pickup_radius";
+	public static final String ATTRIBUTE_SPEED = "attribute.speed";
+	public static final String ATTRIBUTE_EFFIC = "attribute.efficiency";
+	public static final String ATTRIBUTE_IMPLO_CHANCE = "attribute.implosion_chance";
+	
 }
