@@ -7,6 +7,7 @@ public class EDItems {
 	public static Item itemComponent;
 	public static Item itemDust;
 	public static Item itemIngot;
+	public static Item itemAlloy;
 	
 	public static Item itemStoneHammer;
 	public static Item itemSteelHammer;

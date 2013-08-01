@@ -6,25 +6,30 @@ public class MetalData {
 		
 	public String metalID;
 	
-	public float ratio;
+	public double ratio;
 	
 	public MetalData() {
 		
 	}
 	
-	public MetalData(String id, float ratio) {
+	public MetalData(String id, double ratio) {
 		this.metalID = id;
 		this.ratio = ratio;
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt) {
 		this.metalID = nbt.getString("metalID");
-		this.ratio = nbt.getFloat("ratio");
+		this.ratio = nbt.getDouble("ratio");
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
 		nbt.setString("metalID", this.metalID);
-		nbt.setFloat("ratio", this.ratio);
+		nbt.setDouble("ratio", this.ratio);
+	}
+	
+	@Override
+	public String toString() {
+		return this.metalID + ": " + this.ratio;
 	}
 	
 }

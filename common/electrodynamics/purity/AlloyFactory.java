@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import net.minecraft.item.ItemStack;
+import electrodynamics.item.EDItems;
+
 public class AlloyFactory {
 
 	public List<String> metals = new ArrayList<String>();
@@ -30,6 +33,8 @@ public class AlloyFactory {
 		if (this.metals != null && this.metals.size() > 0) {
 			Map<String, Integer> metalAmounts = new HashMap<String, Integer>();
 			
+			int total = 0;
+			
 			for (String string : this.metals) {
 				if (!metalAmounts.containsKey(string)) {
 					metalAmounts.put(string, 1);
@@ -37,15 +42,15 @@ public class AlloyFactory {
 					int amount = metalAmounts.get(string);
 					metalAmounts.put(string, amount + 1);
 				}
+				
+				total++;
 			}
 			
-			int total = metalAmounts.size();
+			MetalData[] metals = new MetalData[metalAmounts.size()];
 			
-			MetalData[] metals = new MetalData[total];
-			
-			for (int i=0; i<total; i++) {
+			for (int i=0; i<metalAmounts.size(); i++) {
 				Entry<String, Integer> metalData = (Entry<String, Integer>) metalAmounts.entrySet().toArray()[i];
-				float ratio = metalData.getValue() / total;
+				double ratio = (double)metalData.getValue() / total;
 				MetalData data = new MetalData(metalData.getKey(), ratio);
 				metals[i] = data;
 			}
@@ -54,6 +59,12 @@ public class AlloyFactory {
 		}
 		
 		return null;
+	}
+	
+	public ItemStack generateItemStack(int i) {
+		AlloyStack alloyS = new AlloyStack(new ItemStack(EDItems.itemAlloy, 1, i));
+		alloyS.setMetals(getMetals());
+		return alloyS.getItem().copy();
 	}
 	
 }

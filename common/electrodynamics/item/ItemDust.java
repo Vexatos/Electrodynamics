@@ -22,6 +22,10 @@ public class ItemDust extends Item {
 		setCreativeTab(CreativeTabED.resource);
 	}
 	
+	public static boolean isDust(ItemStack stack) {
+		return stack.getItem() instanceof ItemDust;
+	}
+	
 	@Override
 	public Icon getIconFromDamage(int damage) {
 		return textures[damage];

@@ -133,6 +133,9 @@ public class EDModuleMachine extends EDModule {
 		EDItems.itemTrayKiln = new ItemTray(ItemIDs.ITEM_TRAY_KILN_ID, ItemTray.TrayType.KILN_TRAY).setUnlocalizedName(Strings.ITEM_TRAY_KILN);
 		GameRegistry.registerItem(EDItems.itemTrayKiln, Strings.ITEM_TRAY_KILN);
 		EDLanguage.getInstance().registerItem(EDItems.itemTrayKiln);
+		
+		EDItems.itemAlloy = new ItemAlloy(ItemIDs.ITEM_ALLOY_ID).setUnlocalizedName(Strings.ITEM_ALLOY);
+		GameRegistry.registerItem(EDItems.itemAlloy, Strings.ITEM_ALLOY);
 	}
 
 	@Override

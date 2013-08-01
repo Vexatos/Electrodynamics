@@ -46,7 +46,7 @@ public class AlloyStack {
 			MetalData[] metals = new MetalData[list.tagCount()];
 			
 			for (int i=0; i<list.tagCount(); i++) {
-				NBTTagCompound nbt = new NBTTagCompound();
+				NBTTagCompound nbt = (NBTTagCompound) list.tagAt(i);
 				MetalData metal = new MetalData();
 				metal.readFromNBT(nbt);
 				metals[i] = metal;

@@ -8,8 +8,13 @@ public class Strings {
 	/* Internal misc strings */
 	public static String MODULE_HELP_MESSAGE = "module.help.message";
 	
-	/* Internal item names */
+	/* Internal un-used names */
 	public static final String ITEM_COMPONENT = "component";
+	public static final String ITEM_DUST = "dust";
+	public static final String ITEM_INGOT = "ingot";
+	public static final String ITEM_ALLOY = "alloy";
+	
+	/* Internal item names */
 	public static final String ITEM_ELMAG_HAT = "elmag.helm";
 	public static final String ITEM_ELMAG_CHEST = "elmag.chest";
 	public static final String ITEM_ELMAG_LEGS = "elmag.legs";
@@ -17,8 +22,6 @@ public class Strings {
 	public static final String ITEM_STONE_HAMMER = "tool.hammer.stone";
 	public static final String ITEM_STEEL_HAMMER = "tool.hammer.steel";
 	public static final String ITEM_SLEDGE_HAMMER = "tool.hammer.sledge";
-	public static final String ITEM_DUST = "dust";
-	public static final String ITEM_INGOT = "ingot";
 	public static final String ITEM_HANDHELD_SIEVE = "tool.hand_sieve";
 	public static final String ITEM_TRAY = "tray";
 	public static final String ITEM_TRAY_KILN = "tray.kiln";

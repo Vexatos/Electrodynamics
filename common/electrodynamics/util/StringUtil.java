@@ -47,4 +47,21 @@ public class StringUtil {
 		return sb.toString();
 	}
 	
+	public static String toTitleCase(String word) {
+		StringBuilder sb = new StringBuilder();
+		boolean next = false;
+		
+		for (char c : word.toCharArray()) {
+			if (Character.isWhitespace(c)) {
+				next = true;
+			} else if (next) {
+				Character.toTitleCase(c);
+			}
+			
+			sb.append(c);
+		}
+		
+		return sb.toString();
+	}
+	
 }
