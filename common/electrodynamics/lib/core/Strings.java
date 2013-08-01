@@ -125,7 +125,7 @@ public class Strings {
 	public static final String GROUND_COBALTITE = "ground.cobaltite";
 	public static final String GROUND_GALENA = "ground.galena";
 	public static final String GROUND_LITHIUM = "ground.lithium";
-	public static final String GROUND_MAGNETITE = "ground.magnetite.";
+	public static final String GROUND_MAGNETITE = "ground.magnetite";
 	public static final String GROUND_NICKEL = "ground.nickel";
 	public static final String GROUND_WOLFRAMITE = "ground.wolframite";
 	public static final String GROUND_VOIDSTONE = "ground.voidstone";
@@ -174,7 +174,7 @@ public class Strings {
 	public static final String DECORATIVE_LIMESTONE = "decorative.limestone";
 	public static final String DECORATIVE_LIMESTONE_BRICK = "decorative.limestone.brick";
 	public static final String DECORATIVE_LIMESTONE_BRICKS = "decorative.limestone.bricks";
-	public static final String DECORATIVE_LIMESTONE_BRITTLE = "decorative.limestone.brittle.";
+	public static final String DECORATIVE_LIMESTONE_BRITTLE = "decorative.limestone.brittle";
 	public static final String DECORATIVE_LIMESTONE_SCORCHED = "decorative.limestone.scorched";
 	public static final String DECORATIVE_LIMESTONE_SCORCHED_BRICK = "decorative.limestone.scorched.brick";
 	public static final String DECORATIVE_LIMESTONE_TILED = "decorative.limestone.tiled";
