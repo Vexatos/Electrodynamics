@@ -27,13 +27,12 @@ public class FeatureLimestone extends FeatureBase {
   }
 
   public boolean exposed(World world, int x, int y, int z) {
-    if(world.getBlockId(x + 1, y, z) == 0 ||
-       world.getBlockId(x - 1, y, z) == 0 ||
-       world.getBlockId(x, y + 1, z) == 0 ||
-       world.getBlockId(x, y - 1, z) == 0 ||
-       world.getBlockId(x, y, z + 1) == 0 ||
-       world.getBlockId(x, y, z - 1) == 0) return true;
-    return false;
+    return world.isAirBlock(x + 1, y, z) ||
+       world.isAirBlock(x - 1, y, z) ||
+       world.isAirBlock(x, y + 1, z) ||
+       world.isAirBlock(x, y - 1, z) ||
+       world.isAirBlock(x, y, z + 1) ||
+       world.isAirBlock(x, y, z - 1);
   }
 
   @Override
