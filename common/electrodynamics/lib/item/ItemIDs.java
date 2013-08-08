@@ -65,4 +65,7 @@ public class ItemIDs {
 	@EDXProperty(category = CATEGORY_ITEM)
 	public static int ITEM_ALLOY_ID = 5120;
 	
+	@EDXProperty(category = CATEGORY_ITEM)
+	public static int ITEM_GLASS_JAR = 5121;
+	
 }

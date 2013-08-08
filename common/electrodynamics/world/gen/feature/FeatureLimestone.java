@@ -15,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.ForgeDirection;
 
 public class FeatureLimestone extends FeatureBase {
 
@@ -27,12 +28,15 @@ public class FeatureLimestone extends FeatureBase {
   }
 
   public boolean exposed(World world, int x, int y, int z) {
-    return world.isAirBlock(x + 1, y, z) ||
-       world.isAirBlock(x - 1, y, z) ||
-       world.isAirBlock(x, y + 1, z) ||
-       world.isAirBlock(x, y - 1, z) ||
-       world.isAirBlock(x, y, z + 1) ||
-       world.isAirBlock(x, y, z - 1);
+	  for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+		  int xMod = x + dir.offsetX;
+		  int yMod = y + dir.offsetY;
+		  int zMod = z + dir.offsetZ;
+		  
+		  if (world.isAirBlock(xMod, yMod, zMod)) return true;
+	  }
+	  
+	  return false;
   }
 
   @Override

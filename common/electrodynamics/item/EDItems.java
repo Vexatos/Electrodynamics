@@ -20,6 +20,7 @@ public class EDItems {
 	public static Item itemTrayKiln;
 	public static Item itemLatexBucket;
 	public static Item itemRedstoneEmitter;
+	public static Item itemGlassJar;
 	
 	public static Item itemLiquidLatex;
 	

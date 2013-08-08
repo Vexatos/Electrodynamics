@@ -1,6 +1,9 @@
 package electrodynamics.lib.client;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.core.CoreUtils;
 
 /** Handles all textures not related to blocks or items */
@@ -27,6 +30,7 @@ public enum Textures {
 	SIGNAL_DIMMER("textures/misc/signalDimmer.png"), // Move this texture to the models texture folder
 	RED_WIRE("textures/misc/redAlloyWire.png"), // This one too
 	SOLAR_PANEL("models/textures/solarPanel.png"),
+	GLASS_JAR("models/textures/glassJar.png"),
 	
 	/* GUI Textures */
 	GUI_METAL_TRAY(new ResourceLocation("textures/gui/container/dispenser.png")),
@@ -45,6 +49,11 @@ public enum Textures {
 	
 	private Textures(ResourceLocation resource) {
 		this.resource = resource;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void bind() {
+		Minecraft.getMinecraft().renderEngine.func_110577_a(this.resource);
 	}
 	
 }

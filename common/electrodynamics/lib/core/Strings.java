@@ -32,7 +32,8 @@ public class Strings {
 	public static final String ITEM_ELMAG_MODULE = "elmag.module";
 	public static final String ITEM_REDSTONE_EMITTER = "tool.redstone_emitter";
 	public static final String ITEM_SEED_WORMSEED = "seed.wormseed";
-
+	public static final String ITEM_GLASS_JAR = "glass_jar";
+	
 	/* Internal block names */
 	public static final String BLOCK_ORE = "ore";
 	public static final String BLOCK_RED_WIRE = "red_wire";

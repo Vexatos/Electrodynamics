@@ -13,6 +13,7 @@ import electrodynamics.block.item.ItemBlockStructure;
 import electrodynamics.block.item.ItemBlockTable;
 import electrodynamics.block.item.ItemBlockUtility;
 import electrodynamics.client.render.block.RenderBlockUtility;
+import electrodynamics.client.render.item.RenderItemGlassJar;
 import electrodynamics.client.render.item.RenderItemMachine;
 import electrodynamics.client.render.item.RenderItemTable;
 import electrodynamics.client.render.tileentity.*;
@@ -136,6 +137,10 @@ public class EDModuleMachine extends EDModule {
 		
 		EDItems.itemAlloy = new ItemAlloy(ItemIDs.ITEM_ALLOY_ID).setUnlocalizedName(Strings.ITEM_ALLOY);
 		GameRegistry.registerItem(EDItems.itemAlloy, Strings.ITEM_ALLOY);
+		
+		EDItems.itemGlassJar = new ItemGlassJar(ItemIDs.ITEM_GLASS_JAR).setUnlocalizedName(Strings.ITEM_GLASS_JAR);
+		GameRegistry.registerItem(EDItems.itemGlassJar, Strings.ITEM_GLASS_JAR);
+		EDLanguage.getInstance().registerItem(EDItems.itemGlassJar);
 	}
 
 	@Override
@@ -251,6 +256,7 @@ public class EDModuleMachine extends EDModule {
 		
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockTable.blockID, new RenderItemTable());
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockMachine.blockID, new RenderItemMachine());
+		MinecraftForgeClient.registerItemRenderer(EDItems.itemGlassJar.itemID, new RenderItemGlassJar());
 	}
 
 	@Override
