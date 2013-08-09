@@ -51,13 +51,15 @@ public class KeybindingHandler extends KeyBindingRegistry.KeyHandler {
 
 					for (ItemStack armor : player.inventory.armorInventory) {
 						if (armor != null) {
-							IKeybound keybound = (IKeybound) armor.getItem();
-							
-							if (keybound.getType() == Type.HELD || keybound.getType() == Type.BOTH) {
-								if (keybound.getSide() == Side.SERVER) {
-									PacketDispatcher.sendPacketToServer(PacketTypeHandler.fillPacket(new PacketKeyPress(key.keyCode, keybound.getType())));
-								} else if (keybound.getSide() == Side.CLIENT) {
-									keybound.onKeypress(player, armor, key.keyCode);
+							if (armor.getItem() instanceof IKeybound) {
+								IKeybound keybound = (IKeybound) armor.getItem();
+								
+								if (keybound.getType() == Type.HELD || keybound.getType() == Type.BOTH) {
+									if (keybound.getSide() == Side.SERVER) {
+										PacketDispatcher.sendPacketToServer(PacketTypeHandler.fillPacket(new PacketKeyPress(key.keyCode, keybound.getType())));
+									} else if (keybound.getSide() == Side.CLIENT) {
+										keybound.onKeypress(player, armor, key.keyCode);
+									}
 								}
 							}
 						}
