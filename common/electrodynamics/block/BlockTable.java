@@ -126,10 +126,7 @@ public class BlockTable extends BlockContainer implements IAcceptsTool {
 	public boolean onToolUse(World world, int x, int y, int z, EntityPlayer player, ItemStack stack) {
 		TileEntityTable table = (TileEntityTable) world.getBlockTileEntity(x, y, z);
 		
-		if (table.hasRecipe(stack)) {
-			table.handleSmash(player, stack);
-			return true;
-		}
+		table.handleToolUse(player, stack);
 		
 		return false;
 	}
