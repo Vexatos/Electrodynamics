@@ -1,20 +1,26 @@
 package electrodynamics.client.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import electrodynamics.client.gui.module.Module;
 import electrodynamics.client.gui.module.ModuleManager;
 import electrodynamics.client.gui.module.Module.MouseState;
+import electrodynamics.core.handler.GuiHandler.GuiType;
 
-public abstract class GuiElectrodynamics extends GuiContainer {
+public class GuiElectrodynamics extends GuiContainer {
 
 	protected ModuleManager manager;
 	
-	public GuiElectrodynamics(Container container) {
+	private GuiType guiType;
+	
+	public GuiElectrodynamics(GuiType guiType, Container container) {
 		super(container);
 		
 		this.manager = new ModuleManager(this);
 		this.initModules(manager);
+		this.guiType = guiType;
 	}
 
 	@Override
@@ -31,7 +37,13 @@ public abstract class GuiElectrodynamics extends GuiContainer {
 	}
 	
 	@Override
-	protected abstract void drawGuiContainerBackgroundLayer(float f, int i, int j);
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		this.guiType.texture.bind();
+		int k = (this.width - this.xSize) / 2;
+		int l = (this.height - this.ySize) / 2;
+		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+	}
 
 	public void initModules(ModuleManager manager) {};
 	

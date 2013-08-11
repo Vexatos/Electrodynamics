@@ -3,10 +3,8 @@ package electrodynamics.client.gui;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-import org.lwjgl.opengl.GL11;
-
 import electrodynamics.api.tool.IArmorModule;
-import electrodynamics.core.handler.GuiHandler;
+import electrodynamics.core.handler.GuiHandler.GuiType;
 import electrodynamics.inventory.container.ContainerTeslaModule;
 
 public class GuiTeslaModule extends GuiElectrodynamics {
@@ -16,7 +14,7 @@ public class GuiTeslaModule extends GuiElectrodynamics {
 	public ContainerTeslaModule container;
 	
 	public GuiTeslaModule(EntityPlayer player, ContainerTeslaModule container) {
-		super(container);
+		super(GuiType.TESLA_MODULE, container);
 		
 		this.ySize = 133;
 		this.container = container;
@@ -34,13 +32,4 @@ public class GuiTeslaModule extends GuiElectrodynamics {
 		}
 	}
 
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.func_110434_K().func_110577_a(GuiHandler.GuiType.TESLA_MODULE.texture.resource);
-		int k = (this.width - this.xSize) / 2;
-		int l = (this.height - this.ySize) / 2;
-		this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
-	}
-	
 }
