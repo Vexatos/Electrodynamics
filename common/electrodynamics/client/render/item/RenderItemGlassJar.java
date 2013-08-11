@@ -29,23 +29,23 @@ public class RenderItemGlassJar implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		switch(type) {
 		case ENTITY: {
-			renderSolarPanel(0F, 1.35F, 0F);
+			renderGlassJar(0F, 1.35F, 0F);
 			break;
 		}
 
 		case EQUIPPED: {
-			renderSolarPanel(0.50F, 1.50F, .50F);
+			renderGlassJar(0.50F, 1.50F, .50F);
 			break;
 		}
 
 		case EQUIPPED_FIRST_PERSON: {
-			renderSolarPanel(1.0F, 2.0F, 1.0F);
+			renderGlassJar(1.0F, 2.0F, 1.0F);
 			break;
 		}
 
 		case INVENTORY: {
 			GL11.glScaled(2, 2, 2);
-			renderSolarPanel(0F, 1.25F, 0F);
+			renderGlassJar(0F, 1.25F, 0F);
 			break;
 		}
 
@@ -53,7 +53,7 @@ public class RenderItemGlassJar implements IItemRenderer {
 	}
 	}
 
-	private void renderSolarPanel(float x, float y, float z) {
+	private void renderGlassJar(float x, float y, float z) {
 		GL11.glPushMatrix();
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
