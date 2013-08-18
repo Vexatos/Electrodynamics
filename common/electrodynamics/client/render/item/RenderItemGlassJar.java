@@ -1,11 +1,12 @@
 package electrodynamics.client.render.item;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 import electrodynamics.client.model.ModelGlassJar;
 import electrodynamics.lib.client.Textures;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
 
 public class RenderItemGlassJar implements IItemRenderer {
 

@@ -24,7 +24,7 @@ public class GuiModule {
 	}
 	
 	public String[] getTooltip() {
-		return null;
+		return new String[] {this.uuid};
 	}
 	
 	/**

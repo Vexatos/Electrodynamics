@@ -2,24 +2,39 @@ package electrodynamics.client.gui;
 
 import static electrodynamics.client.gui.module.GuiModule.MouseState.MOUSE_LEFT;
 
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import electrodynamics.client.gui.module.GuiModule;
 import electrodynamics.client.gui.module.GuiModule.MouseState;
 import electrodynamics.client.gui.module.GuiModuleHotspot;
 import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
+import electrodynamics.client.render.util.RenderUtil;
+import electrodynamics.core.handler.IconHandler;
 import electrodynamics.core.handler.GuiHandler.GuiType;
 import electrodynamics.inventory.container.ContainerGlassJar;
 import electrodynamics.item.ItemDust;
 import electrodynamics.item.ItemGlassJar;
+import electrodynamics.item.ItemIngot;
 import electrodynamics.network.packet.PacketUpdateDragged;
 import electrodynamics.network.packet.PacketUpdateHeld;
+import electrodynamics.util.GLColor;
 
 public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback {
 
+	public static final ResourceLocation ITEM_ATLAS = TextureMap.field_110576_c;
+	
+	public static final int DUST_HEIGHT = 7;
+	
+	public static final Rectangle GUI_JAR_DIMENSIONS = new Rectangle(62, 16, 53, 63);
+	
 	public EntityPlayer player;
 
 	public ItemStack jar;
+	
+	private ItemStack[] storedDusts;
 	
 	public ContainerGlassJar container;
 	
@@ -28,8 +43,38 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 		
 		this.container = container;
 		this.player = player;
-		this.jar = player.getCurrentEquippedItem();
-		this.manager.registerModule(new GuiModuleHotspot("dustHotspot", 62, 16, 53, 63).setCallback(this));
+		updateJar();
+	}
+	
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+		super.drawGuiContainerBackgroundLayer(f, i, j);
+		
+		int k = (this.width - this.xSize) / 2;
+		int l = (this.height - this.ySize) / 2;
+		
+		if (this.storedDusts != null && this.storedDusts.length > 0) {
+			Rectangle[] dimensions = getDustDimensions();
+			
+			for (int index=0; index<this.storedDusts.length; index++) {
+				Rectangle rect = dimensions[index];
+				
+				/* BEGIN TEMP */
+				int[] colors = ItemIngot.ingotColors[this.storedDusts[index].getItemDamage()];
+				GLColor color = null;
+				
+				if (colors != null) {
+					color = new GLColor(colors[0], colors[1], colors[2]);
+				} else {
+					color = new GLColor(255, 255, 255);
+				}
+
+				color.apply();
+				/* END TEMP */
+				
+				RenderUtil.drawItem(k + rect.x, l + rect.y, IconHandler.getInstance().getIcon("dust.dust"), rect.w, rect.h);
+			}
+		}
 	}
 	
 	@Override
@@ -70,7 +115,56 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 	}
 	
 	private void updateJar() {
-		this.jar = this.player.getCurrentEquippedItem();
+		this.jar = player.getCurrentEquippedItem();
+		this.storedDusts = ItemGlassJar.getStoredDusts(this.jar);
+		this.manager.reset();
+		this.manager.registerModule(new GuiModuleHotspot("dustHotspot", 62, 16, 53, 63).setCallback(this));
+		
+		if (this.storedDusts != null && this.storedDusts.length > 0) {
+			Rectangle[] dimensions = getDustDimensions();
+			
+			for (int i=0; i<dimensions.length; i++) {
+				final String dustName = this.storedDusts[i].getDisplayName();
+				Rectangle rectangle = dimensions[i];
+				GuiModule module = new GuiModule("dust"+i, rectangle.x, rectangle.y, rectangle.w, rectangle.h) {
+					@Override
+					public String[] getTooltip() {
+						return new String[] {dustName};
+					}
+				};
+				this.manager.registerModule(module);
+			}
+		}
+	}
+	
+	private Rectangle[] getDustDimensions() {
+		Rectangle[] dimensions = new Rectangle[this.storedDusts.length];
+		
+		for (int i=0; i<this.storedDusts.length; i++) {
+			Rectangle rectangle = GUI_JAR_DIMENSIONS.copy();
+			rectangle.y = GUI_JAR_DIMENSIONS.y + GUI_JAR_DIMENSIONS.h - (i + 1) * DUST_HEIGHT;
+			rectangle.w -= 1;
+			rectangle.h = DUST_HEIGHT;
+			dimensions[i] = rectangle;
+		}
+		
+		return dimensions;
+	}
+	
+	private static class Rectangle {
+		int x, y, w, h;
+		public Rectangle(int x, int y, int w, int h) {
+			this.x = x;
+			this.y = y;
+			this.w = w;
+			this.h = h;
+		}
+		public Rectangle copy() {
+			return new Rectangle(x, y, w, h);
+		}
+		public String toString() {
+			return ("X: " + x + " Y: " + y + "W: " + w + "H: " + h);
+		}
 	}
 	
 }

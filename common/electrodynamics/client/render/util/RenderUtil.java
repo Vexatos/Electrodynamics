@@ -5,6 +5,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -16,10 +17,15 @@ import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import cpw.mods.fml.client.FMLClientHandler;
+
 import electrodynamics.api.render.ICustomRender;
 
 public class RenderUtil {
 
+	public static final ResourceLocation BLOCK_ATLAS = TextureMap.field_110575_b;
+	public static final ResourceLocation ITEM_ATLAS = TextureMap.field_110576_c;
+	
 	public static final double OFFSET_CONSTANT = 0.01;
 	
 	public static void bindTexture(ResourceLocation file) {
@@ -221,6 +227,16 @@ public class RenderUtil {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 	
+	public static void drawBlock(int x, int y, Icon icon, int w, int h) {
+		bindBlockAtlas();
+		drawIcon(x, y, icon, w, h);
+	}
+	
+	public static void drawItem(int x, int y, Icon icon, int w, int h) {
+		bindItemAtlas();
+		drawIcon(x, y, icon, w, h);
+	}
+	
 	public static void drawIcon(int par1, int par2, Icon par3Icon, int par4, int par5) {
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
@@ -230,5 +246,13 @@ public class RenderUtil {
         tessellator.addVertexWithUV(par1 + 0, par2 + 0, 0, par3Icon.getMinU(), par3Icon.getMinV());
         tessellator.draw();
     }
+	
+	public static void bindBlockAtlas() {
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(BLOCK_ATLAS);
+	}
+	
+	public static void bindItemAtlas() {
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(ITEM_ATLAS);
+	}
 	
 }

@@ -27,5 +27,10 @@ public class GuiModuleManager {
 			modules.add(module);
 		}
 	}
+
+	public void reset() {
+		this.moduleIDs.clear();
+		this.modules.clear();
+	}
 	
 }

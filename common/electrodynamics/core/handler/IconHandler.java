@@ -26,12 +26,16 @@ public class IconHandler {
 		if (event.map.textureType == 0) { //BLOCKS
 			registerIcon(event.map, "misc.liquidLatex");
 		} else if (event.map.textureType == 1) { //ITEMS
-			
+			registerIcon(event.map, "dust.dust");
 		}
 	}
 	
 	private void registerIcon(TextureMap map, String id) {
 		registeredIcons.put(id, map.registerIcon("electrodynamics:" + id.replace(".", "/")));
+	}
+	
+	public Icon getIcon(String id) {
+		return registeredIcons.get(id);
 	}
 	
 }
