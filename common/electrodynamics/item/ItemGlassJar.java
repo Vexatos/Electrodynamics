@@ -11,13 +11,16 @@ import net.minecraft.world.World;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.handler.GuiHandler;
 import electrodynamics.core.handler.GuiHandler.GuiType;
+import electrodynamics.purity.MetalData;
 
 public class ItemGlassJar extends Item {
 
 	public static final int SHAKE_PROGRESS_MAX = 20;
 	
 	public static final String DUST_LIST_KEY = "dusts";
-	public static final String DUST_BOOL_KEY = "hasDusts";
+	public static final String DUST_EXIST_BOOL_KEY = "hasDusts";
+	public static final String DUST_SHAKEN_BOOL_KEY = "dustShaken";
+	public static final String SHAKE_RESULTS_LIST_KEY = "shakenDusts";
 	
 	public ItemGlassJar(int id) {
 		super(id);
@@ -68,7 +71,7 @@ public class ItemGlassJar extends Item {
 			dustsNBT.appendTag(dust);
 		}
 		jarNBT.setTag(DUST_LIST_KEY, dustsNBT);
-		jarNBT.setBoolean(DUST_BOOL_KEY, true);
+		jarNBT.setBoolean(DUST_EXIST_BOOL_KEY, true);
 		jar.setTagCompound(jarNBT);
 	}
 	
@@ -80,7 +83,7 @@ public class ItemGlassJar extends Item {
 		NBTTagCompound jarNBT = jar.stackTagCompound;
 		
 		jarNBT.setTag(DUST_LIST_KEY, new NBTTagList());
-		jarNBT.setBoolean(DUST_BOOL_KEY, false);
+		jarNBT.setBoolean(DUST_EXIST_BOOL_KEY, false);
 		jar.setTagCompound(jarNBT);
 	}
 	
@@ -94,12 +97,80 @@ public class ItemGlassJar extends Item {
 		if (!jarNBT.hasKey(DUST_LIST_KEY)) {
 			return false;
 		} else {
-			if (!jarNBT.hasKey(DUST_BOOL_KEY) || (jarNBT.hasKey(DUST_BOOL_KEY) && jarNBT.getBoolean(DUST_BOOL_KEY) == false)) {
+			if (!jarNBT.hasKey(DUST_EXIST_BOOL_KEY) || (jarNBT.hasKey(DUST_EXIST_BOOL_KEY) && jarNBT.getBoolean(DUST_EXIST_BOOL_KEY) == false)) {
 				return false;
 			} else {
 				return true;
 			}
 		}
+	}
+	
+	public static MetalData[] getShakeResults(ItemStack jar) {
+		if (jar.stackTagCompound == null) {
+			jar.setTagCompound(new NBTTagCompound());
+		}
+		
+		NBTTagCompound jarNBT = jar.stackTagCompound;
+		
+		if (hasShakenDusts(jar)) {
+			NBTTagList dustsNBT = jarNBT.getTagList(SHAKE_RESULTS_LIST_KEY);
+			MetalData[] dusts = new MetalData[dustsNBT.tagCount()];
+			
+			for (int i=0; i<dustsNBT.tagCount(); i++) {
+				NBTTagCompound dust = (NBTTagCompound) dustsNBT.tagAt(i);
+				MetalData data = new MetalData();
+				data.readFromNBT(dust);
+				dusts[i] = data;
+			}
+			
+			return dusts;
+		} else {
+			return new MetalData[0];
+		}
+	}
+	
+	public static void shakeDusts(ItemStack jar) {
+		if (jar.stackTagCompound == null) {
+			jar.setTagCompound(new NBTTagCompound());
+		}
+		
+		NBTTagCompound jarNBT = jar.stackTagCompound;
+		
+		if (hasDusts(jar) && !hasShakenDusts(jar)) {
+			ItemStack[] dusts = getStoredDusts(jar);
+			
+			//TODO
+		}
+	}
+	
+	public static boolean hasShakenDusts(ItemStack jar) {
+		if (jar.stackTagCompound == null) {
+			return false;
+		}
+		
+		NBTTagCompound jarNBT = jar.stackTagCompound;
+		
+		if (!jarNBT.hasKey(SHAKE_RESULTS_LIST_KEY)) {
+			return false;
+		} else {
+			if (!jarNBT.hasKey(DUST_SHAKEN_BOOL_KEY) || (jarNBT.hasKey(DUST_SHAKEN_BOOL_KEY) && jarNBT.getBoolean(DUST_SHAKEN_BOOL_KEY) == false)) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+	}
+	
+	public static void dumpShakenDusts(ItemStack jar) {
+		if (jar.stackTagCompound == null) {
+			jar.setTagCompound(new NBTTagCompound());
+		}
+		
+		NBTTagCompound jarNBT = jar.stackTagCompound;
+		
+		jarNBT.setTag(SHAKE_RESULTS_LIST_KEY, new NBTTagList());
+		jarNBT.setBoolean(DUST_SHAKEN_BOOL_KEY, false);
+		jar.setTagCompound(jarNBT);
 	}
 	
 	@Override
@@ -115,13 +186,15 @@ public class ItemGlassJar extends Item {
 			if (!player.isSneaking()) {
 				GuiHandler.openGui(player, world, (int)player.posX, (int)player.posY, (int)player.posZ, GuiType.GLASS_JAR);
 			} else {
-				ItemStack[] dusts = ItemGlassJar.getStoredDusts(stack);
+//				ItemStack[] dusts = ItemGlassJar.getStoredDusts(stack);
+//				
+//				for (ItemStack dust : dusts) {
+//					player.dropPlayerItem(dust);
+//				}
+//				
+//				ItemGlassJar.dumpDusts(stack);
 				
-				for (ItemStack dust : dusts) {
-					player.dropPlayerItem(dust);
-				}
 				
-				ItemGlassJar.dumpDusts(stack);
 			}
 		}
 		
