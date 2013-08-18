@@ -44,7 +44,7 @@ public class EDLanguage {
 	public EDLanguage() {
 		loadDefaultLanguage("en_US");
 		loadDefaultLanguage("es_ES");
-		loadDefaultLanguage("zh_CH");
+		loadDefaultLanguage("zh_CN");
 		loadDefaultLanguage("pt_BR");
 		loadDefaultLanguage("de_DE");
 		
