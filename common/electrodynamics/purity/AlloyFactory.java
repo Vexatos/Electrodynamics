@@ -13,10 +13,6 @@ public class AlloyFactory {
 
 	public List<String> metals = new ArrayList<String>();
 	
-	public static AlloyFactory createNewAlloyFactory() {
-		return new AlloyFactory();
-	}
-	
 	public void addMetal(String id) {
 		this.metals.add(id);
 	}

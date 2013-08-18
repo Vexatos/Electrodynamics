@@ -11,11 +11,13 @@ import net.minecraft.world.World;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.handler.GuiHandler;
 import electrodynamics.core.handler.GuiHandler.GuiType;
-import electrodynamics.util.NBTUtil;
 
 public class ItemGlassJar extends Item {
 
 	public static final int SHAKE_PROGRESS_MAX = 20;
+	
+	public static final String DUST_LIST_KEY = "dusts";
+	public static final String DUST_BOOL_KEY = "hasDusts";
 	
 	public ItemGlassJar(int id) {
 		super(id);
@@ -23,68 +25,51 @@ public class ItemGlassJar extends Item {
 		setMaxStackSize(1);
 	}
 
-	public static int getShakeProgess(ItemStack jar) {
-		if (jar.stackTagCompound == null) {
-			jar.setTagCompound(new NBTTagCompound());
-		}
-		
-		if (!jar.stackTagCompound.hasKey("progress")) {
-			return 0;
-		} else {
-			return jar.stackTagCompound.getInteger("progress");
-		}
-	}
-	
-	public static void setShakeProgress(ItemStack jar, int progress) {
-		if (jar.stackTagCompound == null) {
-			jar.setTagCompound(new NBTTagCompound());
-		}
-		
-		if (progress <= SHAKE_PROGRESS_MAX) {
-			jar.stackTagCompound.setInteger("progress", progress);
-		} else {
-			jar.stackTagCompound.setInteger("progress", SHAKE_PROGRESS_MAX);
-		}
-	}
-	
-	public static void increaseShakeProgress(ItemStack jar, int increase) {
-		int current = getShakeProgess(jar);
-		setShakeProgress(jar, current + increase);
-	}
-	
 	public static ItemStack[] getStoredDusts(ItemStack jar) {
 		if (jar.stackTagCompound == null) {
 			jar.setTagCompound(new NBTTagCompound());
 		}
 		
-		if (jar.stackTagCompound.hasKey("dusts")) {
-			NBTTagList dusts = jar.stackTagCompound.getTagList("dusts");
-			ItemStack[] dustsArray = new ItemStack[dusts.tagCount()];
+		NBTTagCompound jarNBT = jar.stackTagCompound;
+		
+		if (hasDusts(jar)) {
+			NBTTagList dustsNBT = jarNBT.getTagList(DUST_LIST_KEY);
+			ItemStack[] dusts = new ItemStack[dustsNBT.tagCount()];
 			
-			for (int i=0; i<dusts.tagCount(); i++) {
-				NBTTagCompound dust = (NBTTagCompound) dusts.tagAt(i);
-				dustsArray[i] = ItemStack.loadItemStackFromNBT(dust);
+			for (int i=0; i<dustsNBT.tagCount(); i++) {
+				NBTTagCompound dust = (NBTTagCompound) dustsNBT.tagAt(i);
+				dusts[i] = ItemStack.loadItemStackFromNBT(dust);
 			}
 			
-			return dustsArray;
+			return dusts;
+		} else {
+			return new ItemStack[0];
 		}
-		
-		return new ItemStack[0];
 	}
 	
-	public static void addDust(ItemStack jar, ItemStack dust) {
+	public static void addDusts(ItemStack jar, ItemStack[] dusts) {
 		if (jar.stackTagCompound == null) {
 			jar.setTagCompound(new NBTTagCompound());
 		}
 		
-		if (NBTUtil.hasKey(jar.stackTagCompound, "dusts")) {
-			NBTTagList dusts = jar.stackTagCompound.getTagList("dusts");
-			NBTTagCompound dustNBT = new NBTTagCompound();
-			dust.writeToNBT(dustNBT);
-			dusts.appendTag(dustNBT);
-			
-			jar.stackTagCompound.setTag("dusts", dusts);
+		NBTTagCompound jarNBT = jar.stackTagCompound;
+
+		NBTTagList dustsNBT = null;
+		
+		if (!hasDusts(jar)) {
+			dustsNBT = new NBTTagList();
+		} else {
+			dustsNBT = jarNBT.getTagList(DUST_LIST_KEY);
 		}
+		
+		for (ItemStack dustStack : dusts) {
+			NBTTagCompound dust = new NBTTagCompound();
+			dustStack.writeToNBT(dust);
+			dustsNBT.appendTag(dust);
+		}
+		jarNBT.setTag(DUST_LIST_KEY, dustsNBT);
+		jarNBT.setBoolean(DUST_BOOL_KEY, true);
+		jar.setTagCompound(jarNBT);
 	}
 	
 	public static void dumpDusts(ItemStack jar) {
@@ -92,22 +77,52 @@ public class ItemGlassJar extends Item {
 			jar.setTagCompound(new NBTTagCompound());
 		}
 		
-		jar.stackTagCompound.setTag("dusts", null);
+		NBTTagCompound jarNBT = jar.stackTagCompound;
+		
+		jarNBT.setTag(DUST_LIST_KEY, new NBTTagList());
+		jarNBT.setBoolean(DUST_BOOL_KEY, false);
+		jar.setTagCompound(jarNBT);
+	}
+	
+	public static boolean hasDusts(ItemStack jar) {
+		if (jar.stackTagCompound == null) {
+			return false;
+		}
+		
+		NBTTagCompound jarNBT = jar.stackTagCompound;
+		
+		if (!jarNBT.hasKey(DUST_LIST_KEY)) {
+			return false;
+		} else {
+			if (!jarNBT.hasKey(DUST_BOOL_KEY) || (jarNBT.hasKey(DUST_BOOL_KEY) && jarNBT.getBoolean(DUST_BOOL_KEY) == false)) {
+				return false;
+			} else {
+				return true;
+			}
+		}
 	}
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean show) {
-		ItemStack[] dusts = getStoredDusts(stack);
-		
-		if (dusts != null) {
-			list.add(dusts.length + "");
+		if (!hasDusts(stack)) {
+			list.add("Empty");
 		}
 	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		if (!world.isRemote && !player.isSneaking()) {
-			GuiHandler.openGui(player, world, (int)player.posX, (int)player.posY, (int)player.posZ, GuiType.GLASS_JAR);
+		if (!world.isRemote) {
+			if (!player.isSneaking()) {
+				GuiHandler.openGui(player, world, (int)player.posX, (int)player.posY, (int)player.posZ, GuiType.GLASS_JAR);
+			} else {
+				ItemStack[] dusts = ItemGlassJar.getStoredDusts(stack);
+				
+				for (ItemStack dust : dusts) {
+					player.dropPlayerItem(dust);
+				}
+				
+				ItemGlassJar.dumpDusts(stack);
+			}
 		}
 		
 		return stack;
