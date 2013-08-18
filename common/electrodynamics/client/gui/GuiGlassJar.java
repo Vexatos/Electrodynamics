@@ -57,17 +57,14 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 			PacketUpdateDragged packet = new PacketUpdateDragged(toSend);
 			PacketDispatcher.sendPacketToServer(packet.makePacket());
 			
-			// Test
-			PacketUpdateHeld packet2 = new PacketUpdateHeld(toSend);
-			PacketDispatcher.sendPacketToServer(packet.makePacket());
-			
 			updateJar();
 		}
 	}
 	
 	private void addDust(ItemStack dust) {
 		ItemGlassJar.addDust(this.jar, dust);
-		PacketUpdateHeld packet = new PacketUpdateHeld(jar);
+		this.player.setCurrentItemOrArmor(0, this.jar);
+		PacketUpdateHeld packet = new PacketUpdateHeld(this.jar);
 		PacketDispatcher.sendPacketToServer(packet.makePacket());
 	}
 	

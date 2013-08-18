@@ -53,8 +53,6 @@ public class PacketUpdateHeld extends PacketED {
 
 	@Override
 	public void execute(INetworkManager network, Player player, Side side) {
-		if (side.isClient()) return;
-		
 		EntityPlayerMP eplayer = (EntityPlayerMP) player;
 		
 		eplayer.setCurrentItemOrArmor(0, this.toSend);
