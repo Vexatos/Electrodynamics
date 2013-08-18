@@ -23,7 +23,7 @@ public class GuiHandler implements IGuiHandler {
 		METAL_TRAY(Textures.GUI_METAL_TRAY),
 		TESLA_MODULE(Textures.GUI_TESLA_MODULE),
 		KILN_TRAY(Textures.GUI_KILN_TRAY),
-		GLASS_JAR(Textures.GUI_TESLA_MODULE); //Temp
+		GLASS_JAR(Textures.GUI_GLASS_JAR);
 		
 		public Textures texture;
 		
@@ -54,7 +54,7 @@ public class GuiHandler implements IGuiHandler {
 			case METAL_TRAY: return side == Side.SERVER ? new ContainerTray(player, ((IInventoryItem)held.getItem()).getInventory(held)) : new GuiTray(player, new ContainerTray(player, ((IInventoryItem)held.getItem()).getInventory(held)));
 			case TESLA_MODULE: return side == Side.SERVER ? new ContainerTeslaModule(player, ((IInventoryItem)held.getItem()).getInventory(held)) : new GuiTeslaModule(player, new ContainerTeslaModule(player, ((IInventoryItem)held.getItem()).getInventory(held)));
 			case KILN_TRAY: return side == Side.SERVER ? new ContainerTrayKiln(player, ((IInventoryItem)held.getItem()).getInventory(held)) : new GuiTrayKiln(player, new ContainerTrayKiln(player, ((IInventoryItem)held.getItem()).getInventory(held)));
-			case GLASS_JAR: return side == Side.SERVER ? new ContainerGlassJar(player, ((IInventoryItem)held.getItem()).getInventory(held)) : new GuiGlassJar(player, new ContainerGlassJar(player, ((IInventoryItem)held.getItem()).getInventory(held)));
+			case GLASS_JAR: return side == Side.SERVER ? new ContainerGlassJar(player, held) : new GuiGlassJar(player, new ContainerGlassJar(player, held));
 		}
 		
 		return null;

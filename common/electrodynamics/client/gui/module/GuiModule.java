@@ -1,9 +1,10 @@
 package electrodynamics.client.gui.module;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.ItemStack;
 import electrodynamics.client.render.util.RenderUtil;
 
-public class Module {
+public class GuiModule {
 
 	public int x;
 	public int y;
@@ -12,9 +13,9 @@ public class Module {
 	
 	public String uuid;
 
-	public ModuleManager manager;
+	public GuiModuleManager manager;
 	
-	public Module(String uuid, int x, int y, int w, int h) {
+	public GuiModule(String uuid, int x, int y, int w, int h) {
 		this.uuid = uuid;
 		this.x = x;
 		this.y = y;
@@ -26,7 +27,12 @@ public class Module {
 		return null;
 	}
 	
-	public void onClicked() {
+	/**
+	 * Fired whenever the region this module occupies is clicked
+	 * @param state Returns mouse-button used
+	 * @param stack Returns dragged stack. Can be null.
+	 */
+	public void onClicked(MouseState state, ItemStack stack) {
 		
 	}
 	
@@ -42,7 +48,9 @@ public class Module {
 	
 	public enum MouseState {
 		MOUSE_ON,
-		MOUSE_OFF;
+		MOUSE_OFF,
+		MOUSE_LEFT,
+		MOUSE_RIGHT;
 	}
 	
 }

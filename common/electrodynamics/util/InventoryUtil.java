@@ -85,7 +85,7 @@ public class InventoryUtil {
 	}
 	
 	public static int getActiveSlot(int activeSlot, IInventory inventory) {
-		return (activeSlot + PLAYER_INVENTORY_SIZE + inventory.getSizeInventory()) - 1;
+		return (activeSlot + PLAYER_INVENTORY_SIZE + (inventory != null ? inventory.getSizeInventory() : 0));
 	}
 	
 	public static boolean contains(ItemStack[] inv, ItemStack check) {

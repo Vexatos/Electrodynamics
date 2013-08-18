@@ -6,7 +6,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import electrodynamics.network.packet.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -17,6 +16,17 @@ import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import electrodynamics.lib.core.ModInfo;
+import electrodynamics.network.packet.PacketClientData;
+import electrodynamics.network.packet.PacketED;
+import electrodynamics.network.packet.PacketFX;
+import electrodynamics.network.packet.PacketInitializeMBS;
+import electrodynamics.network.packet.PacketInvalidateMBS;
+import electrodynamics.network.packet.PacketJump;
+import electrodynamics.network.packet.PacketKeyPress;
+import electrodynamics.network.packet.PacketLightningFX;
+import electrodynamics.network.packet.PacketSound;
+import electrodynamics.network.packet.PacketUpdateDragged;
+import electrodynamics.network.packet.PacketUpdateHeld;
 
 public enum PacketTypeHandler {
 
@@ -27,7 +37,9 @@ public enum PacketTypeHandler {
 	SOUND(PacketSound.class),
 	MBS_INIT(PacketInitializeMBS.class),
 	MBS_INVALIDATE(PacketInvalidateMBS.class),
-	CLIENT_DATA(PacketClientData.class);
+	CLIENT_DATA(PacketClientData.class),
+	UPDATE_HELD(PacketUpdateHeld.class),
+	UPDATE_DRAG(PacketUpdateDragged.class);
 	
 	private Class<? extends PacketED> clazz;
 	
