@@ -184,7 +184,7 @@ public class ItemGlassJar extends Item {
 			int dustCount = getStoredDusts(stack).length;
 			
 			if (dustCount < max) {
-				list.add("Partially Filled (" + dustCount + "/" + GuiGlassJar.DUST_MAX + ")");
+				list.add("Partially Filled (" + dustCount + "/" + max+ ")");
 			} else {
 				list.add("Full (" + max + "/" + max + ")");
 			}
