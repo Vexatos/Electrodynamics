@@ -17,7 +17,6 @@ import electrodynamics.client.fx.FXLightningBolt;
 import electrodynamics.control.KeyBindingHelper;
 import electrodynamics.control.KeybindingHandler;
 import electrodynamics.core.handler.IconHandler;
-import electrodynamics.core.handler.SoundHandler;
 import electrodynamics.lib.client.FXType;
 import electrodynamics.module.ModuleManager;
 
