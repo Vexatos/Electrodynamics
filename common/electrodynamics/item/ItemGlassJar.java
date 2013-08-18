@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
+import electrodynamics.client.gui.GuiGlassJar;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.handler.GuiHandler;
 import electrodynamics.core.handler.GuiHandler.GuiType;
@@ -175,8 +176,18 @@ public class ItemGlassJar extends Item {
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean show) {
+		int max = GuiGlassJar.DUST_MAX;
+		
 		if (!hasDusts(stack)) {
-			list.add("Empty");
+			list.add("Empty (0/" + max + ")");
+		} else {
+			int dustCount = getStoredDusts(stack).length;
+			
+			if (dustCount < max) {
+				list.add("Partially Filled (" + dustCount + "/" + GuiGlassJar.DUST_MAX + ")");
+			} else {
+				list.add("Full (" + max + "/" + max + ")");
+			}
 		}
 	}
 	
@@ -186,15 +197,13 @@ public class ItemGlassJar extends Item {
 			if (!player.isSneaking()) {
 				GuiHandler.openGui(player, world, (int)player.posX, (int)player.posY, (int)player.posZ, GuiType.GLASS_JAR);
 			} else {
-//				ItemStack[] dusts = ItemGlassJar.getStoredDusts(stack);
-//				
-//				for (ItemStack dust : dusts) {
-//					player.dropPlayerItem(dust);
-//				}
-//				
-//				ItemGlassJar.dumpDusts(stack);
+				ItemStack[] dusts = ItemGlassJar.getStoredDusts(stack);
 				
+				for (ItemStack dust : dusts) {
+					player.dropPlayerItem(dust);
+				}
 				
+				ItemGlassJar.dumpDusts(stack);
 			}
 		}
 		

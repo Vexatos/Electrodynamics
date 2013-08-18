@@ -26,9 +26,10 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 
 	public static final ResourceLocation ITEM_ATLAS = TextureMap.field_110576_c;
 	
-	public static final int DUST_HEIGHT = 7;
-	
 	public static final Rectangle GUI_JAR_DIMENSIONS = new Rectangle(62, 16, 53, 63);
+
+	public static final int DUST_MAX = 9;
+	public static final int DUST_HEIGHT = (int) Math.floor(GUI_JAR_DIMENSIONS.h / DUST_MAX);
 	
 	public EntityPlayer player;
 
@@ -60,12 +61,17 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 				Rectangle rect = dimensions[index];
 				
 				/* BEGIN TEMP */
-				int[] colors = ItemIngot.ingotColors[this.storedDusts[index].getItemDamage()];
 				GLColor color = null;
-				
-				if (colors != null) {
-					color = new GLColor(colors[0], colors[1], colors[2]);
-				} else {
+				try {
+					int[] colors = ItemIngot.ingotColors[this.storedDusts[index].getItemDamage()];
+					
+					if (colors != null) {
+						color = new GLColor(colors[0], colors[1], colors[2]);
+					} else {
+						color = new GLColor(255, 255, 255);
+					}
+				} catch (Exception ex) {
+					//AIooB Exception
 					color = new GLColor(255, 255, 255);
 				}
 
@@ -80,7 +86,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 	@Override
 	public void onClicked(String uuid, MouseState state, ItemStack stack) {
 		if (ItemDust.isDust(stack)) {
-			if (ItemGlassJar.getStoredDusts(this.jar).length < 9) {
+			if (ItemGlassJar.getStoredDusts(this.jar).length < DUST_MAX) {
 				ItemStack toSend = null;
 				
 				if (state == MOUSE_LEFT) {
@@ -163,7 +169,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 			return new Rectangle(x, y, w, h);
 		}
 		public String toString() {
-			return ("X: " + x + " Y: " + y + "W: " + w + "H: " + h);
+			return ("X: " + x + " Y: " + y + " W: " + w + " H: " + h);
 		}
 	}
 	
