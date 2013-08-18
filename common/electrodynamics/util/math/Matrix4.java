@@ -16,9 +16,9 @@ public class Matrix4 {
 	}
 
 	public Vector3 translate(Vector3 vec) {
-		float x = vec.x * this.mat[0] + vec.y * this.mat[1] + vec.z * this.mat[2] + this.mat[3];
-		float y = vec.x * this.mat[4] + vec.y * this.mat[5] + vec.z * this.mat[6] + this.mat[7];
-		float z = vec.x * this.mat[8] + vec.y * this.mat[9] + vec.z * this.mat[10] + this.mat[11];
+		float x = (float) (vec.x * this.mat[0] + vec.y * this.mat[1] + vec.z * this.mat[2] + this.mat[3]);
+		float y = (float) (vec.x * this.mat[4] + vec.y * this.mat[5] + vec.z * this.mat[6] + this.mat[7]);
+		float z = (float) (vec.x * this.mat[8] + vec.y * this.mat[9] + vec.z * this.mat[10] + this.mat[11]);
 		
 		vec.x = x;
 		vec.y = y;
@@ -29,9 +29,9 @@ public class Matrix4 {
 
 	public static Matrix4 rotationMat(double angle, Vector3 axis) {
 		axis = axis.copy().normalize();
-		float x = axis.x;
-		float y = axis.y;
-		float z = axis.z;
+		float x = (float) axis.x;
+		float y = (float) axis.y;
+		float z = (float) axis.z;
 		angle *= 0.0174532925D;
 		float cos = (float) Math.cos(angle);
 		float ocos = 1.0F - cos;

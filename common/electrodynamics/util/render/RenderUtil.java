@@ -18,8 +18,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.client.FMLClientHandler;
-
 import electrodynamics.api.render.ICustomRender;
+import electrodynamics.util.math.Cuboid6;
+import electrodynamics.util.math.Vector3;
 
 public class RenderUtil {
 
@@ -253,6 +254,90 @@ public class RenderUtil {
 	
 	public static void bindItemAtlas() {
 		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(ITEM_ATLAS);
+	}
+	
+	public static void renderIconQuad(Vector3 point1, Vector3 point2, Vector3 point3, Vector3 point4, Icon icon, double res) {
+		Vector3[] vectors = new Vector3[8];
+        double u1 = icon.getMinU();
+        double du = icon.getMaxU()-icon.getMinU();
+        double v2 = icon.getMaxV();
+        double dv = icon.getMaxV()-icon.getMinV();
+        
+        Vector3 wide = vectors[0].set(point4).subtract(point1);
+        Vector3 high = vectors[1].set(point1).subtract(point2);
+        Tessellator t = Tessellator.instance;
+        
+        double wlen = wide.mag();
+        double hlen = high.mag();
+        
+        double x = 0;
+        while(x < wlen)
+        {
+            double rx = wlen - x;
+            if(rx > res)
+                rx = res;
+
+            double y = 0;
+            while(y < hlen)
+            {
+                double ry = hlen-y;
+                if(ry > res)
+                    ry = res;
+
+                Vector3 dx1 = vectors[2].set(wide).multiply(x/wlen);
+                Vector3 dx2 = vectors[3].set(wide).multiply((x+rx)/wlen);    
+                Vector3 dy1 = vectors[4].set(high).multiply(y/hlen);    
+                Vector3 dy2 = vectors[5].set(high).multiply((y+ry)/hlen);
+
+                t.addVertexWithUV(point2.x+dx1.x+dy2.x, point2.y+dx1.y+dy2.y, point2.z+dx1.z+dy2.z, u1, v2-ry/res*dv);
+                t.addVertexWithUV(point2.x+dx1.x+dy1.x, point2.y+dx1.y+dy1.y, point2.z+dx1.z+dy1.z, u1, v2);
+                t.addVertexWithUV(point2.x+dx2.x+dy1.x, point2.y+dx2.y+dy1.y, point2.z+dx2.z+dy1.z, u1+rx/res*du, v2);
+                t.addVertexWithUV(point2.x+dx2.x+dy2.x, point2.y+dx2.y+dy2.y, point2.z+dx2.z+dy2.z, u1+rx/res*du, v2-ry/res*dv);
+                
+                y+=ry;
+            }
+            
+            x+=rx;
+        }
+    }
+	
+	public static void renderIconCuboid(Cuboid6 bound, Icon tex, double res) {
+		renderIconQuad(
+				// bottom
+				new Vector3(bound.min.x, bound.min.y, bound.min.z),
+				new Vector3(bound.max.x, bound.min.y, bound.min.z),
+				new Vector3(bound.max.x, bound.min.y, bound.max.z),
+				new Vector3(bound.min.x, bound.min.y, bound.max.z), tex, res);
+		renderIconQuad(
+				// top
+				new Vector3(bound.min.x, bound.max.y, bound.min.z),
+				new Vector3(bound.min.x, bound.max.y, bound.max.z),
+				new Vector3(bound.max.x, bound.max.y, bound.max.z),
+				new Vector3(bound.max.x, bound.max.y, bound.min.z), tex, res);
+		renderIconQuad(
+				// -x
+				new Vector3(bound.min.x, bound.max.y, bound.min.z),
+				new Vector3(bound.min.x, bound.min.y, bound.min.z),
+				new Vector3(bound.min.x, bound.min.y, bound.max.z),
+				new Vector3(bound.min.x, bound.max.y, bound.max.z), tex, res);
+		renderIconQuad(
+				// +x
+				new Vector3(bound.max.x, bound.max.y, bound.max.z),
+				new Vector3(bound.max.x, bound.min.y, bound.max.z),
+				new Vector3(bound.max.x, bound.min.y, bound.min.z),
+				new Vector3(bound.max.x, bound.max.y, bound.min.z), tex, res);
+		renderIconQuad(
+				// -z
+				new Vector3(bound.max.x, bound.max.y, bound.min.z),
+				new Vector3(bound.max.x, bound.min.y, bound.min.z),
+				new Vector3(bound.min.x, bound.min.y, bound.min.z),
+				new Vector3(bound.min.x, bound.max.y, bound.min.z), tex, res);
+		renderIconQuad(
+				// +z
+				new Vector3(bound.min.x, bound.max.y, bound.max.z),
+				new Vector3(bound.min.x, bound.min.y, bound.max.z),
+				new Vector3(bound.max.x, bound.min.y, bound.max.z),
+				new Vector3(bound.max.x, bound.max.y, bound.max.z), tex, res);
 	}
 	
 }

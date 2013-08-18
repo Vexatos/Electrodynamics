@@ -23,7 +23,6 @@ import electrodynamics.network.packet.PacketInitializeMBS;
 import electrodynamics.network.packet.PacketInvalidateMBS;
 import electrodynamics.network.packet.PacketJump;
 import electrodynamics.network.packet.PacketKeyPress;
-import electrodynamics.network.packet.PacketLightningFX;
 import electrodynamics.network.packet.PacketSound;
 import electrodynamics.network.packet.PacketUpdateDragged;
 import electrodynamics.network.packet.PacketUpdateHeld;
@@ -32,7 +31,6 @@ public enum PacketTypeHandler {
 
 	KEY(PacketKeyPress.class),
 	JUMP(PacketJump.class),
-	LIGHTNING(PacketLightningFX.class),
 	FX(PacketFX.class),
 	SOUND(PacketSound.class),
 	MBS_INIT(PacketInitializeMBS.class),

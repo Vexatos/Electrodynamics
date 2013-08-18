@@ -65,7 +65,7 @@ public class Cuboid6 {
 	}
 
 	public void setBlockBounds(Block block) {
-		block.setBlockBounds(min.x, min.y, min.z, max.x, max.y, max.z);
+		block.setBlockBounds((float)min.x, (float)min.y, (float)min.z, (float)max.x, (float)max.y, (float)max.z);
 	}
 
 	public boolean intersects(Cuboid6 b) {
@@ -79,7 +79,7 @@ public class Cuboid6 {
 	}
 
 	public Vector3 center() {
-		return min.copy().add(max).scale(0.5);
+		return min.copy().add(max).multiply(0.5);
 	}
 
 	public static boolean intersects(Cuboid6 a, Cuboid6 b) {

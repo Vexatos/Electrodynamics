@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
@@ -13,7 +12,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import electrodynamics.Electrodynamics;
 import electrodynamics.addons.AddonManager;
-import electrodynamics.client.fx.FXLightningBolt;
 import electrodynamics.control.KeyBindingHelper;
 import electrodynamics.control.KeybindingHandler;
 import electrodynamics.core.handler.IconHandler;
@@ -113,15 +111,6 @@ public class ClientProxy extends CommonProxy {
 			double d9 = z + (z - z) * d6 + (rand.nextDouble() - 0.5D) * .2 * 2.0D;
 			FMLClientHandler.instance().getClient().theWorld.spawnParticle("portal", d7, d8, d9, f, f1, f2);
 		}
-	}
-	
-	@Override
-	public void addLightningFX(World world, double x1, double y1, double z1, double x, double y, double z, long seed, int duration) {
-		FXLightningBolt bolt = new FXLightningBolt(world, x1, y1, z1, x, y, z, seed, duration);
-		bolt.defaultFractal();
-		//TODO add this to method params
-		bolt.setRandomType(4, 7);
-		bolt.finalizeBolt();
 	}
 	
 }

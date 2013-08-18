@@ -1,6 +1,5 @@
 package electrodynamics.item.elmag.logic;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.entity.item.EntityItem;
@@ -13,12 +12,8 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import electrodynamics.api.tool.IArmorLogic;
 import electrodynamics.configuration.ConfigurationSettings;
-import electrodynamics.network.PacketTypeHandler;
-import electrodynamics.network.packet.PacketLightningFX;
 
 public class LogicMagneticPull implements IArmorLogic {
-
-	public ArrayList<EntityItem> zappedItems = new ArrayList<EntityItem>();
 	
 	public int cooldown = 0;
 	
@@ -51,10 +46,7 @@ public class LogicMagneticPull implements IArmorLogic {
 
 						PacketDispatcher.sendPacketToAllInDimension(new Packet28EntityVelocity(item), world.provider.dimensionId);
 
-						if (!zappedItems.contains(item)) {
-							PacketDispatcher.sendPacketToAllAround(player.posX, player.posY, player.posZ, 50D, player.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(new PacketLightningFX(player.posX, player.posY + 1.5, player.posZ, item.posX, item.posY, item.posZ, 1)));
-							zappedItems.add(item);
-						}
+						//TODO new effect
 					}
 				}
 			}
