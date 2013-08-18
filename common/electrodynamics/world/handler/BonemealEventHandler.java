@@ -9,7 +9,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import electrodynamics.block.BlockWormwood;
 import electrodynamics.lib.block.BlockIDs;
-import electrodynamics.util.BiomeHelper;
+import electrodynamics.util.misc.BiomeHelper;
 import electrodynamics.world.gen.WorldGenRubberTree;
 
 public class BonemealEventHandler {

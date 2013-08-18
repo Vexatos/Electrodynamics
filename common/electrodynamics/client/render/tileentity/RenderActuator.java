@@ -5,8 +5,8 @@ import net.minecraft.tileentity.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
-import electrodynamics.client.render.util.RenderUtil;
 import electrodynamics.tileentity.machine.utilty.TileEntityActuator;
+import electrodynamics.util.render.RenderUtil;
 
 public class RenderActuator extends TileEntitySpecialRenderer {
 

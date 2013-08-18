@@ -16,12 +16,12 @@ import electrodynamics.client.model.ModelChicken;
 import electrodynamics.client.model.ModelIngot;
 import electrodynamics.client.model.ModelMetalTray;
 import electrodynamics.client.model.ModelSinteringOven;
-import electrodynamics.client.render.util.RenderUtil;
 import electrodynamics.item.ItemIngot;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.machine.TileEntityMachine;
 import electrodynamics.tileentity.machine.TileEntitySinteringOven;
 import electrodynamics.util.InventoryUtil;
+import electrodynamics.util.render.RenderUtil;
 
 public class RenderSinteringOven extends TileEntitySpecialRenderer {
 

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
-import electrodynamics.util.EDVector3;
+import electrodynamics.util.math.Vector3;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
@@ -16,8 +16,8 @@ import net.minecraft.world.World;
 
 public class FXLightningBoltCommon {
 	ArrayList<Segment> segments;
-	EDVector3 start;
-	EDVector3 end;
+	Vector3 start;
+	Vector3 end;
 	HashMap<Integer, Integer> splitparents;
 	public float multiplier;
 	public float length;
@@ -37,7 +37,7 @@ public class FXLightningBoltCommon {
 	public static final int fadetime = 20;
 	public int damage;
 
-	public FXLightningBoltCommon(World world, EDVector3 jammervec, EDVector3 targetvec, long seed) {
+	public FXLightningBoltCommon(World world, Vector3 jammervec, Vector3 targetvec, long seed) {
 		this.segments = new ArrayList<Segment>();
 		this.splitparents = new HashMap<Integer, Integer>();
 		this.start = jammervec;
@@ -57,31 +57,31 @@ public class FXLightningBoltCommon {
 	}
 
 	public FXLightningBoltCommon(World world, Entity detonator, Entity target, long seed) {
-		this(world, new EDVector3(detonator), new EDVector3(target), seed);
+		this(world, new Vector3(detonator), new Vector3(target), seed);
 	}
 
 	public FXLightningBoltCommon(World world, Entity detonator, Entity target, long seed, int speed) {
-		this(world, new EDVector3(detonator), new EDVector3(target.posX, target.posY + target.getEyeHeight() - 0.699999988079071D, target.posZ), seed);
+		this(world, new Vector3(detonator), new Vector3(target.posX, target.posY + target.getEyeHeight() - 0.699999988079071D, target.posZ), seed);
 		this.increment = speed;
 		this.multiplier = 0.4F;
 	}
 
 	public FXLightningBoltCommon(World world, TileEntity detonator, Entity target, long seed) {
-		this(world, new EDVector3(detonator), new EDVector3(target), seed);
+		this(world, new Vector3(detonator), new Vector3(target), seed);
 	}
 
 	public FXLightningBoltCommon(World world, TileEntity detonator, double x, double y, double z, long seed) {
-		this(world, new EDVector3(detonator), new EDVector3(x, y, z), seed);
+		this(world, new Vector3(detonator), new Vector3(x, y, z), seed);
 	}
 
 	public FXLightningBoltCommon(World world, double x1, double y1, double z1, double x, double y, double z, long seed, int duration, float multi) {
-		this(world, new EDVector3(x1, y1, z1), new EDVector3(x, y, z), seed);
+		this(world, new Vector3(x1, y1, z1), new Vector3(x, y, z), seed);
 		this.particleMaxAge = (duration + this.rand.nextInt(duration) - duration / 2);
 		this.multiplier = multi;
 	}
 
 	public FXLightningBoltCommon(World world, double x1, double y1, double z1, double x, double y, double z, long seed, int duration, float multi, int speed) {
-		this(world, new EDVector3(x1, y1, z1), new EDVector3(x, y, z), seed);
+		this(world, new Vector3(x1, y1, z1), new Vector3(x, y, z), seed);
 		this.particleMaxAge = (duration + this.rand.nextInt(duration) - duration / 2);
 		this.multiplier = multi;
 		this.increment = speed;
@@ -104,15 +104,15 @@ public class FXLightningBoltCommon {
 		for (Iterator<Segment> iterator = oldsegments.iterator(); iterator.hasNext();) {
 			Segment segment = iterator.next();
 			prev = segment.prev;
-			EDVector3 subsegment = segment.diff.copy().scale(1.0F / splits);
+			Vector3 subsegment = segment.diff.copy().scale(1.0F / splits);
 			BoltPoint[] newpoints = new BoltPoint[splits + 1];
-			EDVector3 startpoint = segment.startpoint.point;
+			Vector3 startpoint = segment.startpoint.point;
 			newpoints[0] = segment.startpoint;
 			newpoints[splits] = segment.endpoint;
 			for (int i = 1; i < splits; i++) {
-				EDVector3 randoff = EDVector3.getPerpendicular(segment.diff).rotate(this.rand.nextFloat() * 360.0F, segment.diff);
+				Vector3 randoff = Vector3.getPerpendicular(segment.diff).rotate(this.rand.nextFloat() * 360.0F, segment.diff);
 				randoff.scale((this.rand.nextFloat() - 0.5F) * amount);
-				EDVector3 basepoint = startpoint.copy().add(subsegment.copy().scale(i));
+				Vector3 basepoint = startpoint.copy().add(subsegment.copy().scale(i));
 				newpoints[i] = new BoltPoint(basepoint, randoff);
 			}
 
@@ -122,8 +122,8 @@ public class FXLightningBoltCommon {
 				if (prev != null) prev.next = next;
 				
 				if ((i != 0) && (this.rand.nextFloat() < splitchance)) {
-					EDVector3 splitrot = EDVector3.xCrossProduct(next.diff).rotate(this.rand.nextFloat() * 360.0F, next.diff);
-					EDVector3 diff = next.diff.copy().rotate((this.rand.nextFloat() * 0.66F + 0.33F) * splitangle, splitrot).scale(splitlength);
+					Vector3 splitrot = Vector3.xCrossProduct(next.diff).rotate(this.rand.nextFloat() * 360.0F, next.diff);
+					Vector3 diff = next.diff.copy().rotate((this.rand.nextFloat() * 0.66F + 0.33F) * splitangle, splitrot).scale(splitlength);
 					this.numsplits += 1;
 					this.splitparents.put(Integer.valueOf(this.numsplits), Integer.valueOf(next.splitno));
 					Segment split = new Segment(newpoints[i], new BoltPoint(newpoints[(i + 1)].basepoint, newpoints[(i + 1)].offsetvec.copy().add(diff)), segment.light / 2.0F, next.segmentno, this.numsplits);
@@ -202,11 +202,11 @@ public class FXLightningBoltCommon {
 	}
 
 	public class BoltPoint {
-		EDVector3 point;
-		EDVector3 basepoint;
-		EDVector3 offsetvec;
+		Vector3 point;
+		Vector3 basepoint;
+		Vector3 offsetvec;
 
-		public BoltPoint(EDVector3 basepoint, EDVector3 offsetvec) {
+		public BoltPoint(Vector3 basepoint, Vector3 offsetvec) {
 			this.point = basepoint.copy().add(offsetvec);
 			this.basepoint = basepoint;
 			this.offsetvec = offsetvec;
@@ -216,11 +216,11 @@ public class FXLightningBoltCommon {
 	public class Segment {
 		public FXLightningBoltCommon.BoltPoint startpoint;
 		public FXLightningBoltCommon.BoltPoint endpoint;
-		public EDVector3 diff;
+		public Vector3 diff;
 		public Segment prev;
 		public Segment next;
-		public EDVector3 nextdiff;
-		public EDVector3 prevdiff;
+		public Vector3 nextdiff;
+		public Vector3 prevdiff;
 		public float sinprev;
 		public float sinnext;
 		public float light;
@@ -233,19 +233,19 @@ public class FXLightningBoltCommon {
 
 		public void calcEndDiffs() {
 			if (this.prev != null) {
-				EDVector3 prevdiffnorm = this.prev.diff.copy().normalize();
-				EDVector3 thisdiffnorm = this.diff.copy().normalize();
+				Vector3 prevdiffnorm = this.prev.diff.copy().normalize();
+				Vector3 thisdiffnorm = this.diff.copy().normalize();
 				this.prevdiff = thisdiffnorm.add(prevdiffnorm).normalize();
-				this.sinprev = ((float) Math.sin(EDVector3.anglePreNorm(thisdiffnorm, prevdiffnorm.scale(-1.0F)) / 2.0F));
+				this.sinprev = ((float) Math.sin(Vector3.anglePreNorm(thisdiffnorm, prevdiffnorm.scale(-1.0F)) / 2.0F));
 			} else {
 				this.prevdiff = this.diff.copy().normalize();
 				this.sinprev = 1.0F;
 			}
 			if (this.next != null) {
-				EDVector3 nextdiffnorm = this.next.diff.copy().normalize();
-				EDVector3 thisdiffnorm = this.diff.copy().normalize();
+				Vector3 nextdiffnorm = this.next.diff.copy().normalize();
+				Vector3 thisdiffnorm = this.diff.copy().normalize();
 				this.nextdiff = thisdiffnorm.add(nextdiffnorm).normalize();
-				this.sinnext = ((float) Math.sin(EDVector3.anglePreNorm(thisdiffnorm, nextdiffnorm.scale(-1.0F)) / 2.0F));
+				this.sinnext = ((float) Math.sin(Vector3.anglePreNorm(thisdiffnorm, nextdiffnorm.scale(-1.0F)) / 2.0F));
 			} else {
 				this.nextdiff = this.diff.copy().normalize();
 				this.sinnext = 1.0F;
@@ -266,8 +266,8 @@ public class FXLightningBoltCommon {
 			calcDiff();
 		}
 
-		public Segment(EDVector3 start, EDVector3 end) {
-			this(new FXLightningBoltCommon.BoltPoint(start, new EDVector3(0.0D, 0.0D, 0.0D)), new FXLightningBoltCommon.BoltPoint(end, new EDVector3(0.0D, 0.0D, 0.0D)), 1.0F, 0, 0);
+		public Segment(Vector3 start, Vector3 end) {
+			this(new FXLightningBoltCommon.BoltPoint(start, new Vector3(0.0D, 0.0D, 0.0D)), new FXLightningBoltCommon.BoltPoint(end, new Vector3(0.0D, 0.0D, 0.0D)), 1.0F, 0, 0);
 		}
 	}
 

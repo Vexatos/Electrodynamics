@@ -9,10 +9,10 @@ import org.lwjgl.opengl.GL11;
 
 import electrodynamics.client.model.ModelLatexBucket;
 import electrodynamics.client.model.ModelTreeTap;
-import electrodynamics.client.render.util.RenderUtil;
 import electrodynamics.core.handler.IconHandler;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.TileEntityTreetap;
+import electrodynamics.util.render.RenderUtil;
 
 public class RenderTreetap extends TileEntitySpecialRenderer {
 

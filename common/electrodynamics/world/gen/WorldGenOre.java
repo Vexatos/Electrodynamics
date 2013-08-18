@@ -10,7 +10,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import electrodynamics.util.WeightedRandomBlock;
+import electrodynamics.util.misc.WeightedRandomBlock;
 
 public class WorldGenOre extends WorldGenerator {
 

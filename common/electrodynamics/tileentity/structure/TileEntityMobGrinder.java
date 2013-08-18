@@ -28,9 +28,9 @@ import electrodynamics.inventory.wrapper.InventoryWrapperStack;
 import electrodynamics.lib.block.StructureComponent;
 import electrodynamics.recipe.RecipeGrinder;
 import electrodynamics.recipe.manager.CraftingManager;
-import electrodynamics.util.EntityReflectionWrapper;
 import electrodynamics.util.InventoryUtil;
 import electrodynamics.util.PlayerUtil;
+import electrodynamics.util.misc.EntityReflectionWrapper;
 
 public class TileEntityMobGrinder extends TileEntityStructure implements IFluidHandler, IInventory, IRedstoneUser {
 

@@ -2,7 +2,7 @@ package electrodynamics.client.gui.module;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import electrodynamics.client.render.util.RenderUtil;
+import electrodynamics.util.render.RenderUtil;
 
 public class GuiModule {
 

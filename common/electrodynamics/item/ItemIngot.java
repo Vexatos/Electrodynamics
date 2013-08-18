@@ -10,7 +10,7 @@ import net.minecraft.util.Icon;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.item.Ingot;
-import electrodynamics.util.GLColor;
+import electrodynamics.util.render.GLColor;
 
 public class ItemIngot extends Item {
 

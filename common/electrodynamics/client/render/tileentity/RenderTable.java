@@ -13,9 +13,9 @@ import org.lwjgl.opengl.GL11;
 import electrodynamics.client.model.ModelTable;
 import electrodynamics.client.model.ModelTableStone;
 import electrodynamics.client.model.ModelTableWood;
-import electrodynamics.client.render.util.RenderUtil;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.machine.TileEntityTable;
+import electrodynamics.util.render.RenderUtil;
 
 public class RenderTable extends TileEntitySpecialRenderer {
 

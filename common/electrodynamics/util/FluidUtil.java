@@ -3,7 +3,7 @@ package electrodynamics.util;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 
-public class LiquidUtil {
+public class FluidUtil {
 
 	public static boolean areSameFluid(FluidStack ls1, FluidStack ls2) {
 		return ls1.isFluidEqual(ls2);

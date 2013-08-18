@@ -1,4 +1,4 @@
-package electrodynamics.util;
+package electrodynamics.util.misc;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomItem;

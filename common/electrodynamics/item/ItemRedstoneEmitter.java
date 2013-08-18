@@ -15,8 +15,8 @@ import net.minecraftforge.common.ForgeDirection;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.tileentity.TileEntityRSSource;
-import electrodynamics.util.LaserWrapper;
 import electrodynamics.util.PlayerUtil;
+import electrodynamics.util.misc.LaserWrapper;
 
 public class ItemRedstoneEmitter extends ItemLaserTool {
 

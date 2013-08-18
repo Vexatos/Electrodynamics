@@ -7,10 +7,10 @@ import net.minecraftforge.common.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
 import electrodynamics.client.model.ModelSolarPanel;
-import electrodynamics.client.render.util.RenderUtil;
 import electrodynamics.interfaces.energy.IEnergyConnection;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.machine.energy.TileEntitySolarPanel;
+import electrodynamics.util.render.RenderUtil;
 
 public class RenderSolarPanel extends TileEntitySpecialRenderer {
 

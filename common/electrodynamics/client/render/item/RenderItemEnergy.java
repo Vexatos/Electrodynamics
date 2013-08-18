@@ -3,8 +3,8 @@ package electrodynamics.client.render.item;
 import org.lwjgl.opengl.GL11;
 
 import electrodynamics.client.model.ModelSolarPanel;
-import electrodynamics.client.render.util.RenderUtil;
 import electrodynamics.lib.client.Textures;
+import electrodynamics.util.render.RenderUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 

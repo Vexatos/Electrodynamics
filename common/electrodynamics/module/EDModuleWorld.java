@@ -44,7 +44,7 @@ import electrodynamics.lib.core.Strings;
 import electrodynamics.lib.item.Component;
 import electrodynamics.lib.item.ItemIDs;
 import electrodynamics.tileentity.TileEntityTreetap;
-import electrodynamics.util.BiomeHelper;
+import electrodynamics.util.misc.BiomeHelper;
 import electrodynamics.world.gen.WorldGenBlock;
 import electrodynamics.world.gen.WorldGenClay;
 import electrodynamics.world.gen.WorldGenNear;

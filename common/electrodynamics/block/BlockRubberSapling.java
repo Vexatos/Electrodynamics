@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.lib.core.ModInfo;
-import electrodynamics.util.BiomeHelper;
+import electrodynamics.util.misc.BiomeHelper;
 import electrodynamics.world.gen.WorldGenRubberTree;
 
 public class BlockRubberSapling extends BlockSapling {

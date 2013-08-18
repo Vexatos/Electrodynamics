@@ -1,4 +1,4 @@
-package electrodynamics.util;
+package electrodynamics.util.misc;
 
 import java.lang.reflect.Method;
 

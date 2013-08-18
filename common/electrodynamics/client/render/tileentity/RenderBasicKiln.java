@@ -11,10 +11,10 @@ import org.lwjgl.opengl.GL11;
 
 import electrodynamics.client.model.ModelBasicKiln;
 import electrodynamics.client.model.ModelKilnTray;
-import electrodynamics.client.render.util.RenderUtil;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.machine.TileEntityBasicKiln;
 import electrodynamics.tileentity.machine.TileEntityMachine;
+import electrodynamics.util.render.RenderUtil;
 
 public class RenderBasicKiln extends TileEntitySpecialRenderer {
 

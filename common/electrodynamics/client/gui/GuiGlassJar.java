@@ -11,7 +11,6 @@ import electrodynamics.client.gui.module.GuiModule;
 import electrodynamics.client.gui.module.GuiModule.MouseState;
 import electrodynamics.client.gui.module.GuiModuleHotspot;
 import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
-import electrodynamics.client.render.util.RenderUtil;
 import electrodynamics.core.handler.IconHandler;
 import electrodynamics.core.handler.GuiHandler.GuiType;
 import electrodynamics.inventory.container.ContainerGlassJar;
@@ -20,7 +19,8 @@ import electrodynamics.item.ItemGlassJar;
 import electrodynamics.item.ItemIngot;
 import electrodynamics.network.packet.PacketUpdateDragged;
 import electrodynamics.network.packet.PacketUpdateHeld;
-import electrodynamics.util.GLColor;
+import electrodynamics.util.render.GLColor;
+import electrodynamics.util.render.RenderUtil;
 
 public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback {
 

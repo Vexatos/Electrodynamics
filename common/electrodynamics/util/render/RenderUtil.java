@@ -1,4 +1,4 @@
-package electrodynamics.client.render.util;
+package electrodynamics.util.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

@@ -1,4 +1,6 @@
-package electrodynamics.util;
+package electrodynamics.util.misc;
+
+import electrodynamics.util.render.GLColor;
 
 public class LaserWrapper {
 

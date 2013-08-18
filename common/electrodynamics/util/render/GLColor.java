@@ -1,4 +1,4 @@
-package electrodynamics.util;
+package electrodynamics.util.render;
 
 import org.lwjgl.opengl.GL11;
 

@@ -12,8 +12,8 @@ import net.minecraftforge.event.ForgeSubscribe;
 
 import org.lwjgl.opengl.GL11;
 
-import electrodynamics.client.render.util.RenderUtil;
 import electrodynamics.lib.item.ArmorModule;
+import electrodynamics.util.render.RenderUtil;
 
 public class XRayOverlayHandler {
 

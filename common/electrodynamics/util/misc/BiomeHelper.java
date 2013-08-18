@@ -1,4 +1,4 @@
-package electrodynamics.util;
+package electrodynamics.util.misc;
 
 import java.util.ArrayList;
 import java.util.Arrays;

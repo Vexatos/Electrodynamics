@@ -15,13 +15,13 @@ import org.lwjgl.opengl.GL11;
 
 import electrodynamics.client.fx.FXLightningBoltCommon.Segment;
 import electrodynamics.lib.client.Textures;
-import electrodynamics.util.EDVector3;
+import electrodynamics.util.math.Vector3;
 
 public class FXLightningBolt extends EntityFX {
 	private int type = 0;
 	private FXLightningBoltCommon main;
 
-	public FXLightningBolt(World world, EDVector3 jammervec, EDVector3 targetvec, long seed) {
+	public FXLightningBolt(World world, Vector3 jammervec, Vector3 targetvec, long seed) {
 		super(world, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 		this.main = new FXLightningBoltCommon(world, jammervec, targetvec, seed);
 		setupFromMain();
@@ -118,13 +118,13 @@ public class FXLightningBolt extends EntityFX {
 		}
 	}
 
-	private static EDVector3 getRelativeViewVector(EDVector3 pos) {
+	private static Vector3 getRelativeViewVector(Vector3 pos) {
 		EntityPlayer renderentity = ModLoader.getMinecraftInstance().thePlayer;
-		return new EDVector3((float) renderentity.posX - pos.x, (float) renderentity.posY - pos.y, (float) renderentity.posZ - pos.z);
+		return new Vector3((float) renderentity.posX - pos.x, (float) renderentity.posY - pos.y, (float) renderentity.posZ - pos.z);
 	}
 
 	private void renderBolt(Tessellator tessellator, float partialframe, float cosyaw, float cospitch, float sinyaw, float cossinpitch, int pass) {
-		EDVector3 playervec = new EDVector3(sinyaw * -cospitch, -cossinpitch / cosyaw, cosyaw * cospitch);
+		Vector3 playervec = new Vector3(sinyaw * -cospitch, -cossinpitch / cosyaw, cosyaw * cospitch);
 		float boltage = this.main.particleAge >= 0 ? this.main.particleAge / this.main.particleMaxAge : 0.0F;
 		float mainalpha = 1.0F;
 		if (pass == 0) {
@@ -146,10 +146,10 @@ public class FXLightningBolt extends EntityFX {
 					width += 0.025F;
 				else if (pass == 1)
 					width += 0.05F;
-				EDVector3 diff1 = EDVector3.crossProduct(playervec, rendersegment.prevdiff).scale(width / rendersegment.sinprev);
-				EDVector3 diff2 = EDVector3.crossProduct(playervec, rendersegment.nextdiff).scale(width / rendersegment.sinnext);
-				EDVector3 startvec = rendersegment.startpoint.point;
-				EDVector3 endvec = rendersegment.endpoint.point;
+				Vector3 diff1 = Vector3.crossProduct(playervec, rendersegment.prevdiff).scale(width / rendersegment.sinprev);
+				Vector3 diff2 = Vector3.crossProduct(playervec, rendersegment.nextdiff).scale(width / rendersegment.sinnext);
+				Vector3 startvec = rendersegment.startpoint.point;
+				Vector3 endvec = rendersegment.endpoint.point;
 				float rx1 = (float) (startvec.x - interpPosX);
 				float ry1 = (float) (startvec.y - interpPosY);
 				float rz1 = (float) (startvec.z - interpPosZ);
@@ -162,7 +162,7 @@ public class FXLightningBolt extends EntityFX {
 				tessellator.addVertexWithUV(rx1 + diff1.x, ry1 + diff1.y, rz1 + diff1.z, 0.5D, 1.0D);
 				tessellator.addVertexWithUV(rx2 + diff2.x, ry2 + diff2.y, rz2 + diff2.z, 0.5D, 1.0D);
 				if (rendersegment.next == null) {
-					EDVector3 roundend = rendersegment.endpoint.point.copy().add(rendersegment.diff.copy().normalize().scale(width));
+					Vector3 roundend = rendersegment.endpoint.point.copy().add(rendersegment.diff.copy().normalize().scale(width));
 					float rx3 = (float) (roundend.x - interpPosX);
 					float ry3 = (float) (roundend.y - interpPosY);
 					float rz3 = (float) (roundend.z - interpPosZ);
@@ -172,7 +172,7 @@ public class FXLightningBolt extends EntityFX {
 					tessellator.addVertexWithUV(rx3 + diff2.x, ry3 + diff2.y, rz3 + diff2.z, 0.0D, 1.0D);
 				}
 				if (rendersegment.prev == null) {
-					EDVector3 roundend = rendersegment.startpoint.point.copy().sub(rendersegment.diff.copy().normalize().scale(width));
+					Vector3 roundend = rendersegment.startpoint.point.copy().sub(rendersegment.diff.copy().normalize().scale(width));
 					float rx3 = (float) (roundend.x - interpPosX);
 					float ry3 = (float) (roundend.y - interpPosY);
 					float rz3 = (float) (roundend.z - interpPosZ);
