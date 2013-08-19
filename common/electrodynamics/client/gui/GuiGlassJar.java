@@ -16,7 +16,6 @@ import electrodynamics.core.handler.GuiHandler.GuiType;
 import electrodynamics.inventory.container.ContainerGlassJar;
 import electrodynamics.item.ItemDust;
 import electrodynamics.item.ItemGlassJar;
-import electrodynamics.item.ItemIngot;
 import electrodynamics.network.packet.PacketUpdateDragged;
 import electrodynamics.network.packet.PacketUpdateHeld;
 import electrodynamics.util.render.GLColor;
@@ -63,13 +62,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 				/* BEGIN TEMP */
 				GLColor color = null;
 				try {
-					int[] colors = ItemIngot.ingotColors[this.storedDusts[index].getItemDamage()];
-					
-					if (colors != null) {
-						color = new GLColor(colors[0], colors[1], colors[2]);
-					} else {
-						color = new GLColor(255, 255, 255);
-					}
+					color = ItemDust.dustColors[this.storedDusts[index].getItemDamage()];
 				} catch (Exception ex) {
 					//AIooB Exception
 					color = new GLColor(255, 255, 255);

@@ -22,7 +22,7 @@ public class IconHandler {
 	}
 	
 	@ForgeSubscribe
-	public void onTextureStich(TextureStitchEvent.Pre event) {
+	public void onTextureStichPre(TextureStitchEvent.Pre event) {
 		if (event.map.textureType == 0) { //BLOCKS
 			registerIcon(event.map, "misc.liquidLatex");
 		} else if (event.map.textureType == 1) { //ITEMS

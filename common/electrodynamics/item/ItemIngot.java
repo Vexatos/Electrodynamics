@@ -9,35 +9,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.lang.EDLanguage;
+import electrodynamics.lib.item.Dust;
 import electrodynamics.lib.item.Ingot;
 import electrodynamics.util.render.GLColor;
+import electrodynamics.util.render.IconUtil;
 
 public class ItemIngot extends Item {
 
 	private Icon[] textures;
 	
 	/** RGBA color definitions for ingots. Custom ingots first, then vanilla iron ingot, then vanilla gold ingot */
-	public static int[][] ingotColors;
-	
-	static {
-		ingotColors = new int[Ingot.values().length + 2][];
-		
-		ingotColors[Ingot.COPPER.ordinal()] = new int[] {200, 100, 0};
-		ingotColors[Ingot.LEAD.ordinal()] = new int[] {85, 85, 120};
-		ingotColors[Ingot.NICKEL.ordinal()] = new int[] {50, 210, 160};
-		ingotColors[Ingot.TUNGSTEN.ordinal()] = new int[] {45, 45, 45};
-		ingotColors[Ingot.COBALT.ordinal()] = new int[] {60, 60, 70};
-		ingotColors[Ingot.TELLURIUM.ordinal()] = new int[] {250, 250, 250};
-		ingotColors[Ingot.STEEL.ordinal()] = new int[] {130, 130, 130};
-		ingotColors[Ingot.TIN.ordinal()] = new int[] {230, 230, 230};
-		ingotColors[Ingot.URANIUM.ordinal()] = new int[] {90, 180, 65};
-		ingotColors[Ingot.SILVER.ordinal()] = new int[] {220, 240, 245};
-		
-		// Iron Ingot
-		ingotColors[Ingot.values().length] = new int[] {255, 255, 255};
-		// Gold Ingot
-		ingotColors[Ingot.values().length + 1] = new int[] {220, 220, 0};
-	}
+	public static GLColor[] ingotColors;
 	
 	public ItemIngot(int id) {
 		super(id);
@@ -50,7 +32,7 @@ public class ItemIngot extends Item {
 	}
 	
 	public static GLColor getColorForIngot(ItemStack stack) {
-		int[] colors = null;
+		GLColor colors = null;
 		
 		if (stack.getItem() == EDItems.itemIngot) {
 			colors = ingotColors[stack.getItemDamage()];
@@ -61,9 +43,9 @@ public class ItemIngot extends Item {
 		}
 
 		if (colors != null) {
-			return new GLColor(colors[0], colors[1], colors[2]);
+			return colors;
 		} else {
-			return new GLColor(255, 255, 255);
+			return new GLColor(255, 255, 255, 255);
 		}
 	}
 	
@@ -87,11 +69,19 @@ public class ItemIngot extends Item {
 	
 	@Override
 	public void registerIcons(IconRegister register) {
-		textures = new Icon[Ingot.values().length];
+		this.ingotColors = new GLColor[Ingot.values().length + 2];
+		this.textures = new Icon[Ingot.values().length];
 		
 		for (int i=0; i<textures.length; i++) {
 			textures[i] = register.registerIcon(Ingot.get(i).getTextureFile());
+			this.ingotColors[i] = IconUtil.getAverageColor("items/ingot/" + Ingot.get(i).textureFile + ".png");
+			System.out.println(Ingot.get(i) + ": " + this.ingotColors[i]);
 		}
+		
+		// Iron Ingot
+		ingotColors[Ingot.values().length] = new GLColor(255, 255, 255, 255);
+		// Gold Ingot
+		ingotColors[Ingot.values().length + 1] = new GLColor(220, 220, 0, 255);
 	}
 	
 }

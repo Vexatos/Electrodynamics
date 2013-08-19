@@ -132,6 +132,8 @@ public class EDModuleWorld extends EDModule {
 		
 		GameRegistry.addRecipe(new ItemStack(Item.silk), "TTT", 'T', Component.TWINE.toItemStack());
 		
+		GameRegistry.addRecipe(new ItemStack(EDItems.itemGlassJar), "GLG", "G G", "GGG", 'G', Block.glass, 'L', Decorative.LIMESTONE.toItemStack());
+		
 		FeatureHandler featureHandler = FeatureHandler.getInstance();
 		featureHandler.prepareFeatures();
 		featureHandler.insertFeatures();
