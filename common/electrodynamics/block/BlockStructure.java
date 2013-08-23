@@ -134,7 +134,7 @@ public class BlockStructure extends BlockGeneric implements IAcceptsTool {
 
 	@Override
 	public int getDamageValue(World world, int x, int y, int z) {
-		return world.getBlockMetadata(x, y, z);
+		return ((TileEntityStructure) world.getBlockTileEntity(x, y, z)).getSubBlock();
 	}
 
 	@Override
