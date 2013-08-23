@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.lang.EDLanguage;
-import electrodynamics.lib.item.Dust;
 import electrodynamics.lib.item.Ingot;
 import electrodynamics.util.render.GLColor;
 import electrodynamics.util.render.IconUtil;

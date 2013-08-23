@@ -9,9 +9,8 @@ public class BlockIDs {
 	@EDXProperty(category = CATEGORY_BLOCK)
 	public static int BLOCK_ORE_ID = 500;
 
-	@EDXProperty(category = CATEGORY_BLOCK)
-	public static int BLOCK_RED_WIRE_ID = 501;
-
+	// ID 501 is free
+	
 	@EDXProperty(category = CATEGORY_BLOCK)
 	public static int BLOCK_TABLE_ID = 502;
 
