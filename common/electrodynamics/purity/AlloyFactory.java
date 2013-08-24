@@ -14,29 +14,15 @@ public class AlloyFactory {
 	public List<String> metals = new ArrayList<String>();
 	
 	public void addMetal(ItemStack stack) {
-		String id = DynamicAlloyPurities.getIDForStack(stack);
-		
-		if (id != null) {
-			metals.add(id);
-		}
+		metals.add(DynamicAlloyPurities.getIDForStack(stack));
 	}
 	
 	public void removeMetal(ItemStack stack) {
-		String id = DynamicAlloyPurities.getIDForStack(stack);
-		
-		if (id != null) {
-			metals.remove(id);
-		}
+		metals.remove(DynamicAlloyPurities.getIDForStack(stack));
 	}
 	
 	public boolean containsMetal(ItemStack stack) {
-		String id = DynamicAlloyPurities.getIDForStack(stack);
-		
-		if (id != null) {
-			return metals.contains(id);
-		}
-		
-		return false;
+		return metals.contains(DynamicAlloyPurities.getIDForStack(stack));
 	}
 	
 	public void addMetal(String id) {
