@@ -25,15 +25,17 @@ public class AlloyStack {
 			itemStack.setTagCompound(new NBTTagCompound());
 		}
 		
-		NBTTagList list = new NBTTagList();
-		
-		for (MetalData data : metals) {
-			NBTTagCompound nbt = new NBTTagCompound();
-			data.writeToNBT(nbt);
-			list.appendTag(nbt);
+		if (metals != null) {
+			NBTTagList list = new NBTTagList();
+			
+			for (MetalData data : metals) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				data.writeToNBT(nbt);
+				list.appendTag(nbt);
+			}
+			
+			itemStack.stackTagCompound.setTag("Metals", list);
 		}
-		
-		itemStack.stackTagCompound.setTag("Metals", list);
 	}
 	
 	public MetalData[] getMetals() {

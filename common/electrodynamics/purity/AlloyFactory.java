@@ -13,6 +13,32 @@ public class AlloyFactory {
 
 	public List<String> metals = new ArrayList<String>();
 	
+	public void addMetal(ItemStack stack) {
+		String id = DynamicAlloyPurities.getIDForStack(stack);
+		
+		if (id != null) {
+			metals.add(id);
+		}
+	}
+	
+	public void removeMetal(ItemStack stack) {
+		String id = DynamicAlloyPurities.getIDForStack(stack);
+		
+		if (id != null) {
+			metals.remove(id);
+		}
+	}
+	
+	public boolean containsMetal(ItemStack stack) {
+		String id = DynamicAlloyPurities.getIDForStack(stack);
+		
+		if (id != null) {
+			return metals.contains(id);
+		}
+		
+		return false;
+	}
+	
 	public void addMetal(String id) {
 		this.metals.add(id);
 	}
@@ -57,10 +83,14 @@ public class AlloyFactory {
 		return null;
 	}
 	
-	public ItemStack generateItemStack(int i) {
+	public AlloyStack generateAlloyStack(int i) {
 		AlloyStack alloyS = new AlloyStack(new ItemStack(EDItems.itemAlloy, 1, i));
 		alloyS.setMetals(getMetals());
-		return alloyS.getItem().copy();
+		return alloyS;
+	}
+	
+	public ItemStack generateItemStack(int i) {
+		return generateAlloyStack(i).getItem().copy();
 	}
 	
 }

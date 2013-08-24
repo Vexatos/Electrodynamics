@@ -2,6 +2,7 @@ package electrodynamics.purity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,7 +16,6 @@ public class DynamicAlloyPurities {
 	public static Map<String, AttributeWrapper> idToAttributeMapping = new HashMap<String, AttributeWrapper>();
 	public static Map<String, Integer> idToDurationMapping = new HashMap<String, Integer>();
 	public static Map<ItemStack, String> stackToIDMapping = new HashMap<ItemStack, String>();
-	
 	
 	static {
 		for (MetalType metal : MetalType.values()) {
@@ -39,11 +39,13 @@ public class DynamicAlloyPurities {
 	}
 	
 	public static String getIDForStack(ItemStack stack) {
-		if (stackToIDMapping.containsKey(stack)) {
-			return stackToIDMapping.get(stack);
-		} else {
-			return null;
+		for (Entry<ItemStack, String> entry : stackToIDMapping.entrySet()) {
+			if (stack.isItemEqual(entry.getKey())) {
+				return entry.getValue();
+			}
 		}
+		
+		return "unknown";
 	}
 	
 	public static void assignCooktimeToID(String id, int cooktime) {
