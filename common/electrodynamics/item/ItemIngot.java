@@ -74,7 +74,6 @@ public class ItemIngot extends Item {
 		for (int i=0; i<textures.length; i++) {
 			textures[i] = register.registerIcon(Ingot.get(i).getTextureFile());
 			this.ingotColors[i] = IconUtil.getAverageColor("items/ingot/" + Ingot.get(i).textureFile + ".png");
-			System.out.println(Ingot.get(i) + ": " + this.ingotColors[i]);
 		}
 		
 		// Iron Ingot

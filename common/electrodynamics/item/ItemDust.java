@@ -85,7 +85,6 @@ public class ItemDust extends Item {
 				//We're loading dusts
 				textures[i] = register.registerIcon(Dust.get(i).getTextureFile());
 				this.dustColors[i] = IconUtil.getAverageColor("items/dust/" + Dust.get(i).textureFile + ".png");
-				System.out.println(Dust.get(i) + ": " + this.dustColors[i]);
 			} else {
 				//Otherwise, grindings
 				textures[i] = register.registerIcon(Grinding.get(i - Dust.values().length).getTextureFile());
