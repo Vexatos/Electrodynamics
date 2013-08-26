@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import electrodynamics.core.handler.SoundHandler.Sound;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.network.PacketTypeHandler;
@@ -42,7 +43,7 @@ public class ItemBlockTreetap extends ItemBlock {
 		
 		if (tile != null && tile instanceof TileEntityTreetap) {
 			if (!world.isRemote) {
-				PacketSound sound = new PacketSound("electrodynamics.block.treeTap", x, y, z, PacketSound.TYPE_SOUND);
+				PacketSound sound = new PacketSound(Sound.TREETAP, x, y, z);
 				PacketDispatcher.sendPacketToAllAround(x, y, z, 32D, world.provider.dimensionId, PacketTypeHandler.fillPacket(sound));
 			}
 			((TileEntityTreetap)tile).rotation = ForgeDirection.getOrientation(side);

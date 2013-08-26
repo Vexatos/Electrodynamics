@@ -13,6 +13,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import electrodynamics.core.CreativeTabED;
+import electrodynamics.core.handler.SoundHandler.Sound;
 import electrodynamics.item.EDItems;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.core.ModInfo;
@@ -48,7 +49,7 @@ public class BlockRubberWood extends Block {
 				world.setBlockMetadataWithNotify(x, y, z, side, 2);
 				player.getCurrentEquippedItem().damageItem(1, player);
 				
-				PacketSound packet = new PacketSound("electrodynamics.block.barkCut", x, y, z, PacketSound.TYPE_SOUND);
+				PacketSound packet = new PacketSound(Sound.BARKCUT, x, y, z);
 				PacketDispatcher.sendPacketToAllAround(x, y, z, 32D, world.provider.dimensionId, PacketTypeHandler.fillPacket(packet));
 				return true;
 			}

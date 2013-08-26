@@ -11,6 +11,7 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import electrodynamics.api.tool.ITool;
 import electrodynamics.core.CoreUtils;
+import electrodynamics.core.handler.SoundHandler.Sound;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.client.FXType;
 import electrodynamics.network.PacketTypeHandler;
@@ -101,7 +102,6 @@ public class TileEntityTable extends TileEntityEDRoot {
 			ItemStack tool = player.getCurrentEquippedItem();
 			
 			int ret = getActionType(tool, displayedItem);
-			System.out.println("TYPE: " + ret);
 			
 			switch(ret) {
 				case ActivationActionType.TAKE:
@@ -134,7 +134,7 @@ public class TileEntityTable extends TileEntityEDRoot {
 						if (displayedItem.getItem() instanceof ItemBlock) {
 							PacketFX packet = new PacketFX(FXType.BLOCK_BREAK, xCoord, yCoord, zCoord, new int[] {displayedItem.itemID, displayedItem.getItemDamage()});
 							PacketDispatcher.sendPacketToAllAround(xCoord, yCoord + 2, zCoord, 64D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(packet));
-							PacketSound sound = new PacketSound("electrodynamics.block.oreCrumble", xCoord, yCoord, zCoord, PacketSound.TYPE_SOUND);
+							PacketSound sound = new PacketSound(Sound.ORE_CRUMBLE, xCoord, yCoord, zCoord);
 							PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(sound));
 						}
 						
@@ -217,7 +217,7 @@ public class TileEntityTable extends TileEntityEDRoot {
 					if (displayedItem.getItem() instanceof ItemBlock) {
 						PacketFX packet = new PacketFX(FXType.BLOCK_BREAK, xCoord, yCoord, zCoord, new int[] {displayedItem.itemID, displayedItem.getItemDamage()});
 						PacketDispatcher.sendPacketToAllAround(xCoord, yCoord + 2, zCoord, 64D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(packet));
-						PacketSound sound = new PacketSound("electrodynamics.block.oreCrumble", xCoord, yCoord, zCoord, PacketSound.TYPE_SOUND);
+						PacketSound sound = new PacketSound(Sound.ORE_CRUMBLE, xCoord, yCoord, zCoord);
 						PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(sound));
 					}
 

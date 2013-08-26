@@ -15,6 +15,7 @@ import electrodynamics.addons.AddonManager;
 import electrodynamics.control.KeyBindingHelper;
 import electrodynamics.control.KeybindingHandler;
 import electrodynamics.core.handler.IconHandler;
+import electrodynamics.core.handler.SoundHandler;
 import electrodynamics.lib.client.FXType;
 import electrodynamics.module.ModuleManager;
 
@@ -28,7 +29,7 @@ public class ClientProxy extends CommonProxy {
 		Electrodynamics.instance.showOptifineError = (FMLClientHandler.instance().hasOptifine()) && !(new File(Electrodynamics.instance.configFolder, "optifineErrorShown.flag").exists());
 
 		// Sound handler registration
-//		MinecraftForge.EVENT_BUS.register(new SoundHandler());
+		MinecraftForge.EVENT_BUS.register(new SoundHandler());
 		
 		// Icon handler
 		MinecraftForge.EVENT_BUS.register(IconHandler.getInstance());
@@ -80,7 +81,7 @@ public class ClientProxy extends CommonProxy {
 	
 	@Override
 	public void handleSoundPacket(String sound, double x, double y, double z) {
-//		FMLClientHandler.instance().getClient().theWorld.playSound(x, y, z, sound, 1F, 1F, false);
+		FMLClientHandler.instance().getClient().theWorld.playSound(x, y, z, sound, 1F, 1F, false);
 	}
 	
 	@Override

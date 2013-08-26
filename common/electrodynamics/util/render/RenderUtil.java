@@ -1,5 +1,6 @@
 package electrodynamics.util.render;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -26,6 +27,10 @@ public class RenderUtil {
 	public static final ResourceLocation ITEM_ATLAS = TextureMap.field_110576_c;
 	
 	public static final double OFFSET_CONSTANT = 0.01;
+	
+	public static void renderBlock(Block block) {
+		Minecraft.getMinecraft().renderGlobal.globalRenderBlocks.renderBlockAllFaces(block, 0, 0, 0);
+	}
 	
 	public static void bindTexture(ResourceLocation file) {
 		Minecraft.getMinecraft().func_110434_K().func_110577_a(file);
