@@ -39,10 +39,13 @@ public class BlockStructure extends BlockGeneric implements IAcceptsTool {
 	//TODO Move this somewhere better
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
-		TileEntityStructure tile = (TileEntityStructure) par1World.getBlockTileEntity(par2, par3, par4);
-		if( tile != null ) {
-			if (StructureComponent.values()[tile.getSubBlock()] == StructureComponent.MOB_GRINDER_BLADE && tile.isValidStructure()) {
-				return null;
+		TileEntity tile = par1World.getBlockTileEntity(par2, par3, par4);
+		
+		if (tile != null) {
+			if(tile instanceof TileEntityStructure) {
+				if (StructureComponent.values()[((TileEntityStructure)tile).getSubBlock()] == StructureComponent.MOB_GRINDER_BLADE && ((TileEntityStructure)tile).isValidStructure()) {
+					return null;
+				}
 			}
 		}
 		
@@ -66,27 +69,33 @@ public class BlockStructure extends BlockGeneric implements IAcceptsTool {
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, int neighborID) {
-		TileEntityStructure tile = (TileEntityStructure) world.getBlockTileEntity( x, y, z );
-		if( tile != null ) {
-			tile.onBlockUpdate();
-		}
+		TileEntity tile = world.getBlockTileEntity( x, y, z );
 		
-		Block block = Block.blocksList[neighborID];
-		if( block != null && block instanceof BlockStructure ) {
-			scheduleUpdate( world, x, y, z, false );
+		if (tile != null) {
+			if(tile instanceof TileEntityStructure) {
+				((TileEntityStructure)tile).onBlockUpdate();
+			}
+		} else {
+			Block block = Block.blocksList[neighborID];
+			if( block != null && block instanceof BlockStructure ) {
+				scheduleUpdate( world, x, y, z, false );
+			}
 		}
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float xOff, float yOff, float zOff) {
-		TileEntityStructure tile = (TileEntityStructure) world.getBlockTileEntity( x, y, z );
-		if( tile != null ) {
-			if( player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ITool ) {
-				if( player.getHeldItem().itemID != EDItems.itemSledgeHammer.itemID ) {
-					scheduleUpdate( world, x, y, z, true );
+		TileEntity tile = world.getBlockTileEntity( x, y, z );
+		
+		if (tile != null) {
+			if(tile instanceof TileEntityStructure) {
+				if( player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ITool ) {
+					if( player.getHeldItem().itemID != EDItems.itemSledgeHammer.itemID ) {
+						scheduleUpdate( world, x, y, z, true );
+					}
 				}
+				return ((TileEntityStructure)tile).onBlockActivatedBy( player, side, xOff, yOff, zOff );
 			}
-			return tile.onBlockActivatedBy( player, side, xOff, yOff, zOff );
 		}
 		return false;
 	}
@@ -134,7 +143,16 @@ public class BlockStructure extends BlockGeneric implements IAcceptsTool {
 
 	@Override
 	public int getDamageValue(World world, int x, int y, int z) {
-		return ((TileEntityStructure) world.getBlockTileEntity(x, y, z)).getSubBlock();
+		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		
+		if (tile != null) {
+			if (tile instanceof TileEntityStructure) {
+				return ((TileEntityStructure)tile).getSubBlock();
+			}	
+		}
+		
+		
+		return 0;
 	}
 
 	@Override
