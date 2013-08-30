@@ -11,6 +11,14 @@ import electrodynamics.item.EDItems;
 
 public class AlloyFactory {
 
+	public static AlloyFactory fromInventory(ItemStack[] inv) {
+		AlloyFactory factory = new AlloyFactory();
+		for (ItemStack stack : inv) {
+			factory.addMetal(stack);
+		}
+		return factory;
+	}
+	
 	public List<String> metals = new ArrayList<String>();
 	
 	public void addMetal(ItemStack stack) {

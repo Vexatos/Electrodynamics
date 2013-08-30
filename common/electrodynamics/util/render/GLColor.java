@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 public class GLColor {
 
+	public static final GLColor WHITE = new GLColor(255, 255, 255);
+	
 	public float r;
 	public float g;
 	public float b;

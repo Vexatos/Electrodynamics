@@ -18,6 +18,7 @@ import electrodynamics.item.ItemDust;
 import electrodynamics.item.ItemGlassJar;
 import electrodynamics.network.packet.PacketUpdateDragged;
 import electrodynamics.network.packet.PacketUpdateHeld;
+import electrodynamics.purity.DynamicAlloyPurities;
 import electrodynamics.util.render.GLColor;
 import electrodynamics.util.render.RenderUtil;
 
@@ -35,6 +36,8 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 	public ItemStack jar;
 	
 	private ItemStack[] storedDusts;
+	
+	private boolean mixed = true;
 	
 	public ContainerGlassJar container;
 	
@@ -54,54 +57,61 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 		int l = (this.height - this.ySize) / 2;
 		
 		if (this.storedDusts != null && this.storedDusts.length > 0) {
-			Rectangle[] dimensions = getDustDimensions();
-			
-			for (int index=0; index<this.storedDusts.length; index++) {
-				Rectangle rect = dimensions[index];
+			if (!mixed) {
+				Rectangle[] dimensions = getDustDimensions();
 				
-				GLColor color = null;
-				try {
-					color = ItemDust.dustColors[this.storedDusts[index].getItemDamage()];
-				} catch (Exception ex) {
-					//AIooB Exception
-					color = new GLColor(255, 255, 255);
-				}
+				for (int index=0; index<this.storedDusts.length; index++) {
+					Rectangle rect = dimensions[index];
+					
+					GLColor color = null;
+					try {
+						color = ItemDust.dustColors[this.storedDusts[index].getItemDamage()];
+					} catch (Exception ex) {
+						//AIooB Exception
+						color = new GLColor(255, 255, 255);
+					}
 
-				color.apply();
-				
-				RenderUtil.drawItem(k + rect.x, l + rect.y, IconHandler.getInstance().getIcon("dust.dust"), rect.w, rect.h);
+					color.apply();
+					RenderUtil.drawItem(k + rect.x, l + rect.y, IconHandler.getInstance().getIcon("dust.dust"), rect.w, rect.h);
+					GLColor.WHITE.apply();
+				}
+			} else {
+				Rectangle rect = getMixedDustDimensions();
+				RenderUtil.drawItem(k + rect.x , l + rect.y + GUI_JAR_DIMENSIONS.h - rect.h, IconHandler.getInstance().getIcon("dust.dust"), rect.w, rect.h);
 			}
 		}
 	}
 	
 	@Override
 	public void onClicked(String uuid, MouseState state, ItemStack stack) {
-		if (ItemDust.isDust(stack)) {
-			if (ItemGlassJar.getStoredDusts(this.jar).length < DUST_MAX) {
-				ItemStack toSend = null;
-				
-				if (state == MOUSE_LEFT) {
-					ItemStack newDust = stack.copy();
-					newDust.stackSize = 1;
-					addDust(newDust);
+		if (!mixed) {
+			if (ItemDust.isDust(stack) && !DynamicAlloyPurities.getIDForStack(stack).equals("unknown")) {
+				if (ItemGlassJar.getStoredDusts(this.jar).length < DUST_MAX) {
+					ItemStack toSend = null;
 					
-					if (stack.stackSize > 1) {
-						toSend = stack.copy();
-						--toSend.stackSize;
+					if (state == MOUSE_LEFT) {
+						ItemStack newDust = stack.copy();
+						newDust.stackSize = 1;
+						addDust(newDust);
+						
+						if (stack.stackSize > 1) {
+							toSend = stack.copy();
+							--toSend.stackSize;
+						}
 					}
+					
+					// TODO Still has some sync issues
+					/* Currently has a dupe bug where the server corrects
+					 * the stack decrease, allowing for an extra phantom item
+					 * to be added to the jar */
+					PacketUpdateDragged packet = new PacketUpdateDragged(toSend);
+					PacketDispatcher.sendPacketToServer(packet.makePacket());
+					this.player.inventory.setItemStack(toSend);
 				}
-				
-				// TODO Still has some sync issues
-				/* Currently has a dupe bug where the server corrects
-				 * the stack decrease, allowing for an extra phantom item
-				 * to be added to the jar */
-				PacketUpdateDragged packet = new PacketUpdateDragged(toSend);
-				PacketDispatcher.sendPacketToServer(packet.makePacket());
-				this.player.inventory.setItemStack(toSend);
-				
-				updateJar();
 			}
 		}
+		
+		updateJar();
 	}
 	
 	private void addDust(ItemStack dust) {
@@ -114,10 +124,11 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 	private void updateJar() {
 		this.jar = player.getCurrentEquippedItem();
 		this.storedDusts = ItemGlassJar.getStoredDusts(this.jar);
+		this.mixed = ItemGlassJar.isMixed(jar);
 		this.manager.reset();
 		this.manager.registerModule(new GuiModuleHotspot("dustHotspot", 62, 16, 53, 63).setCallback(this));
 		
-		if (this.storedDusts != null && this.storedDusts.length > 0) {
+		if (!mixed && this.storedDusts != null && this.storedDusts.length > 0) {
 			Rectangle[] dimensions = getDustDimensions();
 			
 			for (int i=0; i<dimensions.length; i++) {
@@ -146,6 +157,13 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 		}
 		
 		return dimensions;
+	}
+	
+	private Rectangle getMixedDustDimensions() {
+		Rectangle rect = GUI_JAR_DIMENSIONS.copy();
+		rect.h = (DUST_HEIGHT * this.storedDusts.length) - 2;
+		rect.w -= 1;
+		return rect;
 	}
 	
 	private static class Rectangle {
