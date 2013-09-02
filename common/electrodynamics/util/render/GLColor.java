@@ -29,6 +29,23 @@ public class GLColor {
 		this(r, g, b, 255);
 	}
 	
+	public GLColor(GLColor ... colors) {
+		int rBucket = 0;
+		int gBucket = 0;
+		int bBucket = 0;
+		
+		for (GLColor color : colors) {
+			rBucket += color.r;
+			gBucket += color.g;
+			bBucket += color.b;
+		}
+		
+		this.r = rBucket / colors.length;
+		this.g = gBucket / colors.length;
+		this.b = bBucket / colors.length;
+		this.a = 255;
+	}
+	
 	public void apply() {
 		GL11.glColor4f(r / 255, g / 255, b / 255, a / 255);
 	}

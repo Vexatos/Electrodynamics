@@ -149,7 +149,7 @@ public class ItemGlassJar extends Item {
 								lastLook = currLook;
 							}
 							
-							if (lastLook.distanceTo(currLook) >= 1.2) {
+							if (!lastLook.equals(currLook)) {
 								stack.setItemDamage(stack.getItemDamage() + 1);
 							}
 							

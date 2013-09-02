@@ -76,6 +76,13 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 					GLColor.WHITE.apply();
 				}
 			} else {
+				GLColor[] colors = new GLColor[this.storedDusts.length];
+				for (int index=0; index<this.storedDusts.length; index++) {
+					colors[index] = ItemDust.dustColors[this.storedDusts[index].getItemDamage()];
+				}
+				GLColor average = new GLColor(colors);
+				average.apply();
+				
 				Rectangle rect = getMixedDustDimensions();
 				RenderUtil.drawItem(k + rect.x , l + rect.y + GUI_JAR_DIMENSIONS.h - rect.h, IconHandler.getInstance().getIcon("dust.dust"), rect.w, rect.h);
 			}
