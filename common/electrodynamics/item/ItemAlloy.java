@@ -1,6 +1,8 @@
 package electrodynamics.item;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -14,10 +16,15 @@ import electrodynamics.core.CreativeTabED;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.purity.AlloyStack;
 import electrodynamics.purity.MetalData;
+import electrodynamics.purity.DynamicAlloyPurities.MetalType;
 import electrodynamics.util.StringUtil;
+import electrodynamics.util.render.GLColor;
+import electrodynamics.util.render.IconUtil;
 
 public class ItemAlloy extends Item {
 
+	public static Map<ItemStack, GLColor> iconColorCache = new HashMap<ItemStack, GLColor>();
+	
 	@SideOnly(Side.CLIENT)
 	public Icon dustIcon;
 	@SideOnly(Side.CLIENT)
@@ -75,9 +82,32 @@ public class ItemAlloy extends Item {
 		} else {
 			AlloyStack alloy = new AlloyStack(stack);
 			if (alloy.getMetals().length > 0) {
-				for (MetalData data: alloy.getMetals()) {
-					//TODO Finish
+				GLColor[] colors = new GLColor[alloy.getMetals().length];
+				
+				for (int i=0; i<alloy.getMetals().length; i++) {
+					MetalData data = alloy.getMetals()[i];
+					MetalType type = MetalType.get(data.metalID);
+					
+					if (type != null) {
+						ItemStack stack1 = stack.getItemDamage() == 0 ? type.getDust() : type.getSolid();
+						
+						if (ItemIngot.isIngot(stack1)) {
+							colors[i] = ItemIngot.getColorForIngot(stack1);
+						} else if (ItemDust.isDust(stack1)) {
+							colors[i] = ItemDust.getColorForDust(stack1);
+						} else {
+							if (!iconColorCache.containsKey(stack1)) {
+								GLColor average = IconUtil.getAverageColor(stack1.getIconIndex().getIconName());
+								colors[i] = average;
+								iconColorCache.put(stack1, average);
+							} else {
+								colors[i] = iconColorCache.get(stack1);
+							}
+						}
+					}
 				}
+				
+				return new GLColor(colors).toInt();
 			}
 			
 			return 0xFFFFF;

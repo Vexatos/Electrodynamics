@@ -50,6 +50,13 @@ public class GLColor {
 		GL11.glColor4f(r / 255, g / 255, b / 255, a / 255);
 	}
 	
+	public int toInt() {
+		return  (((int)a & 0xFF) << 24) | //alpha
+	            (((int)r & 0xFF) << 16) | //red
+	            (((int)g & 0xFF) << 8)  | //green
+	            (((int)b & 0xFF) << 0);   //blue
+	}
+	
 	@Override
 	public String toString() {
 		return ("R: " + r + " G: " + g + " B: " + b + " A: " + a);

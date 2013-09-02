@@ -2,10 +2,10 @@ package electrodynamics.purity;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import electrodynamics.item.ItemDust;
 import electrodynamics.lib.item.Component;
 import electrodynamics.lib.item.Dust;
 import electrodynamics.lib.item.Ingot;
@@ -14,13 +14,10 @@ import electrodynamics.purity.Attribute.AttributeType;
 public class DynamicAlloyPurities {
 
 	public static Map<String, AttributeWrapper> idToAttributeMapping = new HashMap<String, AttributeWrapper>();
-	public static Map<String, Integer> idToDurationMapping = new HashMap<String, Integer>();
-	public static Map<ItemStack, String> stackToIDMapping = new HashMap<ItemStack, String>();
 	
 	static {
 		for (MetalType metal : MetalType.values()) {
 			registerAttributes(metal.toString(), metal.getAttributes());
-			assignIDToStack(metal.toString(), metal.getItemStacks());
 		}
 	}
 	
@@ -32,35 +29,24 @@ public class DynamicAlloyPurities {
 		return idToAttributeMapping.get(stack);
 	}
 	
-	public static void assignIDToStack(String id, ItemStack ... itemStacks) {
-		for (ItemStack stack : itemStacks) {
-			stackToIDMapping.put(stack, id);
-		}
-	}
-	
 	public static String getIDForStack(ItemStack stack) {
-		for (Entry<ItemStack, String> entry : stackToIDMapping.entrySet()) {
-			if (stack.isItemEqual(entry.getKey())) {
-				return entry.getValue();
+		if (ItemDust.isDust(stack)) {
+			for (MetalType type : MetalType.values()) {
+				if (type.getDust() != null && type.getDust().isItemEqual(stack)) {
+					return type.toString();
+				}
+			}
+		} else {
+			for (MetalType type : MetalType.values()) {
+				if (type.getSolid() != null && type.getSolid().isItemEqual(stack)) {
+					return type.toString();
+				}
 			}
 		}
 		
-		return "unknown";
+		return "UNKNOWN";
 	}
-	
-	public static void assignCooktimeToID(String id, int cooktime) {
-		idToDurationMapping.put(id, cooktime);
-	}
-	
-	public static int getDurationForID(String id) {
-		if (idToDurationMapping.containsKey(id)) {
-			return idToDurationMapping.get(id);
-		} else {
-			return 1;
-		}
-	}
-	
-	//TODO Requires major re-write to access dust/ingot colors
+
 	public enum MetalType {
 		ARSENIC {
 			@Override
@@ -72,10 +58,8 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Component.ARSENIC.toItemStack()
-				};
+			public ItemStack getSolid() {
+				return Component.ARSENIC.toItemStack();
 			}
 			
 			@Override
@@ -95,11 +79,13 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.COBALT.toItemStack(),
-					Ingot.COBALT.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.COBALT.toItemStack();
+			}
+			
+			@Override
+			public ItemStack getSolid() {
+				return Ingot.COBALT.toItemStack();
 			}
 			
 			@Override
@@ -117,11 +103,13 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.COPPER.toItemStack(),
-					Ingot.COPPER.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.COPPER.toItemStack();
+			}
+			
+			@Override
+			public ItemStack getSolid() {
+				return Ingot.COPPER.toItemStack();
 			}
 			
 			@Override
@@ -141,11 +129,13 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.GOLD.toItemStack(),
-					new ItemStack(Item.ingotGold)
-				};
+			public ItemStack getDust() {
+				return Dust.GOLD.toItemStack();
+			}
+			
+			@Override
+			public ItemStack getSolid() {
+				return new ItemStack(Item.ingotGold);
 			}
 			
 			@Override
@@ -164,11 +154,13 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.LEAD.toItemStack(),
-					Ingot.LEAD.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.LEAD.toItemStack();
+			}
+			
+			@Override
+			public ItemStack getSolid() {
+				return Ingot.LEAD.toItemStack();
 			}
 			
 			@Override
@@ -188,10 +180,8 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.LITHIUM.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.LITHIUM.toItemStack();
 			}
 			
 			@Override
@@ -209,11 +199,13 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.MAGNETITE.toItemStack(),
-					Component.MAGNETITE_CHUNK.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.MAGNETITE.toItemStack();
+			}
+			
+			@Override
+			public ItemStack getSolid() {
+				return Component.MAGNETITE_CHUNK.toItemStack();
 			}
 			
 			@Override
@@ -233,11 +225,13 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.NICKEL.toItemStack(),
-					Ingot.NICKEL.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.NICKEL.toItemStack();
+			}
+			
+			@Override
+			public ItemStack getSolid() {
+				return Ingot.NICKEL.toItemStack();
 			}
 			
 			@Override
@@ -254,10 +248,8 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.SULFUR.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.SULFUR.toItemStack();
 			}
 			
 			@Override
@@ -275,11 +267,13 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.TELLURIUM.toItemStack(),
-					Ingot.TELLURIUM.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.TELLURIUM.toItemStack();
+			}
+			
+			@Override
+			public ItemStack getSolid() {
+				return Ingot.TELLURIUM.toItemStack();
 			}
 			
 			@Override
@@ -297,11 +291,13 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.TUNGSTEN.toItemStack(),
-					Ingot.TUNGSTEN.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.TUNGSTEN.toItemStack();
+			}
+			
+			@Override
+			public ItemStack getSolid() {
+				return Ingot.TUNGSTEN.toItemStack();
 			}
 			
 			@Override
@@ -323,11 +319,13 @@ public class DynamicAlloyPurities {
 			}
 			
 			@Override
-			public ItemStack[] getItemStacks() {
-				return new ItemStack[] {
-					Dust.VOIDSTONE.toItemStack(),
-					Component.VOIDSTONE_MAGNET.toItemStack()
-				};
+			public ItemStack getDust() {
+				return Dust.VOIDSTONE.toItemStack();
+			}
+			
+			@Override
+			public ItemStack getSolid() {
+				return Component.VOIDSTONE_MAGNET.toItemStack();
 			}
 			
 			@Override
@@ -338,9 +336,22 @@ public class DynamicAlloyPurities {
 		
 		public Attribute[] getAttributes() { return new Attribute[] {};}
 		
-		public ItemStack[] getItemStacks() { return new ItemStack[] {}; }
+		public ItemStack getDust() { return null; };
+
+		public ItemStack getSolid() { return null; };
 		
 		public int getSmeltingDuration() { return 0; }
+		
+		public static MetalType get(String id) {
+			for (MetalType type : MetalType.values()) {
+				if (type.toString().equalsIgnoreCase(id)) {
+					return type;
+				}
+			}
+			
+			return null;
+		}
+		
 	}
 	
 }

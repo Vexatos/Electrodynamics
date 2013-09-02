@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import electrodynamics.client.gui.module.GuiModule;
 import electrodynamics.client.gui.module.GuiModule.MouseState;
@@ -95,6 +96,12 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 	@Override
 	public void onClicked(String uuid, MouseState state, ItemStack stack) {
 		if (!mixed) {
+			if (FMLClientHandler.instance().getClient().thePlayer.capabilities.isCreativeMode) {
+				if (state == MouseState.MOUSE_RIGHT) {
+					ItemGlassJar.setMixed(this.jar, true);
+				}
+			}
+			
 			if (ItemDust.isDust(stack) && !DynamicAlloyPurities.getIDForStack(stack).equals("unknown")) {
 				if (ItemGlassJar.getStoredDusts(this.jar).length < DUST_MAX) {
 					ItemStack toSend = null;
