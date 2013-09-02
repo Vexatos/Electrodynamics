@@ -60,6 +60,7 @@ public class DynamicAlloyPurities {
 		}
 	}
 	
+	//TODO Requires major re-write to access dust/ingot colors
 	public enum MetalType {
 		ARSENIC {
 			@Override

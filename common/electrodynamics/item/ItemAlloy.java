@@ -61,6 +61,29 @@ public class ItemAlloy extends Item {
 
     }
     
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses() {
+    	return true;
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack stack, int renderPass) {
+		if (renderPass == 1) {
+			return 0xFFFFFF; // White
+		} else {
+			AlloyStack alloy = new AlloyStack(stack);
+			if (alloy.getMetals().length > 0) {
+				for (MetalData data: alloy.getMetals()) {
+					//TODO Finish
+				}
+			}
+			
+			return 0xFFFFF;
+		}
+    }
+    
     public static float[] getRGBFromInt(int color) {
     	float[] colors = new float[3];
     	colors[0] = (color >> 16 & 255) / 255.0F;

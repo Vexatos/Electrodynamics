@@ -18,7 +18,10 @@ import electrodynamics.item.ItemDust;
 import electrodynamics.item.ItemGlassJar;
 import electrodynamics.network.packet.PacketUpdateDragged;
 import electrodynamics.network.packet.PacketUpdateHeld;
+import electrodynamics.purity.AlloyFactory;
 import electrodynamics.purity.DynamicAlloyPurities;
+import electrodynamics.purity.MetalData;
+import electrodynamics.util.StringUtil;
 import electrodynamics.util.render.GLColor;
 import electrodynamics.util.render.RenderUtil;
 
@@ -135,16 +138,34 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 		this.manager.reset();
 		this.manager.registerModule(new GuiModuleHotspot("dustHotspot", 62, 16, 53, 63).setCallback(this));
 		
-		if (!mixed && this.storedDusts != null && this.storedDusts.length > 0) {
-			Rectangle[] dimensions = getDustDimensions();
-			
-			for (int i=0; i<dimensions.length; i++) {
-				final String dustName = this.storedDusts[i].getDisplayName();
-				Rectangle rectangle = dimensions[i];
-				GuiModule module = new GuiModule("dust"+i, rectangle.x, rectangle.y, rectangle.w, rectangle.h) {
+		if (this.storedDusts != null && this.storedDusts.length > 0) {
+			if (!mixed) {
+				Rectangle[] dimensions = getDustDimensions();
+				
+				for (int i=0; i<dimensions.length; i++) {
+					final String dustName = this.storedDusts[i].getDisplayName();
+					Rectangle rectangle = dimensions[i];
+					GuiModule module = new GuiModule("dust"+i, rectangle.x, rectangle.y, rectangle.w, rectangle.h) {
+						@Override
+						public String[] getTooltip() {
+							return new String[] {dustName};
+						}
+					};
+					this.manager.registerModule(module);
+				}
+			} else {
+				Rectangle dim = getMixedDustDimensions();
+				GuiModule module = new GuiModule("mixed", dim.x, dim.y + GUI_JAR_DIMENSIONS.h - dim.h, dim.w, dim.h) {
 					@Override
 					public String[] getTooltip() {
-						return new String[] {dustName};
+						AlloyFactory factory = AlloyFactory.fromInventory(storedDusts);
+						MetalData[] data = factory.getMetals();
+						String[] tooltip = new String[data.length + 1];
+						tooltip[0] = "Mixed Dust";
+						for (int i=0; i<data.length; i++) {
+							tooltip[i+1] = StringUtil.toTitleCase(data[i].metalID) + ": " + ((float) (Math.round(data[i].ratio * 10000.0) / 100.0)) + "%";
+						}
+						return tooltip;
 					}
 				};
 				this.manager.registerModule(module);
