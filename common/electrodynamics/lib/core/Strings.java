@@ -33,6 +33,8 @@ public class Strings {
 	public static final String ITEM_REDSTONE_EMITTER = "tool.redstone_emitter";
 	public static final String ITEM_SEED_WORMSEED = "seed.wormseed";
 	public static final String ITEM_GLASS_JAR = "glass_jar";
+	public static final String ITEM_ALLOY_DUST = "alloy.dust";
+	public static final String ITEM_ALLOY_INGOT = "alloy.ingot";
 	
 	/* Internal block names */
 	public static final String BLOCK_ORE = "ore";

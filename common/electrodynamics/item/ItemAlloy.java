@@ -13,7 +13,9 @@ import net.minecraft.util.Icon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.core.CreativeTabED;
+import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.core.ModInfo;
+import electrodynamics.lib.core.Strings;
 import electrodynamics.purity.AlloyStack;
 import electrodynamics.purity.MetalData;
 import electrodynamics.purity.DynamicAlloyPurities.MetalType;
@@ -77,49 +79,42 @@ public class ItemAlloy extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack stack, int renderPass) {
-		if (renderPass == 1) {
-			return 0xFFFFFF; // White
-		} else {
-			AlloyStack alloy = new AlloyStack(stack);
-			if (alloy.getMetals().length > 0) {
-				GLColor[] colors = new GLColor[alloy.getMetals().length];
+    	AlloyStack alloy = new AlloyStack(stack);
+		if (alloy.getMetals().length > 0) {
+			GLColor[] colors = new GLColor[alloy.getMetals().length];
+			
+			for (int i=0; i<alloy.getMetals().length; i++) {
+				MetalData data = alloy.getMetals()[i];
+				MetalType type = MetalType.get(data.metalID);
 				
-				for (int i=0; i<alloy.getMetals().length; i++) {
-					MetalData data = alloy.getMetals()[i];
-					MetalType type = MetalType.get(data.metalID);
+				if (type != null) {
+					ItemStack stack1 = stack.getItemDamage() == 0 ? type.getDust() : type.getSolid();
 					
-					if (type != null) {
-						ItemStack stack1 = stack.getItemDamage() == 0 ? type.getDust() : type.getSolid();
-						
-						if (ItemIngot.isIngot(stack1)) {
-							colors[i] = ItemIngot.getColorForIngot(stack1);
-						} else if (ItemDust.isDust(stack1)) {
-							colors[i] = ItemDust.getColorForDust(stack1);
+					if (ItemIngot.isIngot(stack1)) {
+						colors[i] = ItemIngot.getColorForIngot(stack1);
+					} else if (ItemDust.isDust(stack1)) {
+						colors[i] = ItemDust.getColorForDust(stack1);
+					} else {
+						if (!iconColorCache.containsKey(stack1)) {
+							GLColor average = IconUtil.getAverageColor(stack1.getIconIndex().getIconName());
+							colors[i] = average;
+							iconColorCache.put(stack1, average);
 						} else {
-							if (!iconColorCache.containsKey(stack1)) {
-								GLColor average = IconUtil.getAverageColor(stack1.getIconIndex().getIconName());
-								colors[i] = average;
-								iconColorCache.put(stack1, average);
-							} else {
-								colors[i] = iconColorCache.get(stack1);
-							}
+							colors[i] = iconColorCache.get(stack1);
 						}
 					}
 				}
-				
-				return new GLColor(colors).toInt();
 			}
 			
-			return 0xFFFFF;
+			return new GLColor(colors).toInt();
 		}
+		
+		return 0xFFFFF;
     }
     
-    public static float[] getRGBFromInt(int color) {
-    	float[] colors = new float[3];
-    	colors[0] = (color >> 16 & 255) / 255.0F;
-        colors[1] = (color >> 8 & 255) / 255.0F;
-        colors[2] = (color & 255) / 255.0F;
-        return colors;
+    @Override
+	public String getUnlocalizedName(ItemStack stack) {
+    	return EDLanguage.getFormattedItemName(stack.getItemDamage() == 0 ? Strings.ITEM_ALLOY_DUST : Strings.ITEM_ALLOY_INGOT);
     }
     
 }

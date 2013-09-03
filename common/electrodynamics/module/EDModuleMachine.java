@@ -137,6 +137,9 @@ public class EDModuleMachine extends EDModule {
 		
 		EDItems.itemAlloy = new ItemAlloy(ItemIDs.ITEM_ALLOY_ID).setUnlocalizedName(Strings.ITEM_ALLOY);
 		GameRegistry.registerItem(EDItems.itemAlloy, Strings.ITEM_ALLOY);
+		for (int i=0; i<2; i++) {
+			EDLanguage.getInstance().registerItemStack(new ItemStack(EDItems.itemAlloy, 1, i), i == 0 ? Strings.ITEM_ALLOY_DUST : Strings.ITEM_ALLOY_INGOT);
+		}
 		
 		EDItems.itemGlassJar = new ItemGlassJar(ItemIDs.ITEM_GLASS_JAR).setUnlocalizedName(Strings.ITEM_GLASS_JAR);
 		GameRegistry.registerItem(EDItems.itemGlassJar, Strings.ITEM_GLASS_JAR);
