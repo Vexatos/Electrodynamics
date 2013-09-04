@@ -35,9 +35,11 @@ public class GLColor {
 		int bBucket = 0;
 		
 		for (GLColor color : colors) {
-			rBucket += color.r;
-			gBucket += color.g;
-			bBucket += color.b;
+			if (color != null) {
+				rBucket += color.r;
+				gBucket += color.g;
+				bBucket += color.b;
+			}
 		}
 		
 		this.r = rBucket / colors.length;
