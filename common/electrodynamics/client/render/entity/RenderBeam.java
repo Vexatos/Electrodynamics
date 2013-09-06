@@ -35,8 +35,7 @@ public class RenderBeam extends Render {
 	}
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
-		// I have no idea what this is for...
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return null;
 	}
 

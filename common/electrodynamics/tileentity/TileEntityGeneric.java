@@ -47,7 +47,7 @@ public abstract class TileEntityGeneric extends TileEntity {
 
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
-		readFromNBT( pkt.customParam1 );
+		readFromNBT( pkt.data );
 		worldObj.markBlockForUpdate( xCoord, yCoord, zCoord ); // re-render.
 	}
 
@@ -66,8 +66,8 @@ public abstract class TileEntityGeneric extends TileEntity {
 		public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
 			// Get the right tile entity that will replace this one.
 			BlockGeneric block = (BlockGeneric) this.getBlockType();
-			int subBlock = pkt.customParam1.getInteger( "subBlock" );
-			TileEntity tile = block.createSpecificTileEntity( this.worldObj, xCoord, yCoord, zCoord, pkt.customParam1, subBlock );
+			int subBlock = pkt.data.getInteger( "subBlock" );
+			TileEntity tile = block.createSpecificTileEntity( this.worldObj, xCoord, yCoord, zCoord, pkt.data, subBlock );
 			if( tile == null )
 				return;
 

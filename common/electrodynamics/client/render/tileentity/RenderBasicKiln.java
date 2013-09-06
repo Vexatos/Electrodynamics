@@ -56,7 +56,7 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 
 		TileEntityBasicKiln kiln = (TileEntityBasicKiln) tile;
 
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(Textures.BASIC_KILN.resource);
+		Textures.BASIC_KILN.bind();
 		modelKiln.rotateDoor( kiln.doorAngle );
 		modelKiln.render( 0.0625F );
 
@@ -110,7 +110,7 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 //		GL11.glRotatef( 0.0f, 0, 1, 0 );
 //		GL11.glScaled( 1.0f, 1.0f, 1.0f );
 
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(Textures.KILN_TRAY.resource);
+		Textures.KILN_TRAY.bind();
 		modelTray.renderAll( 0.0625F );
 
 		GL11.glRotatef( 270, 0, 1, 0 );

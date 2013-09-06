@@ -80,7 +80,7 @@ public class EDLanguage {
 	}
 	
 	public String translate(String tag) {
-		return translate(tag, Minecraft.getMinecraft().func_135016_M().func_135041_c().func_135034_a());
+		return translate(tag, Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode());
 	}
 	
 	public String translate(String tag, String lang) {

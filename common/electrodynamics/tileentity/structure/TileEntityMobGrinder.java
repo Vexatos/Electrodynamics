@@ -57,7 +57,7 @@ public class TileEntityMobGrinder extends TileEntityStructure implements IFluidH
 			for (Entity entity : entities) {
 				if (entity instanceof EntityLiving) {
 					collectDropsFromEntity((EntityLiving) entity);
-					entity.attackEntityFrom(new DamageSourceBlock(), ((EntityLivingBase)entity).func_110143_aJ());
+					entity.attackEntityFrom(new DamageSourceBlock(), ((EntityLivingBase)entity).getMaxHealth());
 				} else if (entity instanceof EntityItem) {
 					ItemStack stack = ((EntityItem)entity).getEntityItem();
 					boolean flag = false;
@@ -84,7 +84,7 @@ public class TileEntityMobGrinder extends TileEntityStructure implements IFluidH
 	}
 	
 	private void collectDropsFromEntity(EntityLivingBase entity) {
-		if (entity.func_110143_aJ() > 0) {
+		if (entity.getHealth() > 0) {
 			if (!(entity instanceof EntityPlayer)) {
 				EntityReflectionWrapper erw = new EntityReflectionWrapper(entity);
 				int count = new Random().nextInt(3);

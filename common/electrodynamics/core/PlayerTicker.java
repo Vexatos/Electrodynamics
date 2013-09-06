@@ -73,7 +73,7 @@ public class PlayerTicker implements ITickHandler {
 			data.rotationYaw = player.rotationYaw;
 			data.rotationHeadYaw = player.rotationYawHead;
 			data.fallDistance = player.fallDistance;
-			data.health = player.func_110143_aJ();
+			data.health = player.getHealth();;
 			data.foodLevel = player.getFoodStats().getFoodLevel();
 			data.onFire = player.isBurning();
 			return data;
@@ -87,7 +87,7 @@ public class PlayerTicker implements ITickHandler {
 			player.getFoodStats().setFoodSaturationLevel(data.foodSat);
 			player.rotationYawHead = data.rotationHeadYaw;
 			player.fallDistance = data.fallDistance;
-			player.setEntityHealth(data.health);
+			player.setHealth(data.health);
 			player.getFoodStats().setFoodLevel(data.foodLevel);
 			player.setFire(data.onFire ? 10 : 0); // Ugly, do reflection here to get player's fire var
 		}

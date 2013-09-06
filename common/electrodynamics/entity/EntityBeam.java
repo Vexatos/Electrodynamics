@@ -220,8 +220,9 @@ public class EntityBeam extends Entity {
 		if ((this.pulse) && (this.particleMaxAge - this.particleAge <= 4)) {
 			op = 0.4F - (4 - (this.particleMaxAge - this.particleAge)) * 0.1F;
 		}
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(Textures.BEAM.resource);
 
+		Textures.BEAM.bind();
+		
 		GL11.glTexParameterf(3553, 10242, 10497.0F);
 		GL11.glTexParameterf(3553, 10243, 10497.0F);
 
@@ -279,7 +280,7 @@ public class EntityBeam extends Entity {
 
 		GL11.glPopMatrix();
 
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(new ResourceLocation("/particles.png"));
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("/particles.png"));
 		tessellator.startDrawingQuads();
 		this.prevSize = size;
 	}

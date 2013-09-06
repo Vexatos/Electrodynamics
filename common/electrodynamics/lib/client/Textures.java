@@ -54,7 +54,7 @@ public enum Textures {
 	
 	@SideOnly(Side.CLIENT)
 	public void bind() {
-		Minecraft.getMinecraft().renderEngine.func_110577_a(this.resource);
+		Minecraft.getMinecraft().renderEngine.bindTexture(this.resource);
 	}
 	
 }

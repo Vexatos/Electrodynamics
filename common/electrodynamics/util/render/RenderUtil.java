@@ -23,8 +23,8 @@ import electrodynamics.api.render.ICustomRender;
 
 public class RenderUtil {
 
-	public static final ResourceLocation BLOCK_ATLAS = TextureMap.field_110575_b;
-	public static final ResourceLocation ITEM_ATLAS = TextureMap.field_110576_c;
+	public static final ResourceLocation BLOCK_ATLAS = TextureMap.locationBlocksTexture;
+	public static final ResourceLocation ITEM_ATLAS = TextureMap.locationItemsTexture;
 	
 	public static final double OFFSET_CONSTANT = 0.01;
 	
@@ -33,7 +33,7 @@ public class RenderUtil {
 	}
 	
 	public static void bindTexture(ResourceLocation file) {
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(file);
+		Minecraft.getMinecraft().renderEngine.bindTexture(file);
 	}
 	
 	public static void renderEntityItem(World world, ItemStack stack, boolean forceFancy) {
@@ -252,11 +252,11 @@ public class RenderUtil {
     }
 	
 	public static void bindBlockAtlas() {
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(BLOCK_ATLAS);
+		bindTexture(BLOCK_ATLAS);
 	}
 	
 	public static void bindItemAtlas() {
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(ITEM_ATLAS);
+		bindTexture(ITEM_ATLAS);
 	}
 	
 }

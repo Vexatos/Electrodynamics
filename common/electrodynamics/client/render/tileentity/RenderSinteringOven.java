@@ -67,8 +67,8 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 			}
 		}
 
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(Textures.SINTERING_OVEN.resource);
-
+		Textures.SINTERING_FURNACE.bind();
+		
 		modelSinteringOven.rotateDoor(((TileEntitySinteringOven)tile).doorAngle);
 		modelSinteringOven.renderAll(0.0625F);
 
@@ -84,7 +84,7 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 		GL11.glTranslated(0, -0.5, 0);
 		GL11.glRotatef(90, 0, 1, 0);
 		
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(Textures.METAL_TRAY.resource);
+		Textures.METAL_TRAY.bind();
 		modelMetalTray.render(0.0625F);
 
 		if (inv != null && inv.length > 0) {
@@ -142,16 +142,16 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 		GL11.glRotatef(90, 0, 1, 0);
 		GL11.glTranslated(-.218, 0, -.09);
 		
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(Textures.INGOT.resource);
+		Textures.INGOT.bind();
 		this.modelIngot.render(0.0625F);
 	}
 	
 	public void renderChicken(World world, ItemStack stack) {
 		if (chickenEasterEgg) {
 			if (stack.getItem() == Item.chickenRaw) {
-				Minecraft.getMinecraft().func_110434_K().func_110577_a(Textures.CHICKEN_RAW.resource);
+				Textures.CHICKEN_RAW.bind();
 			} else if (stack.getItem() == Item.chickenCooked) {
-				Minecraft.getMinecraft().func_110434_K().func_110577_a(Textures.CHICKEN_COOKED.resource);
+				Textures.CHICKEN_COOKED.bind();
 			}
 			
 			this.modelChicken.render(0.0625F);

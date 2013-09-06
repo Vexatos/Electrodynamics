@@ -28,7 +28,7 @@ import electrodynamics.util.render.RenderUtil;
 
 public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback {
 
-	public static final ResourceLocation ITEM_ATLAS = TextureMap.field_110576_c;
+	public static final ResourceLocation ITEM_ATLAS = TextureMap.locationItemsTexture;
 	
 	public static final Rectangle GUI_JAR_DIMENSIONS = new Rectangle(62, 16, 53, 63);
 

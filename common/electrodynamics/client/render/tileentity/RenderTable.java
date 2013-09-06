@@ -21,7 +21,7 @@ public class RenderTable extends TileEntitySpecialRenderer {
 
 	private ModelTable[] tables = new ModelTable[2];
 	
-	private ResourceLocation[] textures = new ResourceLocation[] {Textures.TABLE_WOOD.resource, Textures.TABLE_STONE.resource};
+	private Textures[] textures = new Textures[] {Textures.TABLE_WOOD, Textures.TABLE_STONE};
 
 	public RenderTable() {
 		tables[0] = new ModelTableWood();
@@ -74,7 +74,7 @@ public class RenderTable extends TileEntitySpecialRenderer {
 		
 		byte type = (byte)tile.worldObj.getBlockMetadata(tile.xCoord, tile.yCoord, tile.zCoord);
 
-		Minecraft.getMinecraft().func_110434_K().func_110577_a(textures[type]);
+		this.textures[type].bind();
 		tables[type].render(0.0625F);
 		
 		renderTableContentsAt((TileEntityTable)tile);

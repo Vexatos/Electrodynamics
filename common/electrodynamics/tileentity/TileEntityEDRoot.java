@@ -79,10 +79,10 @@ public abstract class TileEntityEDRoot extends TileEntity {
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
 		if(pkt.actionType == Packet132TileEntityDataType.LOAD) 
-			onDescriptionPacket(pkt.customParam1);
+			onDescriptionPacket(pkt.data);
 		else
 		if(pkt.actionType == Packet132TileEntityDataType.UPDATE) 
-			onUpdatePacket(pkt.customParam1);
+			onUpdatePacket(pkt.data);
 		
 		worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
     }

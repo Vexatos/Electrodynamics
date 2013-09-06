@@ -16,7 +16,7 @@ public class RenderItemTable implements IItemRenderer {
 
 	private ModelTable[] tables = new ModelTable[2];
 	
-	private ResourceLocation[] textures = new ResourceLocation[] {Textures.TABLE_WOOD.resource, Textures.TABLE_STONE.resource};
+	private Textures[] textures = new Textures[] {Textures.TABLE_WOOD, Textures.TABLE_STONE};
 
 	public RenderItemTable() {
 		tables[0] = new ModelTableWood();
@@ -61,7 +61,7 @@ public class RenderItemTable implements IItemRenderer {
 	}
 
 	private void renderTable(byte type, float x, float y, float z) {
-		FMLClientHandler.instance().getClient().func_110434_K().func_110577_a(textures[type]);
+		this.textures[type].bind();
 		GL11.glPushMatrix();
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(180, 1, 0, 0);

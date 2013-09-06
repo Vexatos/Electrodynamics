@@ -111,7 +111,7 @@ public class RenderItemMachine implements IItemRenderer {
 	}
 
 	private void renderFurnace(float x, float y, float z) {
-		FMLClientHandler.instance().getClient().func_110434_K().func_110577_a(Textures.SINTERING_OVEN.resource);
+		Textures.SINTERING_FURNACE.bind();
 		GL11.glPushMatrix();
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(180, 1, 0, 0);
@@ -121,7 +121,7 @@ public class RenderItemMachine implements IItemRenderer {
 	}
 	
 	private void renderSieve(float x, float y, float z) {
-		FMLClientHandler.instance().getClient().func_110434_K().func_110577_a(Textures.BASIC_SIEVE.resource);
+		Textures.BASIC_SIEVE.bind();
 		GL11.glPushMatrix();
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(180, 1, 0, 0);
@@ -131,7 +131,7 @@ public class RenderItemMachine implements IItemRenderer {
 	}
 
 	private void renderKiln(float x, float y, float z) {
-		FMLClientHandler.instance().getClient().func_110434_K().func_110577_a(Textures.BASIC_KILN.resource);
+		Textures.BASIC_KILN.bind();
 		GL11.glPushMatrix();
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(180, 1, 0, 0);
