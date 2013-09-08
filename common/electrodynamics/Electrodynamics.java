@@ -44,34 +44,34 @@ public class Electrodynamics implements IEDApi {
 
 	public static Material gas = new Material(MapColor.airColor);
 	
-//	@EventHandler
-//	public void preInit(FMLPreInitializationEvent event) {
-//		Electrodynamics.instance.configFolder = new File(event.getModConfigurationDirectory(), ModInfo.GENERIC_MOD_ID);
-//		ConfigurationHandler.handleClass(BlockIDs.class);
-//		ConfigurationHandler.handleClass(ItemIDs.class);
-//		ConfigurationHandler.handleClass(ConfigurationSettings.class);
-//		
-//		try {
-//			Field deobfBool;
-//			deobfBool = CoreModManager.class.getDeclaredField("deobfuscatedEnvironment");
-//			deobfBool.setAccessible(true);
-//			obfuscated = !deobfBool.getBoolean(Boolean.class);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		proxy.preInit(event);
-//	}
-//
-//	@EventHandler
-//	public void init(FMLInitializationEvent event) {
-//		proxy.init(event);
-//	}
-//
-//	@EventHandler
-//	public void postInit(FMLPostInitializationEvent event) {
-//		proxy.postInit(event);
-//	}
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
+		Electrodynamics.instance.configFolder = new File(event.getModConfigurationDirectory(), ModInfo.GENERIC_MOD_ID);
+		ConfigurationHandler.handleClass(BlockIDs.class);
+		ConfigurationHandler.handleClass(ItemIDs.class);
+		ConfigurationHandler.handleClass(ConfigurationSettings.class);
+		
+		try {
+			Field deobfBool;
+			deobfBool = CoreModManager.class.getDeclaredField("deobfuscatedEnvironment");
+			deobfBool.setAccessible(true);
+			obfuscated = !deobfBool.getBoolean(Boolean.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		proxy.preInit(event);
+	}
+
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		proxy.init(event);
+	}
+
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+		proxy.postInit(event);
+	}
 
 	@Override
 	public ICraftingManager getCraftingManager() {
