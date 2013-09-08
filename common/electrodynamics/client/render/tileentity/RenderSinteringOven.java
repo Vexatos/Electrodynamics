@@ -67,7 +67,7 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 			}
 		}
 
-		Textures.SINTERING_FURNACE.bind();
+		Textures.SINTERING_OVEN.bind();
 		
 		modelSinteringOven.rotateDoor(((TileEntitySinteringOven)tile).doorAngle);
 		modelSinteringOven.renderAll(0.0625F);

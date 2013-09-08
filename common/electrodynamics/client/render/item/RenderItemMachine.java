@@ -38,22 +38,22 @@ public class RenderItemMachine implements IItemRenderer {
 		if (item.getItemDamage() == 0) {
 			switch(type) {
 				case ENTITY: {
-					renderFurnace(0F, 1F, 0F);
+					renderOven(0F, 1F, 0F);
 					break;
 				}
 
 				case EQUIPPED: {
-					renderFurnace(1.0F, 1.0F, 1.0F);
+					renderOven(1.0F, 1.0F, 1.0F);
 					break;
 				}
 
 				case EQUIPPED_FIRST_PERSON: {
-					renderFurnace(1.0F, 2.0F, 1.0F);
+					renderOven(1.0F, 2.0F, 1.0F);
 					break;
 				}
 				
 				case INVENTORY: {
-					renderFurnace(0F, 1F, 0F);
+					renderOven(0F, 1F, 0F);
 					break;
 				}
 				
@@ -110,8 +110,8 @@ public class RenderItemMachine implements IItemRenderer {
 		}
 	}
 
-	private void renderFurnace(float x, float y, float z) {
-		Textures.SINTERING_FURNACE.bind();
+	private void renderOven(float x, float y, float z) {
+		Textures.SINTERING_OVEN.bind();
 		GL11.glPushMatrix();
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(180, 1, 0, 0);

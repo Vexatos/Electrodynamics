@@ -280,7 +280,7 @@ public class EntityBeam extends Entity {
 
 		GL11.glPopMatrix();
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("/particles.png"));
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("/textures/particle/particles.png"));
 		tessellator.startDrawingQuads();
 		this.prevSize = size;
 	}
