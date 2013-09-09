@@ -36,6 +36,7 @@ import electrodynamics.recipe.manager.RecipeManagerKiln;
 import electrodynamics.recipe.manager.RecipeManagerSieve;
 import electrodynamics.recipe.manager.RecipeManagerSinteringOven;
 import electrodynamics.recipe.manager.RecipeManagerTable;
+import electrodynamics.recipe.vanilla.IRecipeAlloyPickaxe;
 import electrodynamics.tileentity.machine.TileEntityBasicKiln;
 import electrodynamics.tileentity.machine.TileEntityBasicSieve;
 import electrodynamics.tileentity.machine.TileEntitySinteringOven;
@@ -144,6 +145,9 @@ public class EDModuleMachine extends EDModule {
 		EDItems.itemGlassJar = new ItemGlassJar(ItemIDs.ITEM_GLASS_JAR).setUnlocalizedName(Strings.ITEM_GLASS_JAR);
 		GameRegistry.registerItem(EDItems.itemGlassJar, Strings.ITEM_GLASS_JAR);
 		EDLanguage.getInstance().registerItem(EDItems.itemGlassJar);
+		
+		EDItems.itemAlloyPickaxe = new ItemAlloyPickaxe(6000); //TEMP
+		GameRegistry.registerItem(EDItems.itemAlloyPickaxe, "pick");
 	}
 
 	@Override
@@ -177,6 +181,8 @@ public class EDModuleMachine extends EDModule {
 		GameRegistry.addRecipe(Component.OVEN_WALL.toItemStack(), " IL", " IL", " IL", 'I', Item.ingotIron, 'L', Decorative.LIMESTONE.toItemStack());
 		// Sintering Oven
 		GameRegistry.addRecipe(Machine.SINTERING_FURNACE.toItemStack(), "WWW", "WBW", "III", 'W', Component.OVEN_WALL.toItemStack(), 'B', Block.fenceIron, 'I', Item.ingotIron);
+		
+		GameRegistry.addRecipe(new IRecipeAlloyPickaxe());
 		
 		FurnaceRecipes.smelting().addSmelting(ItemIDs.ITEM_COMPONENT_ID + 256, Component.LITHIUM_CLAY_WET.ordinal(), Component.LITHIUM_CLAY.toItemStack(), 0F);
 

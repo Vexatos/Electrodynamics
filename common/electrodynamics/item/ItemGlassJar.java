@@ -17,6 +17,8 @@ import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.handler.GuiHandler;
 import electrodynamics.core.handler.GuiHandler.GuiType;
 import electrodynamics.purity.AlloyFactory;
+import electrodynamics.purity.MetalData;
+import electrodynamics.util.ItemUtil;
 
 public class ItemGlassJar extends Item {
 
@@ -132,6 +134,14 @@ public class ItemGlassJar extends Item {
 		}
 	}
 	
+	public static boolean isAlloy(ItemStack jar) {
+		if (!hasDusts(jar)) {
+			return false;
+		}
+		
+		return !ItemUtil.areAllEqual(getStoredDusts(jar), true);
+	}
+	
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int int1, boolean bool1) {
 		if (!world.isRemote) {
@@ -139,7 +149,7 @@ public class ItemGlassJar extends Item {
 				EntityPlayer player = (EntityPlayer)entity;
 				String ID = "look" + player.getEntityName();
 				
-				if (hasDusts(stack)) {
+				if (isAlloy(stack)) {
 					if (!isMixed(stack)) {
 						if (stack.getItemDamage() < SHAKE_PROGRESS_MAX) {
 							Vec3 currLook = player.getLookVec();

@@ -30,6 +30,8 @@ public class EDItems {
 	public static Item itemTeslaBoots;
 	public static Item itemTeslaModule;
 
+	public static Item itemAlloyPickaxe;
+	
 	public static Item itemWormSeed;
 	
 }

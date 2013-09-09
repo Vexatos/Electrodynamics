@@ -352,6 +352,10 @@ public class DynamicAlloyPurities {
 			return null;
 		}
 		
+		public static MetalType get(MetalData data) {
+			return get(data.metalID);
+		}
+		
 	}
 	
 }

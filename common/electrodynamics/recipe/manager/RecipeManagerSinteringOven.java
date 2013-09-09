@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import electrodynamics.recipe.RecipeSinteringOven;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import electrodynamics.item.ItemAlloy;
+import electrodynamics.recipe.RecipeSinteringOven;
 
 public class RecipeManagerSinteringOven {
 
@@ -36,11 +36,19 @@ public class RecipeManagerSinteringOven {
 			List<ItemStack> realInput = new ArrayList<ItemStack>(), output = new ArrayList<ItemStack>();
 			for( ItemStack item : input ) {
 				recipe = getFurnaceRecipe( item );
-				if( recipe != null ) {
+				if( recipe != null ) { // VANILLA
 					realInput.add( item );
 					output.addAll( recipe.itemOutputs );
 					experience += recipe.getExperience();
 					processingTime = processingTime == 0 ? DEFAULT_PROCESSING_TIME : (int) Math.ceil( processingTime * DEFAULT_PROCESSING_RATE );
+				} else { // ALLOY?
+					if (item.getItem() instanceof ItemAlloy && item.getItemDamage() == 0) { // ALLOY!
+						realInput.add(item);
+						ItemStack alloy = item.copy();
+						alloy.setItemDamage(1);
+						output.add(alloy);
+						processingTime = processingTime == 0 ? DEFAULT_PROCESSING_TIME : (int) Math.ceil( processingTime * DEFAULT_PROCESSING_RATE ); // TEMP
+					}
 				}
 			}
 			recipe = new RecipeSinteringOven( realInput, output, processingTime );

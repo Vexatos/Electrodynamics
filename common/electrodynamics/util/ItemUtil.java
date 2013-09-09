@@ -10,6 +10,26 @@ import java.util.List;
 
 public class ItemUtil {
 
+	public static boolean areAllEqual(ItemStack[] inv, boolean compareNBT) {
+		if (inv == null || inv.length == 0) {
+			return true;
+		}
+		
+		ItemStack compare = inv[0];
+		
+		for (ItemStack stack : inv) {
+			if (stack == null) {
+				return false;
+			}
+			
+			if (!areItemStacksEqual(stack, compare, compareNBT)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	public static boolean areItemStacksEqual(ItemStack is1, ItemStack is2, boolean compareNBT) {
 		if (is1 == null || is2 == null) return false;
 		

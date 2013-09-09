@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Machine;
+import electrodynamics.lib.block.Ore;
 import electrodynamics.lib.item.Component;
 import electrodynamics.lib.item.ItemIDs;
 
@@ -18,7 +19,7 @@ public class CreativeTabED extends CreativeTabs {
 	public int itemMeta = 0;
 	
 	static {
-		resource = new CreativeTabED("ED Resources").setIcon(ItemIDs.ITEM_COMPONENT_ID + 256, Component.PCB.ordinal());
+		resource = new CreativeTabED("ED Resources").setIcon(BlockIDs.BLOCK_ORE_ID, Ore.VOIDSTONE.ordinal());
 		tool = new CreativeTabED("ED Tools").setIcon(ItemIDs.ITEM_STEEL_HAMMER_ID + 256, 0);
 		block = new CreativeTabED("ED Blocks").setIcon(BlockIDs.BLOCK_MACHINE_ID, Machine.SINTERING_FURNACE.ordinal());
 	}
