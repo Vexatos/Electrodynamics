@@ -8,8 +8,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet103SetSlot;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 import electrodynamics.api.tool.ITool;
 import electrodynamics.core.CoreUtils;
 import electrodynamics.lib.block.BlockIDs;
@@ -18,6 +20,7 @@ import electrodynamics.lib.client.Sound;
 import electrodynamics.network.PacketTypeHandler;
 import electrodynamics.network.packet.PacketFX;
 import electrodynamics.network.packet.PacketSound;
+import electrodynamics.network.packet.PacketUpdateSlot;
 import electrodynamics.recipe.RecipeTable;
 import electrodynamics.recipe.manager.CraftingManager;
 import electrodynamics.tileentity.TileEntityEDRoot;
@@ -232,7 +235,6 @@ public class TileEntityTable extends TileEntityEDRoot {
 			}
 		}
 	}
-
 	
 	public ItemStack getOrePieceFromPlayer(EntityPlayer player, ItemStack tool) {
 		for(int i = 0; i < 9; i++) {
@@ -244,11 +246,14 @@ public class TileEntityTable extends TileEntityEDRoot {
 				RecipeTable recipe = CraftingManager.getInstance().tableManager.getRecipe(piece, tool);
 			
 				if(recipe != null) {
-					if (player.inventory.mainInventory[i].stackSize > 1) {
-						player.inventory.mainInventory[i].stackSize--;
+					if (stack.stackSize > 1) {
+						--stack.stackSize;
 					} else {
-						player.inventory.mainInventory[i] = null;
+						stack = null;
 					}
+					
+					player.inventory.setInventorySlotContents(i, stack);
+					PacketDispatcher.sendPacketToPlayer(new PacketUpdateSlot(stack, i).makePacket(), (Player) player);
 					return piece;
 				}
 			}

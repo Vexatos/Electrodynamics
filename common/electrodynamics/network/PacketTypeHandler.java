@@ -26,6 +26,7 @@ import electrodynamics.network.packet.PacketKeyPress;
 import electrodynamics.network.packet.PacketSound;
 import electrodynamics.network.packet.PacketUpdateDragged;
 import electrodynamics.network.packet.PacketUpdateHeld;
+import electrodynamics.network.packet.PacketUpdateSlot;
 
 public enum PacketTypeHandler {
 
@@ -37,7 +38,8 @@ public enum PacketTypeHandler {
 	MBS_INVALIDATE(PacketInvalidateMBS.class),
 	CLIENT_DATA(PacketClientData.class),
 	UPDATE_HELD(PacketUpdateHeld.class),
-	UPDATE_DRAG(PacketUpdateDragged.class);
+	UPDATE_DRAG(PacketUpdateDragged.class),
+	UPDATE_SLOT(PacketUpdateSlot.class);
 	
 	private Class<? extends PacketED> clazz;
 	
