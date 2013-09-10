@@ -12,9 +12,9 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import electrodynamics.api.tool.ITool;
 import electrodynamics.core.CoreUtils;
-import electrodynamics.core.handler.SoundHandler.Sound;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.client.FXType;
+import electrodynamics.lib.client.Sound;
 import electrodynamics.network.PacketTypeHandler;
 import electrodynamics.network.packet.PacketFX;
 import electrodynamics.network.packet.PacketSound;
@@ -135,7 +135,7 @@ public class TileEntityTable extends TileEntityEDRoot {
 						if (displayedItem.getItem() instanceof ItemBlock) {
 							PacketFX packet = new PacketFX(FXType.BLOCK_BREAK, xCoord, yCoord, zCoord, new int[] {displayedItem.itemID, displayedItem.getItemDamage()});
 							PacketDispatcher.sendPacketToAllAround(xCoord, yCoord + 2, zCoord, 64D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(packet));
-							PacketSound sound = new PacketSound(Sound.ORE_CRUMBLE, xCoord, yCoord, zCoord);
+							PacketSound sound = new PacketSound(Sound.ORE_CRUSH, xCoord, yCoord, zCoord);
 							PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(sound));
 						}
 						
@@ -220,7 +220,7 @@ public class TileEntityTable extends TileEntityEDRoot {
 					if (displayedItem.getItem() instanceof ItemBlock) {
 						PacketFX packet = new PacketFX(FXType.BLOCK_BREAK, xCoord, yCoord, zCoord, new int[] {displayedItem.itemID, displayedItem.getItemDamage()});
 						PacketDispatcher.sendPacketToAllAround(xCoord, yCoord + 2, zCoord, 64D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(packet));
-						PacketSound sound = new PacketSound(Sound.ORE_CRUMBLE, xCoord, yCoord, zCoord);
+						PacketSound sound = new PacketSound(Sound.ORE_CRUSH, xCoord, yCoord, zCoord);
 						PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(sound));
 					}
 

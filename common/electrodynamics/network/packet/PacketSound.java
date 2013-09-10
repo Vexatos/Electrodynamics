@@ -8,7 +8,7 @@ import net.minecraft.network.INetworkManager;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import electrodynamics.Electrodynamics;
-import electrodynamics.core.handler.SoundHandler.Sound;
+import electrodynamics.lib.client.Sound;
 import electrodynamics.network.PacketTypeHandler;
 
 public class PacketSound extends PacketED {
@@ -41,7 +41,7 @@ public class PacketSound extends PacketED {
 	public PacketSound(Sound sound, double x, double y, double z) {
 		super(PacketTypeHandler.SOUND, false);
 		
-		this.sound = sound.get();
+		this.sound = sound.getTag();
 		this.x = x;
 		this.y = y;
 		this.z = z;
