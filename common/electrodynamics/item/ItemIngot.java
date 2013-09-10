@@ -17,7 +17,7 @@ public class ItemIngot extends Item {
 
 	private Icon[] textures;
 	
-	/** RGBA color definitions for ingots. Custom ingots first, then vanilla iron ingot, then vanilla gold ingot */
+	/** RGBA color definitions for vanilla ingots. Vanilla iron ingot, then vanilla gold ingot */
 	public static GLColor[] ingotColors;
 	
 	public ItemIngot(int id) {
@@ -28,24 +28,6 @@ public class ItemIngot extends Item {
 	
 	public static boolean isIngot(ItemStack stack) {
 		return (stack.getItem() == EDItems.itemIngot) || (stack.getItem() == Item.ingotGold) || (stack.getItem() == Item.ingotIron);
-	}
-	
-	public static GLColor getColorForIngot(ItemStack stack) {
-		GLColor colors = null;
-		
-		if (stack.getItem() == EDItems.itemIngot) {
-			colors = ingotColors[stack.getItemDamage()];
-		} else if (stack.getItem() == Item.ingotIron) {
-			colors = ingotColors[Ingot.values().length];
-		} else if (stack.getItem() == Item.ingotGold) {
-			colors = ingotColors[Ingot.values().length + 1];
-		}
-
-		if (colors != null) {
-			return colors;
-		} else {
-			return new GLColor(255, 255, 255, 255);
-		}
 	}
 	
 	@Override
@@ -68,18 +50,17 @@ public class ItemIngot extends Item {
 	
 	@Override
 	public void registerIcons(IconRegister register) {
-		this.ingotColors = new GLColor[Ingot.values().length + 2];
+		this.ingotColors = new GLColor[2];
 		this.textures = new Icon[Ingot.values().length];
 		
 		for (int i=0; i<textures.length; i++) {
 			textures[i] = register.registerIcon(Ingot.get(i).getTextureFile());
-			this.ingotColors[i] = IconUtil.getAverageColor("items/ingot/" + Ingot.get(i).textureFile + ".png");
 		}
 		
 		// Iron Ingot
-		ingotColors[Ingot.values().length] = new GLColor(255, 255, 255, 255);
+		ingotColors[0] = new GLColor(255, 255, 255, 255);
 		// Gold Ingot
-		ingotColors[Ingot.values().length + 1] = new GLColor(220, 220, 0, 255);
+		ingotColors[1] = new GLColor(220, 220, 0, 255);
 	}
 	
 }

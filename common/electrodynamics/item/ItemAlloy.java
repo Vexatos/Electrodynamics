@@ -79,6 +79,19 @@ public class ItemAlloy extends Item {
     @Override
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack stack, int renderPass) {
+    	return getColorFromAlloy(stack).toInt();
+    }
+    
+    @Override
+	public String getUnlocalizedName(ItemStack stack) {
+    	return EDLanguage.getFormattedItemName(stack.getItemDamage() == 0 ? Strings.ITEM_ALLOY_DUST : Strings.ITEM_ALLOY_INGOT);
+    }
+    
+    public static GLColor getColorFromAlloy(ItemStack stack) {
+    	if (stack == null) {
+    		return new GLColor(0xFFFFFF);
+    	}
+    	
     	AlloyStack alloy = new AlloyStack(stack);
 		if (alloy.getMetals().length > 0) {
 			GLColor[] colors = new GLColor[alloy.getMetals().length];
@@ -90,31 +103,18 @@ public class ItemAlloy extends Item {
 				if (type != null) {
 					ItemStack stack1 = stack.getItemDamage() == 0 ? type.getDust() : type.getSolid();
 					
-					if (ItemIngot.isIngot(stack1)) {
-						colors[i] = ItemIngot.getColorForIngot(stack1);
-					} else if (ItemDust.isDust(stack1)) {
-						colors[i] = ItemDust.getColorForDust(stack1);
+					if (stack1 != null) {
+						colors[i] = IconUtil.getCachedColor(stack1);
 					} else {
-						if (!iconColorCache.containsKey(stack1)) {
-							GLColor average = IconUtil.getAverageColor(stack1.getIconIndex().getIconName());
-							colors[i] = average;
-							iconColorCache.put(stack1, average);
-						} else {
-							colors[i] = iconColorCache.get(stack1);
-						}
+						return new GLColor(0xFFFFFF); // For components that don't have a solid/dust form
 					}
 				}
 			}
 			
-			return new GLColor(colors).toInt();
+			return new GLColor(colors);
 		}
 		
-		return 0xFFFFF;
-    }
-    
-    @Override
-	public String getUnlocalizedName(ItemStack stack) {
-    	return EDLanguage.getFormattedItemName(stack.getItemDamage() == 0 ? Strings.ITEM_ALLOY_DUST : Strings.ITEM_ALLOY_INGOT);
+		return new GLColor(0xFFFFFF);
     }
     
 }

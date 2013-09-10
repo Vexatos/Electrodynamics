@@ -3,15 +3,22 @@ package electrodynamics.util.render;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import electrodynamics.core.EDLogger;
+import electrodynamics.item.ItemIngot;
 import electrodynamics.lib.core.ModInfo;
 
 public class IconUtil {
 
-	public static final String TEXTURE_PREFIX = "/assets/" + ModInfo.GENERIC_MOD_ID.toLowerCase() + "/textures/";
+	public static final String TEXTURE_PREFIX = "/assets/" + ModInfo.GENERIC_MOD_ID.toLowerCase() + "/textures/items/";
+	
+	public static Map<String, GLColor> iconColorCache = new HashMap<String, GLColor>();
 	
 	private static InputStream getTextureResource(String texture) throws IOException {
 		try {
@@ -71,6 +78,41 @@ public class IconUtil {
 		int ab = bBucket / pCount;
 		
 		return new GLColor(ar, ag, ab).multiply(0.9F);
+	}
+
+	public static GLColor getCachedColor(ItemStack stack) {
+		if (stack.isItemEqual(new ItemStack(Item.ingotGold))) {
+			return ItemIngot.ingotColors[1];
+		}
+		
+		if (stack.isItemEqual(new ItemStack(Item.ingotIron))) {
+			return ItemIngot.ingotColors[0];
+		}
+		
+		try {
+			String[] nameSplit = stack.getIconIndex().getIconName().split(":");
+			StringBuilder sb = new StringBuilder();
+			sb.append(nameSplit[0]);
+			sb.append(":");
+			sb.append("items/");
+			sb.append(nameSplit[1]);
+			return getCachedColor(sb.toString());
+		} catch (Exception ex) {
+			return GLColor.WHITE;
+		}
+	}
+	
+	public static GLColor getCachedColor(String texture) {
+		GLColor average = null;
+		
+		if (!iconColorCache.containsKey(texture)) {
+			average = IconUtil.getAverageColor(texture);
+			iconColorCache.put(texture, average);
+		} else {
+			average = iconColorCache.get(texture);
+		}
+		
+		return average;
 	}
 	
 }

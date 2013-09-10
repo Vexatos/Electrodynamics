@@ -68,4 +68,19 @@ public class ItemIDs {
 	@EDXProperty(category = CATEGORY_ITEM)
 	public static int ITEM_GLASS_JAR = 5121;
 	
+	@EDXProperty(category = CATEGORY_ITEM)
+	public static int ITEM_ALLOY_PICKAXE = 5122;
+	
+	@EDXProperty(category = CATEGORY_ITEM)
+	public static int ITEM_ALLOY_AXE = 5123;
+	
+	@EDXProperty(category = CATEGORY_ITEM)
+	public static int ITEM_ALLOY_SHOVEL = 5124;
+	
+	@EDXProperty(category = CATEGORY_ITEM)
+	public static int ITEM_ALLOY_SWORD = 5125;
+	
+	@EDXProperty(category = CATEGORY_ITEM)
+	public static int ITEM_ALLOY_HOE = 5125;
+	
 }

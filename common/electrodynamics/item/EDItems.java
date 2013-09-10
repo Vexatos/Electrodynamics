@@ -31,6 +31,10 @@ public class EDItems {
 	public static Item itemTeslaModule;
 
 	public static Item itemAlloyPickaxe;
+	public static Item itemAlloyAxe;
+	public static Item itemAlloyShovel;
+	public static Item itemAlloySword;
+	public static Item itemAlloyHoe;
 	
 	public static Item itemWormSeed;
 	

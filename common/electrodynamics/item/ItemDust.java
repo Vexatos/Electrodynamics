@@ -19,8 +19,6 @@ public class ItemDust extends Item {
 	public static final int DUST_COUNT = Dust.values().length;
 	public static final int GRINDING_COUNT = Grinding.values().length - DUST_COUNT;
 	
-	public static GLColor[] dustColors;
-	
 	private Icon[] textures;
 	
 	public ItemDust(int id) {
@@ -33,18 +31,6 @@ public class ItemDust extends Item {
 		if (stack == null) return false;
 		
 		return (stack.getItem() instanceof ItemDust && stack.getItemDamage() < DUST_COUNT);
-	}
-	
-	public static GLColor getColorForDust(ItemStack stack) {
-		GLColor colors = null;
-		
-		colors = dustColors[stack.getItemDamage()];
-		
-		if (colors != null) {
-			return colors;
-		} else {
-			return new GLColor(255, 255, 255, 255);
-		}
 	}
 	
 	@Override
@@ -77,14 +63,12 @@ public class ItemDust extends Item {
 	
 	@Override
 	public void registerIcons(IconRegister register) {
-		this.dustColors = new GLColor[DUST_COUNT];
 		this.textures = new Icon[Dust.values().length + Grinding.values().length];
 		
 		for (int i=0; i<textures.length; i++) {
 			if (i < Dust.values().length) {
 				//We're loading dusts
 				textures[i] = register.registerIcon(Dust.get(i).getTextureFile());
-				this.dustColors[i] = IconUtil.getAverageColor("items/dust/" + Dust.get(i).textureFile + ".png");
 			} else {
 				//Otherwise, grindings
 				textures[i] = register.registerIcon(Grinding.get(i - Dust.values().length).getTextureFile());

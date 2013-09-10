@@ -21,6 +21,7 @@ import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.machine.TileEntityMachine;
 import electrodynamics.tileentity.machine.TileEntitySinteringOven;
 import electrodynamics.util.InventoryUtil;
+import electrodynamics.util.render.IconUtil;
 import electrodynamics.util.render.RenderUtil;
 
 public class RenderSinteringOven extends TileEntitySpecialRenderer {
@@ -137,7 +138,7 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 	}
 	
 	public void renderIngot(World world, ItemStack stack) {
-		ItemIngot.getColorForIngot(stack).apply();
+		IconUtil.getCachedColor(stack);
 		GL11.glTranslated(0, 1.3, 0);
 		GL11.glRotatef(90, 0, 1, 0);
 		GL11.glTranslated(-.218, 0, -.09);

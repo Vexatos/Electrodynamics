@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import electrodynamics.lib.core.Strings;
 
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class Attribute {
@@ -45,7 +46,7 @@ public class Attribute {
 	
 	public enum AttributeType {
 		DURABILITY(Strings.ATTRIBUTE_DURABILITY),
-		MINING_SPEED(Strings.ATTRIBUTE_MINE_SPEED),
+		MINING_SPEED(Strings.ATTRIBUTE_MINE_SPEED, EnumToolMaterial.IRON.getEfficiencyOnProperMaterial()),
 		CONDUCTIVITY(Strings.ATTRIBUTE_CONDUCT),
 		CRITICAL(Strings.ATTRIBUTE_CRIT),
 		SHARPNESS(Strings.ATTRIBUTE_SHARP),
@@ -64,8 +65,15 @@ public class Attribute {
 		
 		public String unlocalizedName;
 		
+		public float baseValue;
+		
 		private AttributeType(String unlocalizedName) {
 			this.unlocalizedName = unlocalizedName;
+		}
+		
+		private AttributeType(String unlocalizedName, float baseValue) {
+			this.unlocalizedName = unlocalizedName;
+			this.baseValue = baseValue;
 		}
 		
 		public Attribute get(float modifier) {

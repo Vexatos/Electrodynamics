@@ -146,8 +146,25 @@ public class EDModuleMachine extends EDModule {
 		GameRegistry.registerItem(EDItems.itemGlassJar, Strings.ITEM_GLASS_JAR);
 		EDLanguage.getInstance().registerItem(EDItems.itemGlassJar);
 		
-		EDItems.itemAlloyPickaxe = new ItemAlloyPickaxe(6000); //TEMP
-		GameRegistry.registerItem(EDItems.itemAlloyPickaxe, "pick");
+		EDItems.itemAlloyPickaxe = new ItemAlloyPickaxe(ItemIDs.ITEM_ALLOY_PICKAXE).setUnlocalizedName(Strings.ITEM_ALLOY_PICKAXE);
+		GameRegistry.registerItem(EDItems.itemAlloyPickaxe, Strings.ITEM_ALLOY_PICKAXE);
+		EDLanguage.getInstance().registerItem(EDItems.itemAlloyPickaxe);
+		
+		EDItems.itemAlloyAxe = new ItemAlloyAxe(ItemIDs.ITEM_ALLOY_AXE).setUnlocalizedName(Strings.ITEM_ALLOY_AXE);
+		GameRegistry.registerItem(EDItems.itemAlloyAxe, Strings.ITEM_ALLOY_AXE);
+		EDLanguage.getInstance().registerItem(EDItems.itemAlloyAxe);
+		
+		EDItems.itemAlloyShovel = new ItemAlloyShovel(ItemIDs.ITEM_ALLOY_SHOVEL).setUnlocalizedName(Strings.ITEM_ALLOY_SHOVEL);
+		GameRegistry.registerItem(EDItems.itemAlloyShovel, Strings.ITEM_ALLOY_SHOVEL);
+		EDLanguage.getInstance().registerItem(EDItems.itemAlloyShovel);
+		
+		EDItems.itemAlloySword = new ItemAlloySword(ItemIDs.ITEM_ALLOY_SWORD).setUnlocalizedName(Strings.ITEM_ALLOY_SWORD);
+		GameRegistry.registerItem(EDItems.itemAlloySword, Strings.ITEM_ALLOY_SWORD);
+		EDLanguage.getInstance().registerItem(EDItems.itemAlloySword);
+		
+//		EDItems.itemAlloyHoe = new ItemAlloyAxe(ItemIDs.ITEM_ALLOY_AXE).setUnlocalizedName(Strings.ITEM_ALLOY_AXE);
+//		GameRegistry.registerItem(EDItems.itemAlloyAxe, Strings.ITEM_ALLOY_AXE);
+//		EDLanguage.getInstance().registerItem(EDItems.itemAlloyAxe);
 	}
 
 	@Override
@@ -183,7 +200,7 @@ public class EDModuleMachine extends EDModule {
 		// Sintering Oven
 		GameRegistry.addRecipe(Machine.SINTERING_FURNACE.toItemStack(), "WWW", "WBW", "III", 'W', Component.OVEN_WALL.toItemStack(), 'B', Block.fenceIron, 'I', Item.ingotIron);
 		
-//		GameRegistry.addRecipe(new IRecipeAlloyPickaxe());
+		GameRegistry.addRecipe(new IRecipeAlloyPickaxe());
 		
 		FurnaceRecipes.smelting().addSmelting(ItemIDs.ITEM_COMPONENT_ID + 256, Component.LITHIUM_CLAY_WET.ordinal(), Component.LITHIUM_CLAY.toItemStack(), 0F);
 

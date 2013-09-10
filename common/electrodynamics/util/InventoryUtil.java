@@ -1,5 +1,7 @@
 package electrodynamics.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.entity.item.EntityItem;
@@ -15,6 +17,16 @@ public class InventoryUtil {
 
 	public static final int PLAYER_INVENTORY_SIZE = 27;
 	public static final int PLAYER_HOTBAR_SIZE = 9;
+	
+	public static ItemStack[] trimInventory(ItemStack[] inv) {
+		List<ItemStack> inventory = new ArrayList<ItemStack>();
+		for (ItemStack stack : inv) {
+			if (stack != null) {
+				inventory.add(stack);
+			}
+		}
+		return inventory.toArray(new ItemStack[inventory.size()]);
+	}
 	
 	public static ItemStack[] readItemsFromNBT(String tagName, NBTTagCompound nbt) {
 		NBTTagList invNBT = nbt.getTagList(tagName);
@@ -86,6 +98,20 @@ public class InventoryUtil {
 	
 	public static int getActiveSlot(int activeSlot, IInventory inventory) {
 		return (activeSlot + PLAYER_INVENTORY_SIZE + (inventory != null ? inventory.getSizeInventory() : 0));
+	}
+	
+	public static boolean containsInstanceOf(ItemStack[] inv, Class<? extends Item> clazz) {
+		if (clazz == null || inv == null || inv.length == 0) return false;
+		
+		for (ItemStack stack : inv) {
+			if (stack != null) {
+				if (clazz.isInstance(stack.getItem())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public static boolean contains(ItemStack[] inv, ItemStack check) {

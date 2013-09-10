@@ -33,7 +33,7 @@ public class ItemTray extends Item implements IInventoryItem {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, @SuppressWarnings("rawtypes") List list, boolean show) {
+	public void addInformation(ItemStack stack, EntityPlayer player,     List list, boolean show) {
 		if (stack.stackTagCompound != null && stack.stackTagCompound.hasKey("Items")) {
 			NBTTagList items = stack.stackTagCompound.getTagList("Items");
 			List<ItemStack> itemsList = new ArrayList<ItemStack>();

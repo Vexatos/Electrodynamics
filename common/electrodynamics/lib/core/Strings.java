@@ -35,6 +35,11 @@ public class Strings {
 	public static final String ITEM_GLASS_JAR = "glass_jar";
 	public static final String ITEM_ALLOY_DUST = "alloy.dust";
 	public static final String ITEM_ALLOY_INGOT = "alloy.ingot";
+	public static final String ITEM_ALLOY_PICKAXE = "alloy.pickaxe";
+	public static final String ITEM_ALLOY_AXE = "alloy.axe";
+	public static final String ITEM_ALLOY_SHOVEL = "alloy.shovel";
+	public static final String ITEM_ALLOY_SWORD = "alloy.sword";
+	public static final String ITEM_ALLOY_HOE = "alloy.hoe";
 	
 	/* Internal block names */
 	public static final String BLOCK_ORE = "ore";

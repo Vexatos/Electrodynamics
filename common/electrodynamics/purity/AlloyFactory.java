@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
+import electrodynamics.core.EDLogger;
+import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.item.EDItems;
 
 public class AlloyFactory {
@@ -68,6 +70,7 @@ public class AlloyFactory {
 				Entry<String, Integer> metalData = (Entry<String, Integer>) metalAmounts.entrySet().toArray()[i];
 				double ratio = (double)metalData.getValue() / total;
 				MetalData data = new MetalData(metalData.getKey(), ratio);
+				data.setTotal(total);
 				metals[i] = data;
 			}
 			

@@ -24,6 +24,7 @@ import electrodynamics.purity.DynamicAlloyPurities;
 import electrodynamics.purity.MetalData;
 import electrodynamics.util.StringUtil;
 import electrodynamics.util.render.GLColor;
+import electrodynamics.util.render.IconUtil;
 import electrodynamics.util.render.RenderUtil;
 
 public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback {
@@ -67,22 +68,14 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 				for (int index=0; index<this.storedDusts.length; index++) {
 					Rectangle rect = dimensions[index];
 					
-					GLColor color = null;
-					try {
-						color = ItemDust.dustColors[this.storedDusts[index].getItemDamage()];
-					} catch (Exception ex) {
-						//AIooB Exception
-						color = new GLColor(255, 255, 255);
-					}
-
-					color.apply();
+					IconUtil.getCachedColor(this.storedDusts[i]).apply();
 					RenderUtil.drawItem(k + rect.x, l + rect.y, IconHandler.getInstance().getIcon("dust.dust"), rect.w, rect.h);
 					GLColor.WHITE.apply();
 				}
 			} else {
 				GLColor[] colors = new GLColor[this.storedDusts.length];
 				for (int index=0; index<this.storedDusts.length; index++) {
-					colors[index] = ItemDust.dustColors[this.storedDusts[index].getItemDamage()];
+					colors[index] = IconUtil.getCachedColor(this.storedDusts[index]);
 				}
 				GLColor average = new GLColor(colors);
 				average.apply();

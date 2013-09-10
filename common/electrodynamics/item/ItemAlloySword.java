@@ -21,15 +21,15 @@ import electrodynamics.purity.DynamicAlloyPurities.MetalType;
 import electrodynamics.util.render.GLColor;
 import electrodynamics.util.render.IconUtil;
 
-public class ItemAlloyPickaxe extends ItemAlloyTool {
+public class ItemAlloySword extends ItemAlloyTool {
 
-	public ItemAlloyPickaxe(int id) {
-		super(id, ToolType.PICKAXE);
+	public ItemAlloySword(int id) {
+		super(id, ToolType.SWORD);
 	}
 
 	@Override
 	public Material[] getEffectiveMaterials() {
-		return new Material[] {Material.rock, Material.iron, Material.anvil};
+		return new Material[] {};
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class ItemAlloyPickaxe extends ItemAlloyTool {
 	
 	@Override
 	public String getHead() {
-		return "pickHead_metal";
+		return "bladeSword";
 	}
 	
 }
