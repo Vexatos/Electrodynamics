@@ -33,8 +33,9 @@ def dirUnpack = dirBuild + "/unpack"
 
 // Versions
 def versionMC = "1.6.2"
-def versionMod = "0.1.4.0"
+def versionMod = "0.1.4.1"
 def versionBuild = "0"
+def versionState = "Alpha"
 def versionFull = versionMod + "." + versionBuild
 def versionMCP = "805"
 def versionForge = "9.10.1.852"
@@ -252,7 +253,7 @@ task packJAR << {
 	File jarDir = new File(dirJar)
 	jarDir.mkdirs()
 		
-	def archiveName = "Electrodynamics-" + versionFull + ".jar"
+	def archiveName = "Electrodynamics-" + versionState + versionMod + ".jar"
 		
 	ant.jar(destfile: dirJar + "/" + archiveName) {
 		fileset(dir: dirMCP + "/reobf/minecraft")
