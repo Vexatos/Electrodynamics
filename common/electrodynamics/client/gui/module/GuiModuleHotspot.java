@@ -1,6 +1,8 @@
 package electrodynamics.client.gui.module;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.client.FMLClientHandler;
 
 public class GuiModuleHotspot extends GuiModule {
 
@@ -17,14 +19,14 @@ public class GuiModuleHotspot extends GuiModule {
 	
 	@Override
 	public void onClicked(MouseState state, ItemStack stack) {
-		this.callback.onClicked(this.uuid, state, stack);
+		this.callback.onClicked(FMLClientHandler.instance().getClient().thePlayer, this.uuid, state, stack);
 	}
 	
 	@Override
 	public void onRender(int mouseX, int mouseY, MouseState state) {}
 	
 	public interface IHotspotCallback {
-		public void onClicked(String uuid, MouseState state, ItemStack stack);
+		public void onClicked(EntityPlayer player, String uuid, MouseState state, ItemStack stack);
 	}
 	
 }

@@ -1,12 +1,23 @@
 package electrodynamics.inventory.container;
 
+import static electrodynamics.client.gui.module.GuiModule.MouseState.MOUSE_LEFT;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
+import electrodynamics.client.gui.GuiGlassJar;
+import electrodynamics.client.gui.module.GuiModule.MouseState;
+import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
+import electrodynamics.item.ItemDust;
+import electrodynamics.item.ItemGlassJar;
+import electrodynamics.network.packet.PacketPayload;
+import electrodynamics.purity.DynamicAlloyPurities;
 import electrodynamics.util.InventoryUtil;
 
-public class ContainerGlassJar extends Container {
+public class ContainerGlassJar extends Container implements IHotspotCallback {
 
 	private EntityPlayer player;
 	
@@ -40,6 +51,27 @@ public class ContainerGlassJar extends Container {
 	public ItemStack slotClick(int slot, int x, int y, EntityPlayer player) {
 		if (slot == this.activeSlot) return null;
 		return super.slotClick(slot, x, y, player);
+	}
+
+	@Override
+	public void onClicked(EntityPlayer player, String uuid, MouseState state, ItemStack stack) {
+		if (!ItemGlassJar.isMixed(this.glassJar)) {
+			if (ItemDust.isDust(stack) && !DynamicAlloyPurities.getIDForStack(stack).equals("unknown")) {
+				if (ItemGlassJar.getStoredDusts(this.glassJar).length < GuiGlassJar.DUST_MAX) {
+					if (state == MOUSE_LEFT) {
+						ItemStack newDust = stack.copy();
+						newDust.stackSize = 1;
+						
+						if (stack.stackSize > 1) {
+							--stack.stackSize;
+						} else {
+							stack = null;
+						}
+					}
+					this.player.inventory.setItemStack(stack);
+				}
+			}
+		}
 	}
 	
 }

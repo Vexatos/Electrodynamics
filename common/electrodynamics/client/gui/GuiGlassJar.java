@@ -1,7 +1,6 @@
 package electrodynamics.client.gui;
 
 import static electrodynamics.client.gui.module.GuiModule.MouseState.MOUSE_LEFT;
-
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,13 +11,14 @@ import electrodynamics.client.gui.module.GuiModule;
 import electrodynamics.client.gui.module.GuiModule.MouseState;
 import electrodynamics.client.gui.module.GuiModuleHotspot;
 import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
-import electrodynamics.core.handler.IconHandler;
 import electrodynamics.core.handler.GuiHandler.GuiType;
+import electrodynamics.core.handler.IconHandler;
 import electrodynamics.inventory.container.ContainerGlassJar;
 import electrodynamics.item.ItemDust;
 import electrodynamics.item.ItemGlassJar;
-import electrodynamics.network.packet.PacketUpdateDragged;
-import electrodynamics.network.packet.PacketUpdateHeld;
+import electrodynamics.network.packet.PacketHotspotCallback;
+import electrodynamics.network.packet.PacketUpdateSlot;
+import electrodynamics.network.packet.PacketPayload.IPayloadReceptor;
 import electrodynamics.purity.AlloyFactory;
 import electrodynamics.purity.DynamicAlloyPurities;
 import electrodynamics.purity.MetalData;
@@ -94,8 +94,11 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 	}
 	
 	@Override
-	public void onClicked(String uuid, MouseState state, ItemStack stack) {
-		if (!mixed) {
+	public void onClicked(EntityPlayer player, String uuid, MouseState state, ItemStack stack) {
+		PacketHotspotCallback packet = new PacketHotspotCallback(uuid, state, stack);
+		PacketDispatcher.sendPacketToServer(packet.makePacket());
+		
+		if (!ItemGlassJar.isMixed(this.jar)) {
 			if (FMLClientHandler.instance().getClient().thePlayer.capabilities.isCreativeMode) {
 				if (state == MouseState.MOUSE_RIGHT) {
 					ItemGlassJar.setMixed(this.jar, true);
@@ -103,27 +106,19 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 			}
 			
 			if (ItemDust.isDust(stack) && !DynamicAlloyPurities.getIDForStack(stack).equals("unknown")) {
-				if (ItemGlassJar.getStoredDusts(this.jar).length < DUST_MAX) {
-					ItemStack toSend = null;
-					
+				if (ItemGlassJar.getStoredDusts(this.jar).length < GuiGlassJar.DUST_MAX) {
 					if (state == MOUSE_LEFT) {
 						ItemStack newDust = stack.copy();
 						newDust.stackSize = 1;
 						addDust(newDust);
 						
 						if (stack.stackSize > 1) {
-							toSend = stack.copy();
-							--toSend.stackSize;
+							--stack.stackSize;
+						} else {
+							stack = null;
 						}
 					}
-					
-					// TODO Still has some sync issues
-					/* Currently has a dupe bug where the server corrects
-					 * the stack decrease, allowing for an extra phantom item
-					 * to be added to the jar */
-					PacketUpdateDragged packet = new PacketUpdateDragged(toSend);
-					PacketDispatcher.sendPacketToServer(packet.makePacket());
-					this.player.inventory.setItemStack(toSend);
+					this.player.inventory.setItemStack(stack);
 				}
 			}
 		}
@@ -134,7 +129,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 	private void addDust(ItemStack dust) {
 		ItemGlassJar.addDusts(this.jar, new ItemStack[] {dust});
 		this.player.setCurrentItemOrArmor(0, this.jar);
-		PacketUpdateHeld packet = new PacketUpdateHeld(this.jar);
+		PacketUpdateSlot packet = new PacketUpdateSlot(this.jar, this.player.inventory.currentItem);
 		PacketDispatcher.sendPacketToServer(packet.makePacket());
 	}
 	
@@ -216,5 +211,5 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 			return ("X: " + x + " Y: " + y + " W: " + w + " H: " + h);
 		}
 	}
-	
+
 }

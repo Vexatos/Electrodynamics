@@ -19,13 +19,13 @@ import electrodynamics.lib.core.ModInfo;
 import electrodynamics.network.packet.PacketClientData;
 import electrodynamics.network.packet.PacketED;
 import electrodynamics.network.packet.PacketFX;
+import electrodynamics.network.packet.PacketHotspotCallback;
 import electrodynamics.network.packet.PacketInitializeMBS;
 import electrodynamics.network.packet.PacketInvalidateMBS;
 import electrodynamics.network.packet.PacketJump;
 import electrodynamics.network.packet.PacketKeyPress;
+import electrodynamics.network.packet.PacketPayload;
 import electrodynamics.network.packet.PacketSound;
-import electrodynamics.network.packet.PacketUpdateDragged;
-import electrodynamics.network.packet.PacketUpdateHeld;
 import electrodynamics.network.packet.PacketUpdateSlot;
 
 public enum PacketTypeHandler {
@@ -37,9 +37,9 @@ public enum PacketTypeHandler {
 	MBS_INIT(PacketInitializeMBS.class),
 	MBS_INVALIDATE(PacketInvalidateMBS.class),
 	CLIENT_DATA(PacketClientData.class),
-	UPDATE_HELD(PacketUpdateHeld.class),
-	UPDATE_DRAG(PacketUpdateDragged.class),
-	UPDATE_SLOT(PacketUpdateSlot.class);
+	UPDATE_SLOT(PacketUpdateSlot.class),
+	HOTSPOT_CALLBACK(PacketHotspotCallback.class),
+	PAYLOAD(PacketPayload.class);
 	
 	private Class<? extends PacketED> clazz;
 	
