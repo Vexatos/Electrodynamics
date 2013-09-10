@@ -97,21 +97,7 @@ public class ItemAlloyPickaxe extends ItemAlloyTool {
 	
 	@Override
 	public void getSubItems(int id, CreativeTabs tab, List list) {
-		AlloyFactory factory = new AlloyFactory();
-		factory.addMetal("TUNGSTEN");
-		factory.addMetal("TUNGSTEN");
-		factory.addMetal("TUNGSTEN");
-		factory.addMetal("TUNGSTEN");
-		factory.addMetal("TUNGSTEN");
-		factory.addMetal("TUNGSTEN");
-		factory.addMetal("TUNGSTEN");
-		factory.addMetal("NICKEL");
-		factory.addMetal("COPPER");
-		AlloyStack alloy = factory.generateAlloyStack(0);
-		ItemStack pick = new ItemStack(EDItems.itemAlloyPickaxe);
-		AlloyStack alloyPick = new AlloyStack(pick);
-		alloyPick.setMetals(alloy.getMetals());
-		list.add(pick);
+
 	}
 	
 }

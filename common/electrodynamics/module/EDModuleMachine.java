@@ -183,7 +183,7 @@ public class EDModuleMachine extends EDModule {
 		// Sintering Oven
 		GameRegistry.addRecipe(Machine.SINTERING_FURNACE.toItemStack(), "WWW", "WBW", "III", 'W', Component.OVEN_WALL.toItemStack(), 'B', Block.fenceIron, 'I', Item.ingotIron);
 		
-		GameRegistry.addRecipe(new IRecipeAlloyPickaxe());
+//		GameRegistry.addRecipe(new IRecipeAlloyPickaxe());
 		
 		FurnaceRecipes.smelting().addSmelting(ItemIDs.ITEM_COMPONENT_ID + 256, Component.LITHIUM_CLAY_WET.ordinal(), Component.LITHIUM_CLAY.toItemStack(), 0F);
 
