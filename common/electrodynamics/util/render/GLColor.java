@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 public class GLColor {
 
+	public static final GLColor BLACK = new GLColor(0, 0, 0);
 	public static final GLColor WHITE = new GLColor(255, 255, 255);
 	
 	public float r;
@@ -30,9 +31,9 @@ public class GLColor {
 	}
 	
 	public GLColor(GLColor ... colors) {
-		int rBucket = 0;
-		int gBucket = 0;
-		int bBucket = 0;
+		float rBucket = 0;
+		float gBucket = 0;
+		float bBucket = 0;
 		
 		for (GLColor color : colors) {
 			if (color != null) {
@@ -46,6 +47,39 @@ public class GLColor {
 		this.g = gBucket / colors.length;
 		this.b = bBucket / colors.length;
 		this.a = 255;
+	}
+	
+	public GLColor add(GLColor...colors) {
+		float rBucket = this.r;
+		float gBucket = this.g;
+		float bBucket = this.b;
+		
+		for (GLColor color : colors) {
+			if (color != null) {
+				rBucket += color.r;
+				gBucket += color.g;
+				bBucket += color.b;
+			}
+		}
+		
+		this.r = rBucket / colors.length;
+		this.g = gBucket / colors.length;
+		this.b = bBucket / colors.length;
+		this.a = 255;
+		
+		return this;
+	}
+	
+	public GLColor multiply(float value) {
+		return multiply(value, value, value);
+	}
+	
+	public GLColor multiply(float r, float g, float b) {
+		this.r *= r;
+		this.g *= g;
+		this.b *= b;
+		
+		return this;
 	}
 	
 	public void apply() {

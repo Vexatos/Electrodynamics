@@ -12,6 +12,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
+import electrodynamics.api.tool.ITool;
+import electrodynamics.api.tool.ToolType;
 import electrodynamics.core.CoreUtils;
 import electrodynamics.interfaces.IClientDisplay;
 import electrodynamics.inventory.InventoryItem;
@@ -261,6 +263,29 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 					sendTrayUpdate();
 					((EntityPlayerMP)player).updateHeldItem();
 					return;
+				}
+			} else {
+				if (player.getCurrentEquippedItem() != null) {
+					ItemStack equipped = player.getCurrentEquippedItem();
+					
+					if (equipped.getItem() instanceof ITool && ((ITool)equipped.getItem()).getToolType() == ToolType.HAMMER) {
+						if (player.capabilities.isCreativeMode) {
+							if (this.totalCookTime > 0) {
+								RecipeSinteringOven recipe = CraftingManager.getInstance().ovenManager.getRecipe(Arrays.asList(this.trayInventory.inventory));
+								
+								if (recipe != null) {
+									doProcess(recipe);
+									this.storedExperience = recipe.getExperience();
+
+									this.totalCookTime = 0;
+									this.currentCookTime = 0;
+
+									sendTrayUpdate();
+									return;
+								}
+							}
+						}
+					}
 				}
 			}
 		}

@@ -8,11 +8,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.purity.AlloyStack;
 import electrodynamics.purity.Attribute;
 import electrodynamics.purity.Attribute.AttributeType;
-import electrodynamics.purity.MetalData;
 import electrodynamics.purity.DynamicAlloyPurities.MetalType;
+import electrodynamics.purity.MetalData;
 
 public abstract class ItemAlloyTool extends Item {
 
@@ -101,6 +103,12 @@ public abstract class ItemAlloyTool extends Item {
 		}
 		
 		return false;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public boolean isFull3D() {
+		return true;
 	}
 	
 	public enum ToolType {

@@ -70,7 +70,7 @@ public class IconUtil {
 		int ag = gBucket / pCount;
 		int ab = bBucket / pCount;
 		
-		return new GLColor(ar, ag, ab);
+		return new GLColor(ar, ag, ab).multiply(0.9F);
 	}
 	
 }
