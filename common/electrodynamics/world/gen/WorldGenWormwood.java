@@ -31,7 +31,7 @@ public class WorldGenWormwood implements IWorldGenerator {
 	}
 	
 	public void generateWormwood(World world, int chunkX, int chunkZ, int meta) {
-		final int COUNT = 16;
+		final int COUNT = 8;
 		
 		Random random = new Random();
 		
