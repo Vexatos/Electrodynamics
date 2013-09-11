@@ -24,7 +24,6 @@ import electrodynamics.lib.core.ModInfo;
 import electrodynamics.purity.AlloyStack;
 import electrodynamics.purity.Attribute;
 import electrodynamics.purity.Attribute.AttributeType;
-import electrodynamics.purity.DynamicAlloyPurities.MetalType;
 import electrodynamics.purity.MetalData;
 
 public abstract class ItemAlloyTool extends Item {
@@ -127,15 +126,16 @@ public abstract class ItemAlloyTool extends Item {
 					float modifierSum = 0F;
 					int modifiersCount = 0;
 					for (MetalData data : tool.getMetals()) {
-						MetalType type = MetalType.get(data);
-
-						int total = data.getTotal();
-						modifiersCount += total;
-						for (Attribute attribute : type.getAttributes()) {
-							if (attribute.attribute == AttributeType.EFFICIENCY) {
-								modifierSum += attribute.modifier * total;
-							}
-						}
+						//TODO
+//						MetalType type = MetalType.get(data);
+//
+//						int total = data.getTotal();
+//						modifiersCount += total;
+//						for (Attribute attribute : type.getAttributes()) {
+//							if (attribute.attribute == AttributeType.EFFICIENCY) {
+//								modifierSum += attribute.modifier * total;
+//							}
+//						}
 					}
 					
 					miningSpeed *= 1 + modifierSum / modifiersCount;
@@ -234,12 +234,12 @@ public abstract class ItemAlloyTool extends Item {
 	public Attribute[] getAttributes(ItemStack stack) {
 		AlloyStack tool = new AlloyStack(stack);
 		
-		if (tool.getMetals() != null && tool.getMetals().length > 0) {
-			for (MetalData data : tool.getMetals()) {
-				MetalType type = MetalType.get(data);
-				return type.getAttributes();
-			}
-		}
+//		if (tool.getMetals() != null && tool.getMetals().length > 0) {
+//			for (MetalData data : tool.getMetals()) {
+//				MetalType type = MetalType.get(data);
+//				return type.getAttributes();
+//			}
+//		}
 		
 		return new Attribute[] {};
 	}

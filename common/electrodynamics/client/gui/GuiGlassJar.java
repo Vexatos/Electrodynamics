@@ -60,12 +60,23 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 	
 	private boolean mixed = true;
 	
+	public int lastLength = 0;
+	
+	public GLColor lastColor = null;
+	
 	public GuiGlassJar(EntityPlayer player, ContainerGlassJar container) {
 		super(GuiType.GLASS_JAR, container);
 		
 		this.container = container;
 		this.player = player;
 		updateJar();
+	}
+	
+	@Override
+	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
+		if (this.lastColor != null) {
+			this.fontRenderer.drawString("(" + (int)lastColor.r + ", " + (int)lastColor.g + ", " + (int)lastColor.b + ")", 5, 5, 0xFFFFFF);
+		}
 	}
 	
 	@Override
@@ -190,6 +201,15 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 		this.manager.reset();
 		this.manager.registerModule(new GuiModuleHotspot("dustHotspot", 62, 16, 53, 63).setCallback(this));
 		
+		if (this.storedDusts != null && this.storedDusts.length != this.lastLength) {
+			GLColor[] colors = new GLColor[this.storedDusts.length];
+			for (int index=0; index<this.storedDusts.length; index++) {
+				colors[index] = IconUtil.getCachedColor(this.storedDusts[index]);
+			}
+			GLColor average = new GLColor(colors);
+			this.lastColor = average;
+		}
+		
 		if (this.storedDusts != null && this.storedDusts.length > 0) {
 			if (!mixed) {
 				Rectangle[] dimensions = getDustDimensions();
@@ -215,7 +235,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 						String[] tooltip = new String[data.length + 1];
 						tooltip[0] = "Mixed Dust";
 						for (int i=0; i<data.length; i++) {
-							tooltip[i+1] = StringUtil.toTitleCase(data[i].metalID) + ": " + ((float) (Math.round(data[i].ratio * 10000.0) / 100.0)) + "%";
+							tooltip[i+1] = data[i].component.getDisplayName() + ": " + ((float) (Math.round(data[i].ratio * 10000.0) / 100.0)) + "%";
 						}
 						return tooltip;
 					}

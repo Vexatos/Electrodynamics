@@ -1,10 +1,11 @@
 package electrodynamics.purity;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class MetalData {
 		
-	public String metalID;
+	public ItemStack component;
 	
 	public double ratio;
 	
@@ -15,19 +16,21 @@ public class MetalData {
 		
 	}
 	
-	public MetalData(String id, double ratio) {
-		this.metalID = id;
+	public MetalData(ItemStack id, double ratio) {
+		this.component = id;
 		this.ratio = ratio;
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt) {
-		this.metalID = nbt.getString("metalID");
+		this.component = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("component"));
 		this.ratio = nbt.getDouble("ratio");
 		this.total = nbt.getInteger("total");
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setString("metalID", this.metalID);
+		NBTTagCompound componentTag = new NBTTagCompound();
+		this.component.writeToNBT(componentTag);
+		nbt.setCompoundTag("component", componentTag);
 		nbt.setDouble("ratio", this.ratio);
 		nbt.setInteger("total", this.total);
 	}
@@ -42,7 +45,7 @@ public class MetalData {
 	
 	@Override
 	public String toString() {
-		return this.metalID + ": " + this.ratio;
+		return this.component.getDisplayName() + ": " + this.ratio;
 	}
 	
 }

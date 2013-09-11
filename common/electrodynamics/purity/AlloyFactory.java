@@ -21,44 +21,33 @@ public class AlloyFactory {
 		return factory;
 	}
 	
-	public List<String> metals = new ArrayList<String>();
+	public List<ItemStack> metals = new ArrayList<ItemStack>();
+	
 	
 	public void addMetal(ItemStack stack) {
-		metals.add(DynamicAlloyPurities.getIDForStack(stack));
+		metals.add(stack);
 	}
 	
 	public void removeMetal(ItemStack stack) {
-		metals.remove(DynamicAlloyPurities.getIDForStack(stack));
+		metals.remove(stack);
 	}
 	
 	public boolean containsMetal(ItemStack stack) {
-		return metals.contains(DynamicAlloyPurities.getIDForStack(stack));
-	}
-	
-	public void addMetal(String id) {
-		this.metals.add(id);
-	}
-	
-	public void removeMetal(String id) {
-		this.metals.remove(id);
-	}
-	
-	public boolean containsMetal(String id) {
-		return this.metals.contains(id);
+		return metals.contains(stack);
 	}
 	
 	public MetalData[] getMetals() {
 		if (this.metals != null && this.metals.size() > 0) {
-			Map<String, Integer> metalAmounts = new HashMap<String, Integer>();
+			Map<ItemStack, Integer> metalAmounts = new HashMap<ItemStack, Integer>();
 			
 			int total = 0;
 			
-			for (String string : this.metals) {
-				if (!metalAmounts.containsKey(string)) {
-					metalAmounts.put(string, 1);
+			for (ItemStack stack : this.metals) {
+				if (!metalAmounts.containsKey(stack)) {
+					metalAmounts.put(stack, 1);
 				} else {
-					int amount = metalAmounts.get(string);
-					metalAmounts.put(string, amount + 1);
+					int amount = metalAmounts.get(stack);
+					metalAmounts.put(stack, amount + 1);
 				}
 				
 				total++;
@@ -67,7 +56,7 @@ public class AlloyFactory {
 			MetalData[] metals = new MetalData[metalAmounts.size()];
 			
 			for (int i=0; i<metalAmounts.size(); i++) {
-				Entry<String, Integer> metalData = (Entry<String, Integer>) metalAmounts.entrySet().toArray()[i];
+				Entry<ItemStack, Integer> metalData = (Entry<ItemStack, Integer>) metalAmounts.entrySet().toArray()[i];
 				double ratio = (double)metalData.getValue() / total;
 				MetalData data = new MetalData(metalData.getKey(), ratio);
 				data.setTotal(metalData.getValue());
