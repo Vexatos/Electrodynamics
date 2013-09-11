@@ -117,29 +117,25 @@ public abstract class ItemAlloyTool extends Item {
 			if (canHarvestBlock(block)) {
 				float miningSpeed = AttributeType.MINING_SPEED.baseValue;
 				
-//				if (shouldApplyModifier(block)) {
-					AlloyStack tool = new AlloyStack(stack);
-					
-					if (tool.getMetals() != null && tool.getMetals().length > 0) {
-						float modifierSum = 0F;
-						int modifiersCount = 0;
-						for (MetalData data : tool.getMetals()) {
-							MetalType type = MetalType.get(data);
-	
-							int total = data.getTotal();
-							modifiersCount += total;
-							for (Attribute attribute : type.getAttributes()) {
-								if (attribute.attribute == AttributeType.MINING_SPEED) {
-									modifierSum += attribute.modifier * total;
-								}
+				AlloyStack tool = new AlloyStack(stack);
+				
+				if (tool.getMetals() != null && tool.getMetals().length > 0) {
+					float modifierSum = 0F;
+					int modifiersCount = 0;
+					for (MetalData data : tool.getMetals()) {
+						MetalType type = MetalType.get(data);
+
+						int total = data.getTotal();
+						modifiersCount += total;
+						for (Attribute attribute : type.getAttributes()) {
+							if (attribute.attribute == AttributeType.MINING_SPEED) {
+								modifierSum += attribute.modifier * total;
 							}
 						}
-						
-						miningSpeed *= 1 + modifierSum / modifiersCount;
 					}
-//				} else {
-//					return 1.0F; // Break slower if can be broken by hand instead of tool?
-//				}
+					
+					miningSpeed *= 1 + modifierSum / modifiersCount;
+				}
 				
 				return miningSpeed;
 			}
@@ -150,10 +146,6 @@ public abstract class ItemAlloyTool extends Item {
 	
 	@Override
 	public boolean canHarvestBlock(Block block) {
-//		if (block.blockMaterial.isToolNotRequired()) {
-//			return true;
-//		}
-		
 		for (Material material : getEffectiveMaterials()) {
 			if (material == block.blockMaterial) {
 				return true;
@@ -163,20 +155,6 @@ public abstract class ItemAlloyTool extends Item {
 		return false;
 	}
 
-//	public boolean shouldApplyModifier(Block block) {
-//		if (!block.blockMaterial.isToolNotRequired()) {
-//			return true;
-//		}
-//		
-//		for (Material material : getEffectiveMaterials()) {
-//			if (material == block.blockMaterial) {
-//				return false;
-//			}
-//		}
-//		
-//		return true;
-//	}
-	
 	@Override
 	public int getDamage(ItemStack stack) {
 		if (stack.getTagCompound() == null) {
