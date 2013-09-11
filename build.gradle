@@ -1,7 +1,13 @@
 import groovy.json.JsonSlurper
 import groovy.io.FileType
 
+// Apply the groovy plugin
 apply plugin: 'groovy'
+
+// Download the dependancies
+dependencies {
+	compile 'org.codehaus.groovy:groovy-all:2.0.5'
+}
 
 // If no tasks defined, run a test build
 defaultTasks 'build'
