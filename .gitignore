@@ -16,3 +16,5 @@ unpack/
 Thumbs.db
 
 .DS_Store
+
+build.bat
