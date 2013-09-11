@@ -29,7 +29,7 @@ public class ItemGlassJar extends Item {
 
 	public static Map<String, Vec3> playerLook = new HashMap<String, Vec3>();
 	
-	public static final int SHAKE_PROGRESS_MAX = 20;
+	public static final int SHAKE_PROGRESS_MAX = 200;
 	
 	public static final String DUST_LIST_KEY = "dusts";
 	public static final String DUST_EXIST_BOOL_KEY = "hasDusts";
@@ -166,7 +166,7 @@ public class ItemGlassJar extends Item {
 								}
 								
 								if (lastLook.distanceTo(currLook) > 1) {
-									stack.setItemDamage(stack.getItemDamage() + 1);
+									stack.setItemDamage(stack.getItemDamage() + 10);
 								}
 								
 								playerLook.put(ID, currLook);

@@ -105,7 +105,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 				GLColor average = new GLColor(colors);
 				Rectangle rect = getMixedDustDimensions();
 
-				this.drawRect(k + rect.x, l + rect.y, k + rect.x + rect.w, l + rect.y + rect.h + 1, average.toInt());
+				this.drawRect(k + rect.x + GUI_JAR_DIMENSIONS.h - rect.h, l + rect.y, k + rect.x + rect.w, l + rect.y + rect.h + 1, average.toInt());
 			}
 		}
 	}
