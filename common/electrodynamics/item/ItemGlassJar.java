@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,7 +16,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import electrodynamics.client.gui.GuiGlassJar;
+import electrodynamics.configuration.ConfigurationSettings;
 import electrodynamics.core.CreativeTabED;
+import electrodynamics.core.EDLogger;
 import electrodynamics.core.handler.GuiHandler;
 import electrodynamics.core.handler.GuiHandler.GuiType;
 import electrodynamics.purity.AlloyFactory;
@@ -144,29 +149,31 @@ public class ItemGlassJar extends Item {
 	
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int int1, boolean bool1) {
-		if (!world.isRemote) {
-			if (entity instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer)entity;
-				String ID = "look" + player.getEntityName();
-				
-				if (isAlloy(stack)) {
-					if (!isMixed(stack)) {
-						if (stack.getItemDamage() < SHAKE_PROGRESS_MAX) {
-							Vec3 currLook = player.getLookVec();
-							Vec3 lastLook = playerLook.get(ID);
-							
-							if (lastLook == null) {
-								lastLook = currLook;
+		if (ConfigurationSettings.OLD_SHAKING_METHOD) {
+			if (!world.isRemote) {
+				if (entity instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer)entity;
+					String ID = "look" + player.getEntityName();
+					
+					if (isAlloy(stack)) {
+						if (!isMixed(stack)) {
+							if (stack.getItemDamage() < SHAKE_PROGRESS_MAX) {
+								Vec3 currLook = player.getLookVec();
+								Vec3 lastLook = playerLook.get(ID);
+								
+								if (lastLook == null) {
+									lastLook = currLook;
+								}
+								
+								if (lastLook.distanceTo(currLook) > 1) {
+									stack.setItemDamage(stack.getItemDamage() + 1);
+								}
+								
+								playerLook.put(ID, currLook);
+							} else {
+								setMixed(stack, true);
+								stack.setItemDamage(0);
 							}
-							
-							if (lastLook.distanceTo(currLook) > 1) {
-								stack.setItemDamage(stack.getItemDamage() + 1);
-							}
-							
-							playerLook.put(ID, currLook);
-						} else {
-							setMixed(stack, true);
-							stack.setItemDamage(0);
 						}
 					}
 				}
@@ -196,32 +203,75 @@ public class ItemGlassJar extends Item {
 	}
 	
 	@Override
+	public int getMaxItemUseDuration(ItemStack stack) {
+        return 72000;
+    }
+
+	@Override
+	public EnumAction getItemUseAction(ItemStack stack) {
+        return EnumAction.bow;
+    }
+	
+	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		if (!world.isRemote) {
-			if (!player.isSneaking()) {
-				GuiHandler.openGui(player, world, (int)player.posX, (int)player.posY, (int)player.posZ, GuiType.GLASS_JAR);
-			} else {
-				ItemStack[] dusts = ItemGlassJar.getStoredDusts(stack);
-				
-				if (dusts != null && dusts.length > 0) {
-					if (!isMixed(stack)) {
-						for (ItemStack dust : dusts) {
+		if (ConfigurationSettings.OLD_SHAKING_METHOD) {
+			if (!world.isRemote) {
+				if (!player.isSneaking()) {
+					GuiHandler.openGui(player, world, (int)player.posX, (int)player.posY, (int)player.posZ, GuiType.GLASS_JAR);
+				} else {
+					ItemStack[] dusts = ItemGlassJar.getStoredDusts(stack);
+					
+					if (dusts != null && dusts.length > 0) {
+						if (!isMixed(stack)) {
+							for (ItemStack dust : dusts) {
+								player.dropPlayerItem(dust);
+							}
+						} else {
+							AlloyFactory factory = AlloyFactory.fromInventory(dusts);
+							ItemStack dust = factory.generateItemStack(0);
+							dust.stackSize = dusts.length;
 							player.dropPlayerItem(dust);
 						}
-					} else {
-						AlloyFactory factory = AlloyFactory.fromInventory(dusts);
-						ItemStack dust = factory.generateItemStack(0);
-						dust.stackSize = dusts.length;
-						player.dropPlayerItem(dust);
+					}
+					
+					ItemGlassJar.dumpDusts(stack);
+					ItemGlassJar.setMixed(stack, false);
+				}
+			}
+		} else {
+			if (!player.isSneaking()) {
+				if (isAlloy(stack)) {
+					if (!isMixed(stack)) {
+						player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
 					}
 				}
-				
-				ItemGlassJar.dumpDusts(stack);
-				ItemGlassJar.setMixed(stack, false);
+			} else {
+				if (!world.isRemote) {
+					GuiHandler.openGui(player, world, (int)player.posX, (int)player.posY, (int)player.posZ, GuiType.GLASS_JAR);
+				}
 			}
 		}
 		
 		return stack;
 	}
 
+	@Override
+	public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+        return par1ItemStack;
+    }
+	
+	@Override
+	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count) {
+		if (isAlloy(stack)) {
+			if (!isMixed(stack)) {
+				if (stack.getItemDamage() < SHAKE_PROGRESS_MAX) {
+					stack.setItemDamage(stack.getItemDamage() + 1);
+				} else {
+					setMixed(stack, true);
+					stack.setItemDamage(0);
+				}
+			}
+		}
+	}
+	
 }

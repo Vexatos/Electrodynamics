@@ -64,6 +64,16 @@ public class InventoryUtil {
 		return inventoryNBT;
 	}
 	
+	public static ItemStack getFirstOccuranceOfInstance(ItemStack[] inv, Class<? extends Item> clazz) {
+		for (ItemStack stack : inv) {
+			if (stack != null && stack.getItem().getClass().isInstance(clazz)) {
+				return stack;
+			}
+		}
+		
+		return null;
+	}
+	
 	public static ItemStack getFirstOccuranceOf(ItemStack[] inv, ItemStack check) {
 		for (ItemStack stack : inv) {
 			if (stack != null && ItemUtil.areItemStacksEqual(check, stack, false)) {

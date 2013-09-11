@@ -116,29 +116,30 @@ public abstract class ItemAlloyTool extends Item {
 			
 			if (canHarvestBlock(block)) {
 				float miningSpeed = AttributeType.MINING_SPEED.baseValue;
-				float modifierSum = 0F;
 				
-				if (shouldApplyModifier(block)) {
+//				if (shouldApplyModifier(block)) {
 					AlloyStack tool = new AlloyStack(stack);
 					
 					if (tool.getMetals() != null && tool.getMetals().length > 0) {
+						float modifierSum = 0F;
+						int modifiersCount = 0;
 						for (MetalData data : tool.getMetals()) {
 							MetalType type = MetalType.get(data);
-							
-							for (int i=0; i<data.getTotal(); i++) {
-								for (Attribute attribute : type.getAttributes()) {
-									if (attribute.attribute == AttributeType.MINING_SPEED) {
-										modifierSum += attribute.modifier;
-									}
+	
+							int total = data.getTotal();
+							modifiersCount += total;
+							for (Attribute attribute : type.getAttributes()) {
+								if (attribute.attribute == AttributeType.MINING_SPEED) {
+									modifierSum += attribute.modifier * total;
 								}
 							}
 						}
 						
-						miningSpeed *= 1 + modifierSum / tool.getMetals().length;
+						miningSpeed *= 1 + modifierSum / modifiersCount;
 					}
-				} else {
-					return 1.0F; // Break slower if can be broken by hand instead of tool?
-				}
+//				} else {
+//					return 1.0F; // Break slower if can be broken by hand instead of tool?
+//				}
 				
 				return miningSpeed;
 			}
@@ -149,9 +150,9 @@ public abstract class ItemAlloyTool extends Item {
 	
 	@Override
 	public boolean canHarvestBlock(Block block) {
-		if (block.blockMaterial.isToolNotRequired()) {
-			return true;
-		}
+//		if (block.blockMaterial.isToolNotRequired()) {
+//			return true;
+//		}
 		
 		for (Material material : getEffectiveMaterials()) {
 			if (material == block.blockMaterial) {
@@ -162,9 +163,19 @@ public abstract class ItemAlloyTool extends Item {
 		return false;
 	}
 
-	public boolean shouldApplyModifier(Block block) {
-		return !block.blockMaterial.isToolNotRequired();
-	}
+//	public boolean shouldApplyModifier(Block block) {
+//		if (!block.blockMaterial.isToolNotRequired()) {
+//			return true;
+//		}
+//		
+//		for (Material material : getEffectiveMaterials()) {
+//			if (material == block.blockMaterial) {
+//				return false;
+//			}
+//		}
+//		
+//		return true;
+//	}
 	
 	@Override
 	public int getDamage(ItemStack stack) {
@@ -274,9 +285,20 @@ public abstract class ItemAlloyTool extends Item {
 			this.baseDamage = baseDamage;
 		}
 		
+		public Item getItem() {
+			switch(this) {
+			case AXE: return EDItems.itemAlloyAxe;
+			case HOE: return EDItems.itemAlloyHoe;
+			case PICKAXE: return EDItems.itemAlloyPickaxe;
+			case SHOVEL: return EDItems.itemAlloyShovel;
+			case SWORD: return EDItems.itemAlloySword;
+			default: return null;
+			}
+		}
+		
 		public static ToolType getTypeFromClass(Class<? extends Item> clazz) {
 			for (ToolType type : ToolType.values()) {
-				if (clazz.isInstance(type.itemClazz)) {
+				if (type.itemClazz.getSimpleName().equalsIgnoreCase(clazz.getSimpleName())) {
 					return type;
 				}
 			}

@@ -18,5 +18,8 @@ public class ConfigurationSettings {
 	/* General settings */
 	@EDXProperty(category = ConfigurationHandler.CATEGORY_SETTINGS)
 	public static boolean SHOW_LOCALIZATION_ERRORS = false;
+
+	@EDXProperty(category = ConfigurationHandler.CATEGORY_SETTINGS)
+	public static boolean OLD_SHAKING_METHOD = false;
 	
 }

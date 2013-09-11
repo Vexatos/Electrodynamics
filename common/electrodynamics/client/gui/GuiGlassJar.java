@@ -11,12 +11,16 @@ import electrodynamics.client.gui.module.GuiModule;
 import electrodynamics.client.gui.module.GuiModule.MouseState;
 import electrodynamics.client.gui.module.GuiModuleHotspot;
 import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
+import electrodynamics.configuration.ConfigurationSettings;
+import electrodynamics.core.CoreUtils;
+import electrodynamics.core.EDLogger;
 import electrodynamics.core.handler.GuiHandler.GuiType;
 import electrodynamics.core.handler.IconHandler;
 import electrodynamics.inventory.container.ContainerGlassJar;
 import electrodynamics.item.ItemDust;
 import electrodynamics.item.ItemGlassJar;
 import electrodynamics.network.packet.PacketHotspotCallback;
+import electrodynamics.network.packet.PacketPayload;
 import electrodynamics.network.packet.PacketUpdateSlot;
 import electrodynamics.network.packet.PacketPayload.IPayloadReceptor;
 import electrodynamics.purity.AlloyFactory;
@@ -27,7 +31,7 @@ import electrodynamics.util.render.GLColor;
 import electrodynamics.util.render.IconUtil;
 import electrodynamics.util.render.RenderUtil;
 
-public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback {
+public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback, IPayloadReceptor {
 
 	public static final ResourceLocation ITEM_ATLAS = TextureMap.locationItemsTexture;
 	
@@ -35,16 +39,26 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 
 	public static final int DUST_MAX = 9;
 	public static final int DUST_HEIGHT = (int) Math.floor(GUI_JAR_DIMENSIONS.h / DUST_MAX);
+
+//	public static final ResourceLocation[] GUI_DUST_IMAGES;
+//	
+//	static {
+//		GUI_DUST_IMAGES = new ResourceLocation[9];
+//		
+//		for (int i=0; i<GUI_DUST_IMAGES.length; i++) {
+//			GUI_DUST_IMAGES[i] = CoreUtils.getResource("textures/gui/dust/generic_dustJar" + i + ".png");
+//		}
+//	}
 	
 	public EntityPlayer player;
 
 	public ItemStack jar;
 	
 	private ItemStack[] storedDusts;
+
+	public ContainerGlassJar container;
 	
 	private boolean mixed = true;
-	
-	public ContainerGlassJar container;
 	
 	public GuiGlassJar(EntityPlayer player, ContainerGlassJar container) {
 		super(GuiType.GLASS_JAR, container);
@@ -67,9 +81,20 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 				
 				for (int index=0; index<this.storedDusts.length; index++) {
 					Rectangle rect = dimensions[index];
+					GLColor color = null;
 					
-					IconUtil.getCachedColor(this.storedDusts[i]).apply();
-					RenderUtil.drawItem(k + rect.x, l + rect.y, IconHandler.getInstance().getIcon("dust.dust"), rect.w, rect.h);
+					try {
+						color = IconUtil.getCachedColor(this.storedDusts[index]);
+					} catch (ArrayIndexOutOfBoundsException ex) {
+						color = GLColor.WHITE;
+					}
+					
+					if (index == 0) {
+						this.drawRect(k + rect.x, l + rect.y, k + rect.x + rect.w, l + rect.y + rect.h - 1, color.toInt());
+					} else {
+						this.drawRect(k + rect.x, l + rect.y, k + rect.x + rect.w, l + rect.y + rect.h, color.toInt());
+					}
+					
 					GLColor.WHITE.apply();
 				}
 			} else {
@@ -78,10 +103,9 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 					colors[index] = IconUtil.getCachedColor(this.storedDusts[index]);
 				}
 				GLColor average = new GLColor(colors);
-				average.apply();
-				
 				Rectangle rect = getMixedDustDimensions();
-				RenderUtil.drawItem(k + rect.x , l + rect.y + GUI_JAR_DIMENSIONS.h - rect.h, IconHandler.getInstance().getIcon("dust.dust"), rect.w, rect.h);
+
+				this.drawRect(k + rect.x, l + rect.y, k + rect.x + rect.w, l + rect.y + rect.h + 1, average.toInt());
 			}
 		}
 	}
@@ -91,27 +115,60 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 		PacketHotspotCallback packet = new PacketHotspotCallback(uuid, state, stack);
 		PacketDispatcher.sendPacketToServer(packet.makePacket());
 		
-		if (!ItemGlassJar.isMixed(this.jar)) {
-			if (FMLClientHandler.instance().getClient().thePlayer.capabilities.isCreativeMode) {
-				if (state == MouseState.MOUSE_RIGHT) {
-					ItemGlassJar.setMixed(this.jar, true);
-				}
-			}
-			
-			if (ItemDust.isDust(stack) && !DynamicAlloyPurities.getIDForStack(stack).equals("unknown")) {
-				if (ItemGlassJar.getStoredDusts(this.jar).length < GuiGlassJar.DUST_MAX) {
-					if (state == MOUSE_LEFT) {
-						ItemStack newDust = stack.copy();
-						newDust.stackSize = 1;
-						addDust(newDust);
-						
-						if (stack.stackSize > 1) {
-							--stack.stackSize;
-						} else {
-							stack = null;
-						}
+		long currentClickTime = System.currentTimeMillis();
+		
+		if (System.currentTimeMillis() - this.lastClickTime <= 200 && this.lastClickTime != 0L && stack == null) { // Was double click
+			if (!ConfigurationSettings.OLD_SHAKING_METHOD) {
+				ItemStack[] dusts = ItemGlassJar.getStoredDusts(this.jar);
+				AlloyFactory factory = null;
+				
+				for (ItemStack stackDust : dusts) {
+					if (!ItemGlassJar.isMixed(this.jar)) {
+						player.inventory.addItemStackToInventory(stackDust);
+					} else {
+						factory = AlloyFactory.fromInventory(dusts);
+						factory.addMetal(stackDust.copy());
 					}
-					this.player.inventory.setItemStack(stack);
+				}
+				
+				if (factory != null) {
+					ItemStack alloyStack = factory.generateItemStack(0);
+					alloyStack.stackSize = dusts.length;
+					player.inventory.addItemStackToInventory(alloyStack.copy());
+				}
+				
+				PacketPayload payload = new PacketPayload(1).set(0, (byte) 0);
+				PacketDispatcher.sendPacketToServer(payload.makePacket());
+				ItemGlassJar.dumpDusts(this.jar);
+				ItemGlassJar.setMixed(this.jar, false);
+				PacketUpdateSlot packet2 = new PacketUpdateSlot(this.jar, this.player.inventory.currentItem);
+				PacketDispatcher.sendPacketToServer(packet2.makePacket());
+			}
+		} else {
+			this.lastClickTime = currentClickTime;
+			
+			if (!ItemGlassJar.isMixed(this.jar)) {
+				if (FMLClientHandler.instance().getClient().thePlayer.capabilities.isCreativeMode) {
+					if (state == MouseState.MOUSE_RIGHT) {
+						ItemGlassJar.setMixed(this.jar, true);
+					}
+				}
+				
+				if (ItemDust.isDust(stack)) {
+					if (ItemGlassJar.getStoredDusts(this.jar).length < GuiGlassJar.DUST_MAX) {
+						if (state == MOUSE_LEFT) {
+							ItemStack newDust = stack.copy();
+							newDust.stackSize = 1;
+							addDust(newDust);
+							
+							if (stack.stackSize > 1) {
+								--stack.stackSize;
+							} else {
+								stack = null;
+							}
+						}
+						this.player.inventory.setItemStack(stack);
+					}
 				}
 			}
 		}
@@ -202,6 +259,13 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback 
 		}
 		public String toString() {
 			return ("X: " + x + " Y: " + y + " W: " + w + " H: " + h);
+		}
+	}
+
+	@Override
+	public void handlePayload(byte[] array) {
+		if (array != null && array.length == 0 & array[0] == 0) {
+			this.updateJar();
 		}
 	}
 

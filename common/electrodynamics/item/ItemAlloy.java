@@ -1,5 +1,6 @@
 package electrodynamics.item;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,8 @@ import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.lib.core.Strings;
 import electrodynamics.purity.AlloyStack;
-import electrodynamics.purity.MetalData;
 import electrodynamics.purity.DynamicAlloyPurities.MetalType;
+import electrodynamics.purity.MetalData;
 import electrodynamics.util.StringUtil;
 import electrodynamics.util.render.GLColor;
 import electrodynamics.util.render.IconUtil;
@@ -94,24 +95,26 @@ public class ItemAlloy extends Item {
     	
     	AlloyStack alloy = new AlloyStack(stack);
 		if (alloy.getMetals().length > 0) {
-			GLColor[] colors = new GLColor[alloy.getMetals().length];
+			List<GLColor> colors = new ArrayList<GLColor>();
 			
 			for (int i=0; i<alloy.getMetals().length; i++) {
 				MetalData data = alloy.getMetals()[i];
 				MetalType type = MetalType.get(data.metalID);
 				
 				if (type != null) {
-					ItemStack stack1 = stack.getItemDamage() == 0 ? type.getDust() : type.getSolid();
-					
-					if (stack1 != null) {
-						colors[i] = IconUtil.getCachedColor(stack1);
-					} else {
-						return new GLColor(0xFFFFFF); // For components that don't have a solid/dust form
+					for (int x=0; x<data.getTotal(); x++) {
+						ItemStack stack1 = type.getSolid();
+						
+						if (stack1 != null) {
+							colors.add(IconUtil.getCachedColor(stack1));
+						} else {
+							colors.add(GLColor.WHITE); // For components that don't have a solid/dust form
+						}
 					}
 				}
 			}
 			
-			return new GLColor(colors);
+			return new GLColor(colors.toArray(new GLColor[colors.size()]));
 		}
 		
 		return new GLColor(0xFFFFFF);

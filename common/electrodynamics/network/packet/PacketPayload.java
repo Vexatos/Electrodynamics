@@ -62,7 +62,7 @@ public class PacketPayload extends PacketED {
 	@Override
 	public void writeData(DataOutputStream dos) throws IOException {
 		dos.writeByte(this.type.ordinal());
-		dos.write(this.bytePayload.length);
+		dos.writeInt(this.bytePayload.length);
 		for (int i=0; i<bytePayload.length; i++) {
 			dos.write(bytePayload[i]);
 		}

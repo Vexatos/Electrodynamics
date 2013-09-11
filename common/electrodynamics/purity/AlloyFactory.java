@@ -70,7 +70,7 @@ public class AlloyFactory {
 				Entry<String, Integer> metalData = (Entry<String, Integer>) metalAmounts.entrySet().toArray()[i];
 				double ratio = (double)metalData.getValue() / total;
 				MetalData data = new MetalData(metalData.getKey(), ratio);
-				data.setTotal(total);
+				data.setTotal(metalData.getValue());
 				metals[i] = data;
 			}
 			

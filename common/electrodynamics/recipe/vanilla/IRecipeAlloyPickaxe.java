@@ -10,9 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import electrodynamics.core.EDLogger;
 import electrodynamics.item.EDItems;
 import electrodynamics.item.ItemAlloy;
 import electrodynamics.item.ItemAlloyTool;
+import electrodynamics.item.ItemAlloyTool.ToolType;
 import electrodynamics.item.ItemPeelingSpud;
 import electrodynamics.purity.AlloyStack;
 import electrodynamics.util.InventoryUtil;
@@ -21,25 +23,33 @@ public class IRecipeAlloyPickaxe implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting inventorycrafting, World world) {
-		ItemStack[] inv = InventoryUtil.trimInventory(InventoryUtil.getInvArrayFromInventory(inventorycrafting));
+		ItemStack stack1 = inventorycrafting.getStackInRowAndColumn(0, 0);
+		ItemStack stack2 = inventorycrafting.getStackInRowAndColumn(1, 0);
 		
-		return (InventoryUtil.containsInstanceOf(inv, ItemAlloy.class)) && 
-				(InventoryUtil.containsInstanceOf(inv, ItemPickaxe.class) ||
-				InventoryUtil.containsInstanceOf(inv, ItemAxe.class) ||
-				InventoryUtil.containsInstanceOf(inv, ItemSpade.class) ||
-				InventoryUtil.containsInstanceOf(inv, ItemSword.class) ||
-				InventoryUtil.containsInstanceOf(inv, ItemHoe.class)) && inv.length == 2;
+		if (stack1 != null && stack2 != null) {
+			boolean alloyIn;
+			boolean toolIn;
+			
+			alloyIn = (stack1.getItem() instanceof ItemAlloy);
+			toolIn = (ToolType.getTypeFromClass(stack2.getItem().getClass()) != null);
+			
+			return (alloyIn && toolIn);
+		}
+		
+		return false;
 	}
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
-		ItemStack alloy = inventorycrafting.getStackInRowAndColumn(1, 0);
-		AlloyStack stack = new AlloyStack(alloy);
-		ItemStack tool = new ItemStack(EDItems.itemAlloyPickaxe);
-		AlloyStack pick = new AlloyStack(tool);
-		pick.setMetals(stack.getMetals());
-		//TODO Max damage
-		return tool;
+		ItemStack alloy = inventorycrafting.getStackInRowAndColumn(0, 0);
+		ItemStack tool = inventorycrafting.getStackInRowAndColumn(1, 0);
+		
+		AlloyStack alloyStack = new AlloyStack(alloy);
+		AlloyStack alloyTool = new AlloyStack(new ItemStack(ToolType.getTypeFromClass(tool.getItem().getClass()).getItem()));
+		
+		alloyTool.setMetals(alloyStack.getMetals());
+		
+		return alloyTool.getItem().copy();
 	}
 
 	@Override

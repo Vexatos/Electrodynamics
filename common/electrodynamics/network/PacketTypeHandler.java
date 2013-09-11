@@ -39,7 +39,8 @@ public enum PacketTypeHandler {
 	CLIENT_DATA(PacketClientData.class),
 	UPDATE_SLOT(PacketUpdateSlot.class),
 	HOTSPOT_CALLBACK(PacketHotspotCallback.class),
-	PAYLOAD(PacketPayload.class);
+	PAYLOAD(PacketPayload.class),
+	UPDATE_CONFIG(PacketUpdateConfig.class);
 	
 	private Class<? extends PacketED> clazz;
 	

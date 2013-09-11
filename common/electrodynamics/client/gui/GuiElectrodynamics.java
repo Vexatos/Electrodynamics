@@ -17,6 +17,8 @@ public class GuiElectrodynamics extends GuiContainer {
 	
 	private GuiType guiType;
 	
+	protected long lastClickTime = 0L;
+	
 	public GuiElectrodynamics(GuiType guiType, Container container) {
 		super(container);
 		

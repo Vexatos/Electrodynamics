@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import electrodynamics.client.gui.GuiGlassJar;
@@ -13,11 +14,14 @@ import electrodynamics.client.gui.module.GuiModule.MouseState;
 import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
 import electrodynamics.item.ItemDust;
 import electrodynamics.item.ItemGlassJar;
+import electrodynamics.network.packet.PacketPayload.IPayloadReceptor;
 import electrodynamics.network.packet.PacketPayload;
+import electrodynamics.network.packet.PacketUpdateSlot;
+import electrodynamics.purity.AlloyFactory;
 import electrodynamics.purity.DynamicAlloyPurities;
 import electrodynamics.util.InventoryUtil;
 
-public class ContainerGlassJar extends Container implements IHotspotCallback {
+public class ContainerGlassJar extends Container implements IHotspotCallback, IPayloadReceptor {
 
 	private EntityPlayer player;
 	
@@ -55,7 +59,15 @@ public class ContainerGlassJar extends Container implements IHotspotCallback {
 
 	@Override
 	public void onClicked(EntityPlayer player, String uuid, MouseState state, ItemStack stack) {
+		// Replicated here to ensure everything is kept in sync
+		// Main code is run in GuiGlassJar
 		if (!ItemGlassJar.isMixed(this.glassJar)) {
+			if (FMLClientHandler.instance().getClient().thePlayer.capabilities.isCreativeMode) {
+				if (state == MouseState.MOUSE_RIGHT) {
+					ItemGlassJar.setMixed(this.glassJar, true);
+				}
+			}
+			
 			if (ItemDust.isDust(stack) && !DynamicAlloyPurities.getIDForStack(stack).equals("unknown")) {
 				if (ItemGlassJar.getStoredDusts(this.glassJar).length < GuiGlassJar.DUST_MAX) {
 					if (state == MOUSE_LEFT) {
@@ -70,6 +82,29 @@ public class ContainerGlassJar extends Container implements IHotspotCallback {
 					}
 					this.player.inventory.setItemStack(stack);
 				}
+			}
+		}
+	}
+
+	@Override
+	public void handlePayload(byte[] array) {
+		if (array != null && array.length == 1 && array[0] == 0) {
+			ItemStack[] dusts = ItemGlassJar.getStoredDusts(this.glassJar);
+			AlloyFactory factory = null;
+			
+			for (ItemStack stackDust : dusts) {
+				if (!ItemGlassJar.isMixed(this.glassJar)) {
+					player.inventory.addItemStackToInventory(stackDust);
+				} else {
+					factory = AlloyFactory.fromInventory(dusts);
+					factory.addMetal(stackDust.copy());
+				}
+			}
+			
+			if (factory != null) {
+				ItemStack alloyStack = factory.generateItemStack(0);
+				alloyStack.stackSize = dusts.length;
+				player.inventory.addItemStackToInventory(alloyStack.copy());
 			}
 		}
 	}

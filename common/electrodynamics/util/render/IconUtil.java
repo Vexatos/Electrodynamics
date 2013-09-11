@@ -90,13 +90,7 @@ public class IconUtil {
 		}
 		
 		try {
-			String[] nameSplit = stack.getIconIndex().getIconName().split(":");
-			StringBuilder sb = new StringBuilder();
-			sb.append(nameSplit[0]);
-			sb.append(":");
-			sb.append("items/");
-			sb.append(nameSplit[1]);
-			return getCachedColor(sb.toString());
+			return getCachedColor(stack.getIconIndex().getIconName().split(":")[1] + ".png");
 		} catch (Exception ex) {
 			return GLColor.WHITE;
 		}
