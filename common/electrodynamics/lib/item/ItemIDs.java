@@ -81,6 +81,6 @@ public class ItemIDs {
 	public static int ITEM_ALLOY_SWORD = 5125;
 	
 	@EDXProperty(category = CATEGORY_ITEM)
-	public static int ITEM_ALLOY_HOE = 5125;
+	public static int ITEM_ALLOY_HOE = 5126;
 	
 }

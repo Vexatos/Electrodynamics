@@ -228,7 +228,6 @@ public class Strings {
 
 	/* Internal alloy attribute names */
 	public static final String ATTRIBUTE_DURABILITY = "attribute.durability";
-	public static final String ATTRIBUTE_MINE_SPEED = "attribute.mine_speed";
 	public static final String ATTRIBUTE_CONDUCT = "attribute.conductivity";
 	public static final String ATTRIBUTE_CRIT = "attribute.critical";
 	public static final String ATTRIBUTE_SHARP = "attribute.sharpness";

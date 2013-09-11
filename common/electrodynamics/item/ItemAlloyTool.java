@@ -72,9 +72,8 @@ public abstract class ItemAlloyTool extends Item {
     	return ItemAlloy.getColorFromAlloy(stack).toInt();
     }
 	
-	@Override
-	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
-		if (!stack.hasTagCompound()) {
+    public boolean harvestBlock(ItemStack stack, int x, int y, int z, EntityPlayer player) {
+    	if (!stack.hasTagCompound()) {
 			return false;
 		}
 	
@@ -103,6 +102,11 @@ public abstract class ItemAlloyTool extends Item {
 			
 			return true;
 		}
+    }
+    
+	@Override
+	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
+		return harvestBlock(stack, x, y, z, player);
 	}
 	
 	@Override
@@ -114,8 +118,8 @@ public abstract class ItemAlloyTool extends Item {
 			
 			NBTTagCompound tag = stack.getTagCompound();
 			
-			if (canHarvestBlock(block)) {
-				float miningSpeed = AttributeType.MINING_SPEED.baseValue;
+			if (shouldModify(block)) {
+				float miningSpeed = AttributeType.EFFICIENCY.baseValue;
 				
 				AlloyStack tool = new AlloyStack(stack);
 				
@@ -128,7 +132,7 @@ public abstract class ItemAlloyTool extends Item {
 						int total = data.getTotal();
 						modifiersCount += total;
 						for (Attribute attribute : type.getAttributes()) {
-							if (attribute.attribute == AttributeType.MINING_SPEED) {
+							if (attribute.attribute == AttributeType.EFFICIENCY) {
 								modifierSum += attribute.modifier * total;
 							}
 						}
@@ -145,7 +149,15 @@ public abstract class ItemAlloyTool extends Item {
 	}
 	
 	@Override
-	public boolean canHarvestBlock(Block block) {
+	public boolean shouldModify(Block block) {
+		if (block.blockMaterial == Material.plants ||
+			block.blockMaterial == Material.vine ||
+			block.blockMaterial == Material.coral ||
+			block.blockMaterial.isAdventureModeExempt() ||
+			block.blockMaterial.isToolNotRequired()) { // Plants apparently require tools
+			return false;
+		}
+		
 		for (Material material : getEffectiveMaterials()) {
 			if (material == block.blockMaterial) {
 				return true;
@@ -217,6 +229,19 @@ public abstract class ItemAlloyTool extends Item {
 	
 	public String getHarvestType() {
 		return this.type.toString().toLowerCase();
+	}
+
+	public Attribute[] getAttributes(ItemStack stack) {
+		AlloyStack tool = new AlloyStack(stack);
+		
+		if (tool.getMetals() != null && tool.getMetals().length > 0) {
+			for (MetalData data : tool.getMetals()) {
+				MetalType type = MetalType.get(data);
+				return type.getAttributes();
+			}
+		}
+		
+		return new Attribute[] {};
 	}
 	
 	@SideOnly(Side.CLIENT)

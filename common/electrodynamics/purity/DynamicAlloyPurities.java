@@ -53,7 +53,7 @@ public class DynamicAlloyPurities {
 			public Attribute[] getAttributes() {
 				return new Attribute[] {
 					new Attribute(AttributeType.DURABILITY, 0.025F), 
-					new Attribute(AttributeType.MINING_SPEED, 0.025F)
+					new Attribute(AttributeType.EFFICIENCY, 0.025F)
 				};
 			}
 			
@@ -174,7 +174,7 @@ public class DynamicAlloyPurities {
 				return new Attribute[] {
 					new Attribute(AttributeType.REDUCED_WEIGHT, 0.1F),
 					new Attribute(AttributeType.ATTACK_SPEED, 0.1F),
-					new Attribute(AttributeType.MINING_SPEED, 0.1F),
+					new Attribute(AttributeType.EFFICIENCY, 0.1F),
 					new Attribute(AttributeType.DURABILITY, 0.1F)
 				};
 			}
@@ -286,7 +286,7 @@ public class DynamicAlloyPurities {
 			public Attribute[] getAttributes() {
 				return new Attribute[] {
 					new Attribute(AttributeType.DURABILITY, 0.05F),
-					new Attribute(AttributeType.MINING_SPEED, 0.05F)
+					new Attribute(AttributeType.EFFICIENCY, 0.05F)
 				};
 			}
 			

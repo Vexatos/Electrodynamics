@@ -162,9 +162,9 @@ public class EDModuleMachine extends EDModule {
 		GameRegistry.registerItem(EDItems.itemAlloySword, Strings.ITEM_ALLOY_SWORD);
 		EDLanguage.getInstance().registerItem(EDItems.itemAlloySword);
 		
-//		EDItems.itemAlloyHoe = new ItemAlloyAxe(ItemIDs.ITEM_ALLOY_AXE).setUnlocalizedName(Strings.ITEM_ALLOY_AXE);
-//		GameRegistry.registerItem(EDItems.itemAlloyAxe, Strings.ITEM_ALLOY_AXE);
-//		EDLanguage.getInstance().registerItem(EDItems.itemAlloyAxe);
+		EDItems.itemAlloyHoe = new ItemAlloyHoe(ItemIDs.ITEM_ALLOY_HOE).setUnlocalizedName(Strings.ITEM_ALLOY_HOE);
+		GameRegistry.registerItem(EDItems.itemAlloyHoe, Strings.ITEM_ALLOY_HOE);
+		EDLanguage.getInstance().registerItem(EDItems.itemAlloyHoe);
 	}
 
 	@Override

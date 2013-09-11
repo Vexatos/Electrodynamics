@@ -46,7 +46,6 @@ public class Attribute {
 	
 	public enum AttributeType {
 		DURABILITY(Strings.ATTRIBUTE_DURABILITY),
-		MINING_SPEED(Strings.ATTRIBUTE_MINE_SPEED, EnumToolMaterial.IRON.getEfficiencyOnProperMaterial()),
 		CONDUCTIVITY(Strings.ATTRIBUTE_CONDUCT),
 		CRITICAL(Strings.ATTRIBUTE_CRIT),
 		SHARPNESS(Strings.ATTRIBUTE_SHARP),
@@ -59,7 +58,7 @@ public class Attribute {
 		ATTACK_SPEED(Strings.ATTRIBUTE_ATTACK_SPEED),
 		PICKUP_RADIUS(Strings.ATTRIBUTE_PICKUP_RADIUS),
 		SPEED(Strings.ATTRIBUTE_SPEED),
-		EFFICIENCY(Strings.ATTRIBUTE_EFFIC),
+		EFFICIENCY(Strings.ATTRIBUTE_EFFIC, EnumToolMaterial.IRON.getEfficiencyOnProperMaterial()),
 		IMPLOSION_CHANCE(Strings.ATTRIBUTE_IMPLO_CHANCE),
 		REDUCED_WEIGHT(Strings.ATTRIBUTE_REDUC_WEIGHT);
 		
