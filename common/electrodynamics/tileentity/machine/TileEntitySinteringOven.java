@@ -212,85 +212,98 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	
 	@Override
 	public void onBlockActivated(EntityPlayer player) {
-		if(CoreUtils.isServer(worldObj))
-		{
+		if(CoreUtils.isServer(worldObj)) {
 			if (player.isSneaking()) {
 				this.open = !this.open;
 				sendOpenUpdate();
 				return;
 			}
-		
-			if (this.open) {
-				if (player.getCurrentEquippedItem() != null) {
+			
+			if (this.open) { // If oven is open
+				if (player.getCurrentEquippedItem() != null) { // If player is holding item
 					ItemStack currentItem = player.getCurrentEquippedItem();
 				
-					if (ItemUtil.getFuelValue(currentItem) > 0) {
-						this.fuelLevel += ItemUtil.getFuelValue(currentItem);
-						--currentItem.stackSize;
-						if( currentItem.itemID == Item.bucketLava.itemID ) { // return the empty bucket when using lava as fuel.
-							ItemStack bucket = new ItemStack(Item.bucketEmpty, 1);
-							if(currentItem.stackSize == 0)
-							player.setCurrentItemOrArmor(0, bucket);
-						else
-							player.inventory.addItemStackToInventory(bucket);
-						}
-						this.burning = true;
-						sendBurningUpdate();
-					
-						((EntityPlayerMP)player).updateHeldItem();
-					} else if (this.trayInventory == null && currentItem.getItem() == EDItems.itemTray) {
-						this.trayInventory = new InventoryItem(9, currentItem.copy());
-						--currentItem.stackSize;
-
-						sendTrayUpdate();
-						((EntityPlayerMP)player).updateHeldItem();
-					}
-					return;
-				}
-			
-				if (this.trayInventory != null) {
-					player.setCurrentItemOrArmor(0, trayInventory.parent.copy());
-
-					// Give experience
-					if( storedExperience > 0.0f ) {
-						BlockUtil.spawnExperienceOrbs(worldObj, xCoord, yCoord, zCoord, storedExperience);
-					}
-					this.storedExperience = 0.0f;
-					this.trayInventory = null;
-					this.currentCookTime = 0;
-					this.totalCookTime = 0;
-				
-					sendTrayUpdate();
-					((EntityPlayerMP)player).updateHeldItem();
-					return;
-				}
-			} else {
-				if (player.getCurrentEquippedItem() != null) {
-					ItemStack equipped = player.getCurrentEquippedItem();
-					
-					if (equipped.getItem() instanceof ITool && ((ITool)equipped.getItem()).getToolType() == ToolType.HAMMER) {
+					if (ItemUtil.getFuelValue(currentItem) > 0) { // If fuel, refuel
+						addFuel(currentItem, player);
+					} else if (this.trayInventory == null && currentItem.getItem() == EDItems.itemTray) { // If tray and oven is empty, insert
+						insertTray(currentItem, player);
+					} else if (currentItem.getItem() instanceof ITool && ((ITool)currentItem.getItem()).getToolType() == ToolType.HAMMER && this.trayInventory != null && this.totalCookTime > 0) { // If holding hammer and oven isn't empty, check for instasmelt
 						if (player.capabilities.isCreativeMode) {
-							if (this.totalCookTime > 0) {
-								RecipeSinteringOven recipe = CraftingManager.getInstance().ovenManager.getRecipe(Arrays.asList(this.trayInventory.inventory));
-								
-								if (recipe != null) {
-									doProcess(recipe);
-									this.storedExperience = recipe.getExperience();
+							RecipeSinteringOven recipe = CraftingManager.getInstance().ovenManager.getRecipe(Arrays.asList(this.trayInventory.inventory));
+							
+							if (recipe != null) {
+								doProcess(recipe);
+								this.storedExperience = recipe.getExperience();
 
-									this.totalCookTime = 0;
-									this.currentCookTime = 0;
+								this.totalCookTime = 0;
+								this.currentCookTime = 0;
 
-									sendTrayUpdate();
-									return;
-								}
+								sendTrayUpdate();
+								return;
 							}
 						}
+					} else { // If held item has no use, ignore and toggle door
+						toggleDoor();
+					}
+				} else { // Else if empty hand
+					if (this.trayInventory != null) { // If the oven has a tray, remove
+						removeTray(player);
+					} else {
+						toggleDoor();
 					}
 				}
+			} else { // Else oven is closed, nothing else can be done, so open
+				toggleDoor();
 			}
 		}
 	}
 
+	/* INTERACTION FUNCTIONS */
+	private void toggleDoor() {
+		this.open = !this.open;
+		sendOpenUpdate();
+	}
+	
+	private void addFuel(ItemStack stack, EntityPlayer player) {
+		this.fuelLevel += ItemUtil.getFuelValue(stack);
+		--stack.stackSize;
+		if( stack.itemID == Item.bucketLava.itemID ) { // return the empty bucket when using lava as fuel.
+			ItemStack bucket = new ItemStack(Item.bucketEmpty, 1);
+			if(stack.stackSize == 0)
+			player.setCurrentItemOrArmor(0, bucket);
+		else
+			player.inventory.addItemStackToInventory(bucket);
+		}
+		this.burning = true;
+		sendBurningUpdate();
+	
+		((EntityPlayerMP)player).updateHeldItem();
+	}
+	
+	private void insertTray(ItemStack stack, EntityPlayer player) {
+		this.trayInventory = new InventoryItem(9, stack.copy());
+		--stack.stackSize;
+
+		sendTrayUpdate();
+		((EntityPlayerMP)player).updateHeldItem();
+	}
+	
+	private void removeTray(EntityPlayer player) {
+		player.setCurrentItemOrArmor(0, trayInventory.parent.copy());
+
+		// Give experience
+		if( storedExperience > 0.0f ) {
+			BlockUtil.spawnExperienceOrbs(worldObj, xCoord, yCoord, zCoord, storedExperience);
+		}
+		this.storedExperience = 0.0f;
+		this.trayInventory = null;
+		this.currentCookTime = 0;
+		this.totalCookTime = 0;
+	
+		sendTrayUpdate();
+		((EntityPlayerMP)player).updateHeldItem();
+	}
+	
 	private void sendOpenUpdate()
 	{
 		NBTTagCompound nbt = new NBTTagCompound();
