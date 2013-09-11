@@ -33,7 +33,7 @@ def dirUnpack = dirBuild + "/unpack"
 
 // Versions
 def versionMC = "1.6.2"
-def versionMod = "0.1.4.1"
+def versionMod = "0.1.4.2"
 def versionBuild = "0"
 def versionState = "Alpha"
 def versionFull = versionMod + "." + versionBuild
