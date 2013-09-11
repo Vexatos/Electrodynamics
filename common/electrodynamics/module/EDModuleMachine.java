@@ -199,6 +199,8 @@ public class EDModuleMachine extends EDModule {
 		GameRegistry.addRecipe(Component.OVEN_WALL.toItemStack(), "LI ", "LI ", "LI ", 'I', Item.ingotIron, 'L', Decorative.LIMESTONE.toItemStack());
 		// Sintering Oven
 		GameRegistry.addRecipe(Machine.SINTERING_FURNACE.toItemStack(), "WWW", "WBW", "III", 'W', Component.OVEN_WALL.toItemStack(), 'B', Block.fenceIron, 'I', Item.ingotIron);
+		// Oven Tray
+		GameRegistry.addRecipe(new ItemStack(EDItems.itemTray), new Object[] {"RIR", 'R', Component.METAL_BAR.toItemStack(), 'I', Item.ingotIron});
 		
 		GameRegistry.addRecipe(new IRecipeAlloyPickaxe());
 		
