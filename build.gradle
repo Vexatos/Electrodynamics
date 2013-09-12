@@ -10,7 +10,7 @@ dependencies {
 }
 
 // If no tasks defined, run a test build
-defaultTasks 'build'
+defaultTasks 'build_release'
 
 // Directories
 def dirSrc = ""
@@ -286,7 +286,7 @@ task setup << {
 	}
 }
 
-task build << {
+task build_release << {
 	cleanWorkspace.execute()
 	downloadAndExtractLibraryFiles.execute()
 	copyLibraryFiles.execute()
@@ -306,5 +306,5 @@ task jenkins << {
 	ext.env = System.getenv()
 	versionBuild = env.BUILD_NUMBER?.toInteger()
 	
-	build.execute()
+	build_release.execute()
 }
