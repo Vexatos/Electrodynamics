@@ -21,11 +21,4 @@ public class GuiTray extends GuiElectrodynamics {
 		this.player = player;
 	}
 
-	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		String s = EDLanguage.getInstance().translate(Strings.ITEM_TRAY);
-		this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
-		this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
-	}
-
 }

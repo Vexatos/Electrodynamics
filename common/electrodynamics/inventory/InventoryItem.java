@@ -3,6 +3,8 @@ package electrodynamics.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
+import electrodynamics.core.EDLogger;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -72,13 +74,16 @@ public class InventoryItem implements IInventory, INBTTagable {
 		if (tag.hasKey("Items")) {
 			NBTTagList items = tag.getTagList("Items");
 			
-			for (int i=0; i<items.tagCount(); i++) {
-				NBTTagCompound tempTag = (NBTTagCompound) items.tagAt(i);
-				
-				if (tempTag != null) {
-					byte slotByte = tempTag.getByte("Slot");
-					inventory[slotByte] = ItemStack.loadItemStackFromNBT(tempTag);
+			try {
+				for (int i=0; i<items.tagCount(); i++) {
+					NBTTagCompound tempTag = (NBTTagCompound) items.tagAt(i);
+					
+					if (tempTag != null) {
+						inventory[i] = ItemStack.loadItemStackFromNBT(tempTag);
+					}
 				}
+			} catch (ArrayIndexOutOfBoundsException ex) {
+				EDLogger.warn("An inventory had more contents than available slots. The extra items have been lost! :(");
 			}
 		}
 	}
@@ -161,6 +166,7 @@ public class InventoryItem implements IInventory, INBTTagable {
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
+		EDLogger.info("STACK LIMIT: "+this.getInventoryStackLimit());
 		if (slot < this.inventory.length) {
 			this.inventory[slot] = stack;
 

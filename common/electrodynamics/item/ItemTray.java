@@ -71,7 +71,7 @@ public class ItemTray extends Item implements IInventoryItem {
 			if( type == TrayType.KILN_TRAY ) {
 				return new InventoryItem(8, stack, 16);
 			}
-			return new InventoryItem(9, stack);
+			return new InventoryItem(1, stack, 9);
 		}
 		
 		return null;

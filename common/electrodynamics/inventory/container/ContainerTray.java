@@ -3,6 +3,7 @@ package electrodynamics.inventory.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import electrodynamics.core.EDLogger;
 import electrodynamics.inventory.InventoryItem;
 
 public class ContainerTray extends ContainerInventory {
@@ -11,12 +12,8 @@ public class ContainerTray extends ContainerInventory {
 		super(player, inventory);
 		
 		// Tray Inventory
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 3; ++j) {
-				this.addSlotToContainer(new Slot(inventory, j + i * 3, 62 + j * 18, 17 + i * 18));
-			}
-		}
-
+		this.addSlotToContainer(new Slot(inventory, 0, 62 + 1 * 18, 17 + 1 * 18));
+		
 		// Player Inventory
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
@@ -32,7 +29,7 @@ public class ContainerTray extends ContainerInventory {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
 		if (par2 == this.activeSlot) return null;
-		
+
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(par2);
 
@@ -40,8 +37,8 @@ public class ContainerTray extends ContainerInventory {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (par2 < 9) {
-				if (!this.mergeItemStack(itemstack1, 9, 45, true)) {
+			if (par2 == 0) {
+				if (!this.mergeItemStack(itemstack1, 1, 36, true)) {
 					return null;
 				}
 			} else if (!this.mergeItemStack(itemstack1, 0, 9, false)) {

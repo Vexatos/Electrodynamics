@@ -34,7 +34,7 @@ public enum Textures {
 	HANDSIEVE("models/textures/handSieve.png"),
 	
 	/* GUI Textures */
-	GUI_METAL_TRAY(new ResourceLocation("textures/gui/container/dispenser.png")),
+	GUI_METAL_TRAY("textures/gui/metalTray.png"),
 	GUI_TESLA_MODULE("textures/gui/teslaModule.png"),
 	GUI_KILN_TRAY("textures/gui/kilnTray.png"),
 	GUI_GLASS_JAR("textures/gui/glassJar.png"),

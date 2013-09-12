@@ -1,12 +1,26 @@
 package electrodynamics.module;
 
+import java.util.EnumSet;
+
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import electrodynamics.block.*;
+import electrodynamics.block.BlockMachine;
+import electrodynamics.block.BlockStorage;
+import electrodynamics.block.BlockStructure;
+import electrodynamics.block.BlockTable;
+import electrodynamics.block.BlockUtility;
+import electrodynamics.block.EDBlocks;
 import electrodynamics.block.item.ItemBlockMachine;
 import electrodynamics.block.item.ItemBlockStorage;
 import electrodynamics.block.item.ItemBlockStructure;
@@ -17,16 +31,43 @@ import electrodynamics.client.render.item.RenderItemGlassJar;
 import electrodynamics.client.render.item.RenderItemHandSieve;
 import electrodynamics.client.render.item.RenderItemMachine;
 import electrodynamics.client.render.item.RenderItemTable;
-import electrodynamics.client.render.tileentity.*;
+import electrodynamics.client.render.tileentity.RenderActuator;
+import electrodynamics.client.render.tileentity.RenderBasicKiln;
+import electrodynamics.client.render.tileentity.RenderBasicSieve;
+import electrodynamics.client.render.tileentity.RenderSinteringOven;
+import electrodynamics.client.render.tileentity.RenderTable;
+import electrodynamics.client.render.tileentity.RenderTileStructure;
 import electrodynamics.core.handler.EntityDeathHandler;
 import electrodynamics.core.lang.EDLanguage;
-import electrodynamics.item.*;
+import electrodynamics.item.EDItems;
+import electrodynamics.item.ItemAlloy;
+import electrodynamics.item.ItemAlloyAxe;
+import electrodynamics.item.ItemAlloyHoe;
+import electrodynamics.item.ItemAlloyPickaxe;
+import electrodynamics.item.ItemAlloyShovel;
+import electrodynamics.item.ItemAlloySword;
+import electrodynamics.item.ItemBlacksmithApron;
+import electrodynamics.item.ItemDust;
+import electrodynamics.item.ItemGlassJar;
+import electrodynamics.item.ItemHandheldSieve;
+import electrodynamics.item.ItemIngot;
+import electrodynamics.item.ItemTray;
 import electrodynamics.item.hammer.ItemSledgeHammer;
 import electrodynamics.item.hammer.ItemSteelHammer;
 import electrodynamics.item.hammer.ItemStoneHammer;
-import electrodynamics.lib.block.*;
+import electrodynamics.lib.block.BlockIDs;
+import electrodynamics.lib.block.Decorative;
+import electrodynamics.lib.block.Machine;
+import electrodynamics.lib.block.Ore;
+import electrodynamics.lib.block.Storage;
+import electrodynamics.lib.block.StructureComponent;
+import electrodynamics.lib.block.UtilityBlock;
 import electrodynamics.lib.core.Strings;
-import electrodynamics.lib.item.*;
+import electrodynamics.lib.item.Component;
+import electrodynamics.lib.item.Dust;
+import electrodynamics.lib.item.Grinding;
+import electrodynamics.lib.item.Ingot;
+import electrodynamics.lib.item.ItemIDs;
 import electrodynamics.mbs.MBSManager;
 import electrodynamics.mbs.structure.MobGrinder;
 import electrodynamics.mbs.structure.SinteringFurnace;
@@ -36,7 +77,6 @@ import electrodynamics.recipe.manager.CraftingManager;
 import electrodynamics.recipe.manager.RecipeManagerGrinder;
 import electrodynamics.recipe.manager.RecipeManagerKiln;
 import electrodynamics.recipe.manager.RecipeManagerSieve;
-import electrodynamics.recipe.manager.RecipeManagerSinteringOven;
 import electrodynamics.recipe.manager.RecipeManagerTable;
 import electrodynamics.recipe.vanilla.IRecipeAlloyPickaxe;
 import electrodynamics.tileentity.machine.TileEntityBasicKiln;
@@ -52,15 +92,6 @@ import electrodynamics.tileentity.structure.TileEntityStructure;
 import electrodynamics.tileentity.structure.TileEntityValve;
 import electrodynamics.util.ItemUtil;
 import electrodynamics.world.TickHandlerMBS;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary;
-
-import java.util.EnumSet;
 
 public class EDModuleMachine extends EDModule {
 
@@ -248,9 +279,6 @@ public class EDModuleMachine extends EDModule {
 
 		CraftingManager.getInstance().sieveManager = new RecipeManagerSieve();
 		CraftingManager.getInstance().sieveManager.initRecipes();
-
-		CraftingManager.getInstance().ovenManager = new RecipeManagerSinteringOven();
-		CraftingManager.getInstance().ovenManager.initRecipes();
 
 		CraftingManager.getInstance().kilnManager = new RecipeManagerKiln();
 		CraftingManager.getInstance().kilnManager.initRecipes();

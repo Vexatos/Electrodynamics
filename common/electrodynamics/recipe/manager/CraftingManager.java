@@ -16,7 +16,6 @@ public class CraftingManager implements ICraftingManager {
 
 	public RecipeManagerTable tableManager;
 	public RecipeManagerSieve sieveManager;
-	public RecipeManagerSinteringOven ovenManager;
 	public RecipeManagerKiln kilnManager;
 	public RecipeManagerGrinder grindManager;
 	
@@ -34,11 +33,6 @@ public class CraftingManager implements ICraftingManager {
 	@Override
 	public void registerSieveRecipe(ItemStack input, ArrayList<WeightedRecipeOutput> output, int duration) {
 		sieveManager.registerRecipe(new RecipeSieve(input, output, duration));
-	}
-
-	@Override
-	public void registerOvenRecipe(ArrayList<ItemStack> input, ArrayList<ItemStack> output, int duration) {
-		ovenManager.registerRecipe(input, output, duration);
 	}
 
 	@Override

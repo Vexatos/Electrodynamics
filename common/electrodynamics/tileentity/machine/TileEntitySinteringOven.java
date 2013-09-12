@@ -1,6 +1,5 @@
 package electrodynamics.tileentity.machine;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -16,12 +15,12 @@ import net.minecraftforge.common.ForgeDirection;
 import electrodynamics.api.tool.ITool;
 import electrodynamics.api.tool.ToolType;
 import electrodynamics.core.CoreUtils;
+import electrodynamics.core.EDLogger;
 import electrodynamics.interfaces.IClientDisplay;
 import electrodynamics.interfaces.IHeatable;
 import electrodynamics.inventory.InventoryItem;
 import electrodynamics.item.EDItems;
-import electrodynamics.recipe.RecipeSinteringOven;
-import electrodynamics.recipe.manager.CraftingManager;
+import electrodynamics.item.ItemAlloy;
 import electrodynamics.util.BlockUtil;
 import electrodynamics.util.InventoryUtil;
 import electrodynamics.util.ItemUtil;
@@ -108,7 +107,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		
 		if(nbt.hasKey("Items"))
 		{
-			this.trayInventory = new InventoryItem(9, new ItemStack(EDItems.itemTray));
+			this.trayInventory = new InventoryItem(1, new ItemStack(EDItems.itemTray), 9);
 			this.trayInventory.readFromNBT(nbt);
 		}
 		
@@ -127,7 +126,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		this.currentHeat = nbt.getInteger("currentHeat");
 
 		if (nbt.hasKey("Items")) {
-			this.trayInventory = new InventoryItem(9, new ItemStack(EDItems.itemTray));
+			this.trayInventory = new InventoryItem(1, new ItemStack(EDItems.itemTray), 9);
 			this.trayInventory.readFromNBT(nbt);
 		}else{
 			this.trayInventory = null;
@@ -186,7 +185,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 				boolean protectedFrom = false;
 				
 				if (living instanceof EntityPlayer) {
-					if (((EntityPlayer)living).inventory.armorItemInSlot(1).getItem() == EDItems.itemBlacksmithApron) {
+					if (((EntityPlayer)living).inventory.armorInventory[1] != null && ((EntityPlayer)living).inventory.armorItemInSlot(1).getItem() == EDItems.itemBlacksmithApron) {
 						protectedFrom = true;
 					}
 				}
@@ -210,18 +209,13 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 				if (totalCookTime > 0) {
 					if (trayInventory != null) {
 						if (currentCookTime == 0) {
-							RecipeSinteringOven recipe = CraftingManager.getInstance().ovenManager.getRecipe(Arrays.asList(this.trayInventory.inventory));
-						
-							if (recipe != null) {
-								doProcess(recipe);
-								this.storedExperience = recipe.getExperience();
+							doProcess();
 
-								this.totalCookTime = 0;
-								this.currentCookTime = 0;
+							this.totalCookTime = 0;
+							this.currentCookTime = 0;
 
-								sendTrayUpdate();
-								return;
-							}
+							sendTrayUpdate();
+							return;
 						} else {
 							--currentCookTime;
 						}
@@ -230,11 +224,9 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 					}
 				} else {
 					if (trayInventory != null) {
-						RecipeSinteringOven recipe = CraftingManager.getInstance().ovenManager.getRecipe(Arrays.asList(this.trayInventory.inventory));
-						
-						if (recipe != null) {
-							this.totalCookTime = this.currentCookTime = recipe.processingTime;
-							
+						ItemStack stack = this.trayInventory.getStackInSlot(0);
+						if (stack != null && stack.getItem() instanceof ItemAlloy && stack.getItemDamage() == 0) {
+							this.totalCookTime = this.currentCookTime = 200; //TEMP
 							return;
 						}
 					}
@@ -276,11 +268,8 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 						insertTray(currentItem, player);
 					} else if (currentItem.getItem() instanceof ITool && ((ITool)currentItem.getItem()).getToolType() == ToolType.HAMMER && this.trayInventory != null && this.totalCookTime > 0) { // If holding hammer and oven isn't empty, check for instasmelt
 						if (player.capabilities.isCreativeMode) {
-							RecipeSinteringOven recipe = CraftingManager.getInstance().ovenManager.getRecipe(Arrays.asList(this.trayInventory.inventory));
-							
-							if (recipe != null) {
-								doProcess(recipe);
-								this.storedExperience = recipe.getExperience();
+							if (this.totalCookTime > 0) {
+								doProcess();
 
 								this.totalCookTime = 0;
 								this.currentCookTime = 0;
@@ -328,7 +317,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	}
 	
 	private void insertTray(ItemStack stack, EntityPlayer player) {
-		this.trayInventory = new InventoryItem(9, stack.copy());
+		this.trayInventory = new InventoryItem(1, stack.copy(), 9);
 		--stack.stackSize;
 
 		sendTrayUpdate();
@@ -384,24 +373,15 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		sendUpdatePacket(nbt);
 	}
 	
-	private void doProcess(RecipeSinteringOven recipe) {
-		// Consume the inputs.
-		trayLoop:
-		for( int i = 0; i < trayInventory.getSizeInventory(); i++ ) {
-			ItemStack itemStack = trayInventory.getStackInSlot( i );
-			if( itemStack == null ) continue;
-
-			for( ItemStack input : recipe.itemInputs ) {
-				if( input.isItemEqual( itemStack ) ) {
-					trayInventory.setInventorySlotContents( i, null );
-					continue trayLoop;
-				}
-			}
-		}
-
-		// Give the outputs
-		for( ItemStack output : recipe.itemOutputs ) {
-			InventoryUtil.addToInventory( trayInventory, output.copy() );
+	private void doProcess() {
+		ItemStack item = this.trayInventory.getStackInSlot(0).copy();
+		
+		if (item != null && item.getItem() instanceof ItemAlloy && item.getItemDamage() == 0) { // ALLOY!
+			this.trayInventory.setInventorySlotContents(0, null);
+			ItemStack alloy = item.copy();
+			alloy.setItemDamage(1);
+			alloy.stackSize = item.stackSize;
+			this.trayInventory.setInventorySlotContents(0, alloy.copy());
 		}
 	}
 
