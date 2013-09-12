@@ -13,23 +13,33 @@ import electrodynamics.client.gui.GuiGlassJar.Rectangle;
 import electrodynamics.client.gui.module.GuiModule.MouseState;
 import electrodynamics.client.gui.module.GuiModuleHotspot;
 import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
+import electrodynamics.core.EDLogger;
 import electrodynamics.core.handler.GuiHandler.GuiType;
+import electrodynamics.item.ItemGlassJar;
 import electrodynamics.network.packet.PacketHotspotCallback;
+import electrodynamics.network.packet.PacketPayload;
+import electrodynamics.network.packet.PacketUpdateSlot;
+import electrodynamics.purity.AlloyFactory;
 import electrodynamics.recipe.manager.CraftingManager;
 
 public class GuiHandSieve extends GuiElectrodynamics implements IHotspotCallback {
 
 	public static final Rectangle HOTSPOT_DIMENSIONS = new Rectangle(64, 25, 47, 33);
 	
+	public static final int MAX_DUST_AMOUNT = 16;
+	
 	public EntityPlayer player;
 	
 	public Container container;
 	
-	public GuiHandSieve(EntityPlayer player, Container container) {
+	public ItemStack sieve;
+	
+	public GuiHandSieve(EntityPlayer player, Container container, ItemStack sieve) {
 		super(GuiType.HAND_SIEVE, container);
 		
 		this.player = player;
 		this.container = container;
+		this.sieve = sieve;
 		
 		this.manager.registerModule(new GuiModuleHotspot("sieveClick", HOTSPOT_DIMENSIONS.x, HOTSPOT_DIMENSIONS.y, HOTSPOT_DIMENSIONS.w, HOTSPOT_DIMENSIONS.h).setCallback(this));
 	}
@@ -38,14 +48,36 @@ public class GuiHandSieve extends GuiElectrodynamics implements IHotspotCallback
 	public void onClicked(EntityPlayer player, String uuid, MouseState state, ItemStack stack) {
 		if (uuid.equalsIgnoreCase("sieveClick")) {
 			if (stack != null) {
-				if (CraftingManager.getInstance().sieveManager.getRecipe(stack) != null) {
-					if (state == MOUSE_LEFT) {
-						PacketHotspotCallback packet = new PacketHotspotCallback(uuid, state, stack);
-						PacketDispatcher.sendPacketToServer(packet.makePacket());
-						--stack.stackSize;
+				if (ItemGlassJar.getStoredDusts(sieve).length < MAX_DUST_AMOUNT) {
+					if (CraftingManager.getInstance().sieveManager.getRecipe(stack) != null) {
+						if (state == MOUSE_LEFT) {
+							PacketHotspotCallback packet = new PacketHotspotCallback(uuid, state, stack);
+							PacketDispatcher.sendPacketToServer(packet.makePacket());
+							--stack.stackSize;
+							if (stack.stackSize == 0) {
+								stack = null;
+							}
+						}
+						this.player.inventory.setItemStack(stack);
 					}
-					this.player.inventory.setItemStack(stack);
 				}
+			} else {
+				long currentClickTime = System.currentTimeMillis();
+				
+				if (System.currentTimeMillis() - this.lastClickTime <= 200 && this.lastClickTime != 0L && stack == null) { // Was double click
+					ItemStack[] dusts = ItemGlassJar.getStoredDusts(this.sieve);
+					
+					for (ItemStack stackDust : dusts) {
+						stackDust.stackSize = 1;
+						player.inventory.addItemStackToInventory(stackDust);
+					}
+					
+					PacketPayload payload = new PacketPayload(1).set(0, (byte) 0);
+					PacketDispatcher.sendPacketToServer(payload.makePacket());
+					ItemGlassJar.dumpDusts(this.sieve);
+				}
+				
+				this.lastClickTime = currentClickTime;
 			}
 		}
 	}

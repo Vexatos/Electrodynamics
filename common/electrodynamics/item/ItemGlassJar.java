@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.Vec3;
@@ -106,6 +107,35 @@ public class ItemGlassJar extends Item {
 		}
 		jarNBT.setTag(DUST_LIST_KEY, dustsNBT);
 		jarNBT.setBoolean(DUST_EXIST_BOOL_KEY, true);
+		jar.setTagCompound(jarNBT);
+	}
+	
+	public static void removeDust(ItemStack jar, ItemStack dust) {
+		if (jar.stackTagCompound == null) {
+			jar.setTagCompound(new NBTTagCompound());
+		}
+		
+		NBTTagCompound jarNBT = jar.stackTagCompound;
+
+		NBTTagList dustsNBT = null;
+		
+		if (!hasDusts(jar)) {
+			dustsNBT = new NBTTagList();
+		} else {
+			dustsNBT = jarNBT.getTagList(DUST_LIST_KEY);
+		}
+		
+		for (int i=0; i<dustsNBT.tagCount(); i++) {
+			NBTTagCompound item = (NBTTagCompound) dustsNBT.tagAt(i);
+			ItemStack loadedStack = ItemStack.loadItemStackFromNBT(item);
+			
+			if (loadedStack.isItemEqual(dust)) {
+				dustsNBT.removeTag(i);
+				break;
+			}
+		}
+		jarNBT.setTag(DUST_LIST_KEY, dustsNBT);
+		jarNBT.setBoolean(DUST_EXIST_BOOL_KEY, dustsNBT.tagCount() > 0);
 		jar.setTagCompound(jarNBT);
 	}
 	

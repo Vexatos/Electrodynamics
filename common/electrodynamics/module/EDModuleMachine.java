@@ -14,6 +14,7 @@ import electrodynamics.block.item.ItemBlockTable;
 import electrodynamics.block.item.ItemBlockUtility;
 import electrodynamics.client.render.block.RenderBlockUtility;
 import electrodynamics.client.render.item.RenderItemGlassJar;
+import electrodynamics.client.render.item.RenderItemHandSieve;
 import electrodynamics.client.render.item.RenderItemMachine;
 import electrodynamics.client.render.item.RenderItemTable;
 import electrodynamics.client.render.tileentity.*;
@@ -293,6 +294,7 @@ public class EDModuleMachine extends EDModule {
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockTable.blockID, new RenderItemTable());
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockMachine.blockID, new RenderItemMachine());
 		MinecraftForgeClient.registerItemRenderer(EDItems.itemGlassJar.itemID, new RenderItemGlassJar());
+		MinecraftForgeClient.registerItemRenderer(EDItems.itemHandheldSieve.itemID, new RenderItemHandSieve());
 	}
 
 	@Override

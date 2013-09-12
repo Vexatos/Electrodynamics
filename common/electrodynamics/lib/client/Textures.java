@@ -31,6 +31,7 @@ public enum Textures {
 	RED_WIRE("textures/misc/redAlloyWire.png"), // This one too
 	SOLAR_PANEL("models/textures/solarPanel.png"),
 	GLASS_JAR("models/textures/glassJar.png"),
+	HANDSIEVE("models/textures/handSieve.png"),
 	
 	/* GUI Textures */
 	GUI_METAL_TRAY(new ResourceLocation("textures/gui/container/dispenser.png")),
