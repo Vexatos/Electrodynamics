@@ -30,6 +30,13 @@ try {
 	dirWorkspace = "."
 }
 
+// Catches commandline argument -Pworkspace=
+try {
+	dirJar = "$output"
+} catch(Exception ex) {
+	dirJar = "."
+}
+
 def dirBuild = dirWorkspace + "/build"
 def dirDownload = dirWorkspace + "/download"
 def dirLib = dirSrc + "/lib"
@@ -261,7 +268,7 @@ task packJAR << {
 	File jarDir = new File(dirJar)
 	jarDir.mkdirs()
 		
-	def archiveName = "Electrodynamics-" + versionState + versionMod + ".jar"
+	def archiveName = "Electrodynamics-" + versionState + "-" + versionMod + ".jar"
 		
 	ant.jar(destfile: dirJar + "/" + archiveName) {
 		fileset(dir: dirMCP + "/reobf/minecraft")
