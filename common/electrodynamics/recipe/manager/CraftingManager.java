@@ -8,6 +8,7 @@ import electrodynamics.Electrodynamics;
 import electrodynamics.api.crafting.ICraftingManager;
 import electrodynamics.api.crafting.util.TableRecipeType;
 import electrodynamics.api.crafting.util.WeightedRecipeOutput;
+import electrodynamics.purity.DynamicAlloyPurities;
 import electrodynamics.recipe.RecipeGrinder;
 import electrodynamics.recipe.RecipeSieve;
 
@@ -18,6 +19,8 @@ public class CraftingManager implements ICraftingManager {
 	public RecipeManagerSinteringOven ovenManager;
 	public RecipeManagerKiln kilnManager;
 	public RecipeManagerGrinder grindManager;
+	
+	public DynamicAlloyPurities alloyManager;
 
 	public static CraftingManager getInstance() {
 		return Electrodynamics.instance.craftingManager;

@@ -68,7 +68,7 @@ public class ContainerGlassJar extends Container implements IHotspotCallback, IP
 				}
 			}
 			
-			if (ItemDust.isDust(stack) && !DynamicAlloyPurities.getIDForStack(stack).equals("unknown")) {
+			if (ItemDust.isDust(stack)) {
 				if (ItemGlassJar.getStoredDusts(this.glassJar).length < GuiGlassJar.DUST_MAX) {
 					if (state == MOUSE_LEFT) {
 						ItemStack newDust = stack.copy();
@@ -96,7 +96,7 @@ public class ContainerGlassJar extends Container implements IHotspotCallback, IP
 				if (!ItemGlassJar.isMixed(this.glassJar)) {
 					player.inventory.addItemStackToInventory(stackDust);
 				} else {
-					factory = AlloyFactory.fromInventory(dusts);
+					factory = AlloyFactory.fromArray(dusts);
 					factory.addMetal(stackDust.copy());
 				}
 			}

@@ -227,7 +227,7 @@ public class ItemGlassJar extends Item {
 								player.dropPlayerItem(dust);
 							}
 						} else {
-							AlloyFactory factory = AlloyFactory.fromInventory(dusts);
+							AlloyFactory factory = AlloyFactory.fromArray(dusts);
 							ItemStack dust = factory.generateItemStack(0);
 							dust.stackSize = dusts.length;
 							player.dropPlayerItem(dust);

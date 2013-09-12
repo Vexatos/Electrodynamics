@@ -27,4 +27,6 @@ public interface ICraftingManager {
 	 *  itemOutput OR liquidOutput can be null, but not both */
 	public void registerGrindingRecipe(ItemStack input, ArrayList<ItemStack> itemOutput, FluidStack liquidOutput);
 	
+	//TODO DAP Access
+	
 }

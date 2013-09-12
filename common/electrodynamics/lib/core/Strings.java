@@ -40,6 +40,7 @@ public class Strings {
 	public static final String ITEM_ALLOY_SHOVEL = "alloy.shovel";
 	public static final String ITEM_ALLOY_SWORD = "alloy.sword";
 	public static final String ITEM_ALLOY_HOE = "alloy.hoe";
+	public static final String ITEM_BLACKSMITH_APRON = "blacksmith_apron";
 	
 	/* Internal block names */
 	public static final String BLOCK_ORE = "ore";

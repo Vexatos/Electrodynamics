@@ -37,6 +37,7 @@ public enum Textures {
 	GUI_TESLA_MODULE("textures/gui/teslaModule.png"),
 	GUI_KILN_TRAY("textures/gui/kilnTray.png"),
 	GUI_GLASS_JAR("textures/gui/glassJar.png"),
+	GUI_HAND_SIEVE("textures/gui/handSieve.png"),
 	
 	/* Misc Textures */
 	LIGHTNING_BOLT("textures/misc/bolt_small.png"),

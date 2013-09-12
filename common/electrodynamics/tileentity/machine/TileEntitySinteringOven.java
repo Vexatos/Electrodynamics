@@ -4,18 +4,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeDirection;
 import electrodynamics.api.tool.ITool;
 import electrodynamics.api.tool.ToolType;
 import electrodynamics.core.CoreUtils;
 import electrodynamics.interfaces.IClientDisplay;
+import electrodynamics.interfaces.IHeatable;
 import electrodynamics.inventory.InventoryItem;
 import electrodynamics.item.EDItems;
 import electrodynamics.recipe.RecipeSinteringOven;
@@ -24,9 +26,13 @@ import electrodynamics.util.BlockUtil;
 import electrodynamics.util.InventoryUtil;
 import electrodynamics.util.ItemUtil;
 
-public class TileEntitySinteringOven extends TileEntityMachine implements IClientDisplay {
+public class TileEntitySinteringOven extends TileEntityMachine implements IClientDisplay, IHeatable {
 
 	public final float ROTATIONAL_MAX = 1.5F;
+	
+	public final int MAX_HEAT = 4000;
+	
+	public final int LAST_BAREABLE_HEAT = 50; //Move?
 	
 	public float doorAngle = 0;
 	
@@ -44,6 +50,9 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	/** Set to the recipes value when tray is input, when equal to zero, tray contents are replaced with recipe output */
 	public int currentCookTime;
 	
+	/** Current heat of oven, gotten through IHeatable's getHeat */
+	private int currentHeat = 0;
+	
 	/** Tray's internal inventory */
 	public InventoryItem trayInventory;
 	
@@ -53,6 +62,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		
 		nbt.setBoolean("open", open);
 		nbt.setInteger("fuelLevel", fuelLevel);
+		nbt.setInteger("currentHeat", this.currentCookTime);
 		nbt.setFloat("storedExperience", storedExperience);
 		if (this.trayInventory != null) {
 			this.trayInventory.writeToNBT(nbt);
@@ -69,6 +79,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 			this.burning = true;
 		else
 			this.burning = false;
+		this.currentHeat = nbt.getInteger("currentHeat");
 		this.storedExperience = nbt.getFloat("storedExperience");
 		if (nbt.hasKey("Items")) {
 			this.trayInventory = new InventoryItem(9, new ItemStack(EDItems.itemTray));
@@ -100,6 +111,10 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 			this.trayInventory = new InventoryItem(9, new ItemStack(EDItems.itemTray));
 			this.trayInventory.readFromNBT(nbt);
 		}
+		
+		if (nbt.hasKey("currentHeat")) {
+			this.currentHeat = nbt.getInteger("currentHeat");
+		}
 	}
 
 	@Override
@@ -109,6 +124,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		this.open = nbt.getBoolean("open");
 		this.burning = nbt.getBoolean("burning");
 		this.fuelLevel = nbt.getInteger("fuelLevel");
+		this.currentHeat = nbt.getInteger("currentHeat");
 
 		if (nbt.hasKey("Items")) {
 			this.trayInventory = new InventoryItem(9, new ItemStack(EDItems.itemTray));
@@ -125,18 +141,28 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		nbt.setBoolean("open", open);
 		nbt.setBoolean("burning", burning);
 		nbt.setInteger("fuelLevel", fuelLevel);
+		nbt.setInteger("currentHeat", this.currentHeat);
 		if (this.trayInventory != null) {
 			this.trayInventory.writeToNBT(nbt);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<EntityLiving> getEntitiesInFireRange() {
-		return this.worldObj.getEntitiesWithinAABB(EntityLiving.class, getFireDetectionBoundingBox());
+	public List<EntityLivingBase> getEntitiesInFireRange() {
+		return this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getFireDetectionBoundingBox());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<EntityLivingBase> getEntitiesTouching() {
+		return this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getFireDetectionBoundingBox());
 	}
 	
 	public AxisAlignedBB getFireDetectionBoundingBox() {
 		return AxisAlignedBB.getAABBPool().getAABB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).addCoord(1 * this.rotation.offsetX, 0, 1 * this.rotation.offsetZ);
+	}
+	
+	public AxisAlignedBB getTouchRadiusBoundingBox() {
+		return AxisAlignedBB.getAABBPool().getAABB(xCoord, yCoord, zCoord, xCoord + 0.25, yCoord + 0.25, zCoord + 0.25);
 	}
 	
 	@Override
@@ -154,13 +180,30 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	}
 
 	@Override
-	public void updateEntityServer()
-	{
+	public void updateEntityServer() {
+		if (this.currentHeat > LAST_BAREABLE_HEAT) {
+			for (EntityLivingBase living : getEntitiesTouching()) {
+				boolean protectedFrom = false;
+				
+				if (living instanceof EntityPlayer) {
+					if (((EntityPlayer)living).inventory.armorItemInSlot(1).getItem() == EDItems.itemBlacksmithApron) {
+						protectedFrom = true;
+					}
+				}
+				
+				if (!protectedFrom) {
+					living.attackEntityFrom(DamageSource.inFire, 1);
+				}
+			}
+		}
 		if (fuelLevel > 0) {
 			--this.fuelLevel;
+			if (this.worldObj.getTotalWorldTime() % 5 == 0) { // Heats four times per second (roughly?)
+				++this.currentHeat;
+			}
 			
 			if (this.open) {
-				for (EntityLiving living : getEntitiesInFireRange()) {
+				for (EntityLivingBase living : getEntitiesInFireRange()) {
 					living.setFire(1);
 				}
 			} else {
@@ -200,6 +243,10 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		}else if(burning == true) {
 			this.burning = false;
 			sendBurningUpdate();
+		} else {
+			if (this.worldObj.getTotalWorldTime() % 5 == 0) { // Heats four times per second (roughly?)
+				--this.currentHeat;
+			}
 		}
 	}
 
@@ -331,6 +378,12 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		sendUpdatePacket(nbt);
 	}
 
+	private void sendHeatUpdate() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setInteger("currentHeat", this.currentHeat);
+		sendUpdatePacket(nbt);
+	}
+	
 	private void doProcess(RecipeSinteringOven recipe) {
 		// Consume the inputs.
 		trayLoop:
@@ -365,6 +418,22 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	        this.worldObj.spawnParticle("smoke", f - (f4 / 2) + f4, f1, f2 - (f4 / 2) + f4, 0D, 0D, 0D);
 	        this.worldObj.spawnParticle("flame", f - (f4 / 2) + f4, f1, f2 - (f4 / 2) + f4, 0D, 0D, 0D);
 		}
+	}
+
+	@Override
+	public void setHeat(int heat) {}
+
+	@Override
+	public void setMaxHeat(int max) {}
+
+	@Override
+	public int getHeat() {
+		return this.currentHeat;
+	}
+
+	@Override
+	public int getMaxHeat() {
+		return this.MAX_HEAT;
 	}
 
 }

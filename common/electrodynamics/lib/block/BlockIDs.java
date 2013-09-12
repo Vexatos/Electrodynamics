@@ -59,4 +59,7 @@ public class BlockIDs {
 	@EDXProperty(category = CATEGORY_BLOCK)
 	public static int BLOCK_ENERGY_ID = 517;
 	
+	@EDXProperty(category = CATEGORY_BLOCK)
+	public static int BLOCK_THERMOMETER = 518;
+	
 }

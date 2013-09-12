@@ -10,6 +10,8 @@ public class AlloyStack {
 	
 	public AlloyStack(ItemStack stack) {
 		this.itemStack = stack;
+		
+		setBrittle(false); // Default
 	}
 	
 	public ItemStack getItem() {
@@ -58,6 +60,22 @@ public class AlloyStack {
 		}
 		
 		return null;
+	}
+	
+	public void setBrittle(boolean value) {
+		if (itemStack.stackTagCompound == null) {
+			itemStack.setTagCompound(new NBTTagCompound());
+		}
+		
+		itemStack.stackTagCompound.setBoolean("brittle", value);
+	}
+	
+	public boolean getBrittle() {
+		if (itemStack.stackTagCompound == null) {
+			return false;
+		}
+		
+		return itemStack.stackTagCompound.getBoolean("brittle");
 	}
 	
 	public enum Type {

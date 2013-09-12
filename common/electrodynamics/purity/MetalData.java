@@ -44,6 +44,18 @@ public class MetalData {
 	}
 	
 	@Override
+	public boolean equals(Object other) {
+		if (other instanceof MetalData) {
+			return equals(other);
+		}
+		return false;
+	}
+	
+	public boolean equals(MetalData other) {
+		return (this.component.isItemEqual(other.component) && this.ratio == other.ratio);
+	}
+	
+	@Override
 	public String toString() {
 		return this.component.getDisplayName() + ": " + this.ratio;
 	}

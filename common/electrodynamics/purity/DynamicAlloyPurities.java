@@ -1,377 +1,39 @@
 package electrodynamics.purity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import electrodynamics.item.ItemDust;
-import electrodynamics.lib.item.Component;
 import electrodynamics.lib.item.Dust;
-import electrodynamics.lib.item.Ingot;
-import electrodynamics.purity.Attribute.AttributeType;
 
 public class DynamicAlloyPurities {
 
-//	public static Map<String, AttributeWrapper> idToAttributeMapping = new HashMap<String, AttributeWrapper>();
+	public Map<ItemStack, ArrayList<AttributeWrapper>> itemToAttributeMapping = new HashMap<ItemStack, ArrayList<AttributeWrapper>>();
+	public Map<ItemStack, Integer> itemToSmeltingDurationMapping  = new HashMap<ItemStack, Integer>();
 	
-//	static {
-//		for (MetalType metal : MetalType.values()) {
-//			registerAttributes(metal.toString(), metal.getAttributes());
-//		}
-//	}
+	public Map<MetalData[], MetalData[]> definedRecipes = new HashMap<MetalData[], MetalData[]>();
 	
-//	public static void registerAttributes(String stack, Attribute ... attributes) {
-//		idToAttributeMapping.put(stack, new AttributeWrapper(attributes));
-//	}
-//	
-//	public static AttributeWrapper getAttributes(String stack) {
-//		return idToAttributeMapping.get(stack);
-//	}
-	
-	public static String getIDForStack(ItemStack stack) {
-		switch(getTypeForStack(stack)) {
-		case COMPONENT: {
-			for (Component component : Component.values()) {
-				if (component.toItemStack().isItemEqual(stack)) {
-					return component.toString();
-				}
-			}
-		}
-		case DUST: {
-			for (Dust dust : Dust.values()) {
-				if (dust.toItemStack().isItemEqual(stack)) {
-					return dust.toString();
-				}
-			}
-		}
-//		case COMPONENT_ATTRIB:break; // TODO
-		default: return "UNKNOWN";
-		}
+	{
+		this.definedRecipes.put(new MetalData[] {new MetalData(Dust.NICKEL.toItemStack(), 0.5F), new MetalData(Dust.LITHIUM.toItemStack(), 0.5F)}, new MetalData[] {new MetalData(Dust.LIME_PURE.toItemStack(), 0.5F)});
 	}
-
+	
+	public boolean hasSpecificRecipe(MetalData...data) {
+//		return this.definedRecipes.containsKey(data);
+		return false;
+	}
+	
 	public static ComponentType getTypeForStack(ItemStack stack) {
 		if (ItemDust.isDust(stack)) {
-//			return ComponentType.COMPONENT_ATTRIB; //TODO
 			return ComponentType.DUST;
 		} else {
 			return ComponentType.COMPONENT;
 		}
 	}
 	
-//	public enum MetalType {
-//		ARSENIC {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.DURABILITY, 0.025F), 
-//					new Attribute(AttributeType.EFFICIENCY, 0.025F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return Component.ARSENIC.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		COBALT {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.DURABILITY, 0.15F), 
-//					new Attribute(AttributeType.CRITICAL, 0.05F),
-//					new Attribute(AttributeType.SHARPNESS, 0.05F),
-//					new Attribute(AttributeType.RADIOACTIVE, 0.05F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.COBALT.toItemStack();
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return Ingot.COBALT.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		COPPER {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.CONDUCTIVITY, 0.05F),
-//					new Attribute(AttributeType.THERMAL_RESISTANCE, -0.05F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.COPPER.toItemStack();
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return Ingot.COPPER.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		GOLD {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.CONDUCTIVITY, 0.1F),
-//					new Attribute(AttributeType.BLING, 0.05F),
-//					new Attribute(AttributeType.DURABILITY, -0.15F),
-//					new Attribute(AttributeType.THERMAL_RESISTANCE, -0.05F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.GOLD.toItemStack();
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return new ItemStack(Item.ingotGold);
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		LEAD {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.KNOCKBACK, 0.05F),
-//					new Attribute(AttributeType.KNOCKBACK_RESISTANCE, 0.1F),
-//					new Attribute(AttributeType.REDUCED_WEIGHT, -0.1F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.LEAD.toItemStack();
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return Ingot.LEAD.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		LITHIUM {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.REDUCED_WEIGHT, 0.1F),
-//					new Attribute(AttributeType.ATTACK_SPEED, 0.1F),
-//					new Attribute(AttributeType.EFFICIENCY, 0.1F),
-//					new Attribute(AttributeType.DURABILITY, 0.1F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.LITHIUM.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		MAGNETITE {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.PICKUP_RADIUS, 0.05F),
-//					new Attribute(AttributeType.DURABILITY, -0.05F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.MAGNETITE.toItemStack();
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return Component.MAGNETITE_CHUNK.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		NICKEL {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.DURABILITY, 0.1F),
-//					new Attribute(AttributeType.THERMAL_RESISTANCE, 0.1F),
-//					new Attribute(AttributeType.REDUCED_WEIGHT, -0.05F),
-//					new Attribute(AttributeType.SPEED, -0.05F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.NICKEL.toItemStack();
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return Ingot.NICKEL.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		SULFUR {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.DURABILITY, -0.05F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.SULFUR.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		TELLURIUM {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.ATTACK_SPEED, 0.1F),
-//					new Attribute(AttributeType.SHARPNESS, 0.05F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.TELLURIUM.toItemStack();
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return Ingot.TELLURIUM.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		TUNGSTEN {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.DURABILITY, 0.05F),
-//					new Attribute(AttributeType.EFFICIENCY, 0.05F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.TUNGSTEN.toItemStack();
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return Ingot.TUNGSTEN.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		},
-//		VOIDSTONE {
-//			@Override
-//			public Attribute[] getAttributes() {
-//				return new Attribute[] {
-//					new Attribute(AttributeType.EFFICIENCY, 0.2F),
-//					new Attribute(AttributeType.PICKUP_RADIUS, 0.2F),
-//					new Attribute(AttributeType.DURABILITY, 0.15F),
-//					new Attribute(AttributeType.CRITICAL, 0.1F),
-//					new Attribute(AttributeType.REDUCED_WEIGHT, 0.1F),
-//					new Attribute(AttributeType.IMPLOSION_CHANCE, -0.01F)
-//				};
-//			}
-//			
-//			@Override
-//			public ItemStack getDust() {
-//				return Dust.VOIDSTONE.toItemStack();
-//			}
-//			
-//			@Override
-//			public ItemStack getSolid() {
-//				return Component.VOIDSTONE_MAGNET.toItemStack();
-//			}
-//			
-//			@Override
-//			public int getSmeltingDuration() {
-//				return 0;
-//			}
-//		};
-//		
-//		public Attribute[] getAttributes() { return new Attribute[] {};}
-//		
-//		public ItemStack getDust() { return null; };
-//
-//		public ItemStack getSolid() { return null; };
-//		
-//		public int getSmeltingDuration() { return 0; }
-//		
-//		public static MetalType get(String id) {
-//			for (MetalType type : MetalType.values()) {
-//				if (type.toString().equalsIgnoreCase(id)) {
-//					return type;
-//				}
-//			}
-//			
-//			return null;
-//		}
-//		
-//		public static MetalType get(MetalData data) {
-//			return get(data.metalID);
-//		}
-//		
-//	}
-	
 	public static enum ComponentType {
-		COMPONENT_ATTRIB, COMPONENT, DUST;
+		COMPONENT, DUST;
 	}
 	
 }

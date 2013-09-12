@@ -10,10 +10,11 @@ import net.minecraft.item.ItemStack;
 import electrodynamics.core.EDLogger;
 import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.item.EDItems;
+import electrodynamics.recipe.manager.CraftingManager;
 
 public class AlloyFactory {
 
-	public static AlloyFactory fromInventory(ItemStack[] inv) {
+	public static AlloyFactory fromArray(ItemStack...inv) {
 		AlloyFactory factory = new AlloyFactory();
 		for (ItemStack stack : inv) {
 			factory.addMetal(stack);
@@ -38,32 +39,55 @@ public class AlloyFactory {
 	
 	public MetalData[] getMetals() {
 		if (this.metals != null && this.metals.size() > 0) {
-			Map<ItemStack, Integer> metalAmounts = new HashMap<ItemStack, Integer>();
+			List<ItemStack> items = new ArrayList<ItemStack>();
+			List<Integer> itemCounts = new ArrayList<Integer>();
 			
 			int total = 0;
 			
 			for (ItemStack stack : this.metals) {
-				if (!metalAmounts.containsKey(stack)) {
-					metalAmounts.put(stack, 1);
+				int index = -1;
+				int count = 0;
+				
+				for (int i=0; i<items.size(); i++) {
+					if (items.get(i).isItemEqual(stack)) {
+						count = itemCounts.get(i) + 1;
+						index = i;
+					}
+				}
+				
+				if (index != -1) {
+					itemCounts.set(index, count);
 				} else {
-					int amount = metalAmounts.get(stack);
-					metalAmounts.put(stack, amount + 1);
+					items.add(stack);
+					itemCounts.add(1);
 				}
 				
 				total++;
 			}
 			
-			MetalData[] metals = new MetalData[metalAmounts.size()];
+			if (items.size() != itemCounts.size()) {
+				EDLogger.warn("Something went wrong when creating an alloy! Array sizes differ!");
+				return new MetalData[] {};
+			}
 			
-			for (int i=0; i<metalAmounts.size(); i++) {
-				Entry<ItemStack, Integer> metalData = (Entry<ItemStack, Integer>) metalAmounts.entrySet().toArray()[i];
-				double ratio = (double)metalData.getValue() / total;
-				MetalData data = new MetalData(metalData.getKey(), ratio);
-				data.setTotal(metalData.getValue());
+			MetalData[] metals = new MetalData[items.size()];
+			
+			for (int i=0; i<items.size(); i++) {
+				ItemStack stack = items.get(i);
+				int count = itemCounts.get(i);
+				
+				double ratio = (double)count / total;
+				MetalData data = new MetalData(stack, ratio);
+				data.setTotal(count);
 				metals[i] = data;
 			}
 			
-			return metals;
+			if (CraftingManager.getInstance().alloyManager.hasSpecificRecipe(metals)) {
+//				EDLogger.info("Has recipe");
+//				return CraftingManager.getInstance().alloyManager.definedRecipes.get(metals);
+			} else {
+				return metals;
+			}
 		}
 		
 		return null;

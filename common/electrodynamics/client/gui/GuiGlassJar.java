@@ -137,7 +137,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 					if (!ItemGlassJar.isMixed(this.jar)) {
 						player.inventory.addItemStackToInventory(stackDust);
 					} else {
-						factory = AlloyFactory.fromInventory(dusts);
+						factory = AlloyFactory.fromArray(dusts);
 						factory.addMetal(stackDust.copy());
 					}
 				}
@@ -230,7 +230,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 				GuiModule module = new GuiModule("mixed", dim.x, dim.y + GUI_JAR_DIMENSIONS.h - dim.h, dim.w, dim.h) {
 					@Override
 					public String[] getTooltip() {
-						AlloyFactory factory = AlloyFactory.fromInventory(storedDusts);
+						AlloyFactory factory = AlloyFactory.fromArray(storedDusts);
 						MetalData[] data = factory.getMetals();
 						String[] tooltip = new String[data.length + 1];
 						tooltip[0] = "Mixed Dust";
@@ -266,7 +266,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 		return rect;
 	}
 	
-	private static class Rectangle {
+	public static class Rectangle {
 		int x, y, w, h;
 		public Rectangle(int x, int y, int w, int h) {
 			this.x = x;
