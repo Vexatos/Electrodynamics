@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 
 import electrodynamics.item.EDItems;
 import electrodynamics.lib.client.Textures;
-import electrodynamics.util.render.GLColor;
 
 public class RenderItemHandSieve implements IItemRenderer {
 
