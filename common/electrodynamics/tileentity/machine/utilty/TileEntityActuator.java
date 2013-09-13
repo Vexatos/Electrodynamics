@@ -90,6 +90,10 @@ public class TileEntityActuator extends TileEntityInventoryWrapper implements IS
 		int meta = this.worldObj.getBlockMetadata(coords[0], coords[1], coords[2]);
 		ItemStack picked = new ItemStack(id, 1, meta);
 
+		if (id == this.blockType.blockID) { // Removes the ability to make actuator chains
+			return;
+		}
+		
 		TileEntity tile = this.worldObj.getBlockTileEntity(coords[0], coords[1], coords[2]);
 
 		if (tile != null) {
