@@ -1,4 +1,4 @@
-package net.minecraft.src;
+package electrodynamics.client.model;
 
 import net.minecraft.client.model.ModelRenderer;
 import electrodynamics.api.render.ModelTechne;

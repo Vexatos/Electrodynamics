@@ -1,5 +1,6 @@
 package electrodynamics.item;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.block.Block;
@@ -7,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemHoe;
@@ -20,7 +22,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import electrodynamics.core.EDLogger;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.purity.AlloyStack;
 import electrodynamics.purity.Attribute;
@@ -89,25 +90,19 @@ public abstract class ItemAlloyTool extends Item {
 			return false;
 		}
 		
-		if (harvestLevel <= tag.getInteger(HARVEST_LEVEL_TAG)) {
+		if (harvestLevel >= EnumToolMaterial.IRON.getHarvestLevel()) {
 			return false;
-		} else {
-			world.setBlockToAir(x, y, z);
-			if (!player.capabilities.isCreativeMode) {
-				onBlockDestroyed(stack, world, blockID, x, y, z, player);
-				//TODO Damage
-			}
-			if (!world.isRemote) {
-				world.playAuxSFX(2001, x, y, z, blockID + (blockMeta << 12));
-			}
-			
-			return true;
 		}
+		
+		return true;
     }
     
 	@Override
 	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
-		return harvestBlock(stack, x, y, z, player);
+		if (harvestBlock(stack, x, y, z, player)) {
+			setDamage(stack, getDamage(stack) + 1);
+		}
+		return false;
 	}
 	
 	@Override
@@ -169,6 +164,13 @@ public abstract class ItemAlloyTool extends Item {
 	}
 
 	@Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int id, boolean k) {
+		if (getMaxDamage(stack) == 0) {
+			setMaxDamage(EnumToolMaterial.IRON.getMaxUses());
+		}
+	}
+	
+	@Override
 	public int getDamage(ItemStack stack) {
 		if (stack.getTagCompound() == null) {
 			return 0;
@@ -179,6 +181,7 @@ public abstract class ItemAlloyTool extends Item {
 
 	@Override
 	public int getDisplayDamage(ItemStack stack) {
+//		return MathUtil.reverseNumber(getDamage(stack), 0, getMaxDamage(stack));
 		return getDamage(stack);
 	}
 
@@ -234,15 +237,17 @@ public abstract class ItemAlloyTool extends Item {
 
 	public Attribute[] getAttributes(ItemStack stack) {
 		AlloyStack tool = new AlloyStack(stack);
+		ArrayList<Attribute> attributes = new ArrayList<Attribute>();
 		
-//		if (tool.getMetals() != null && tool.getMetals().length > 0) {
-//			for (MetalData data : tool.getMetals()) {
-//				MetalType type = MetalType.get(data);
-//				return type.getAttributes();
-//			}
-//		}
+		if (tool.getMetals() != null && tool.getMetals().length > 0) {
+			for (MetalData data : tool.getMetals()) {
+				for (Attribute attribute : DynamicAlloyPurities.getAttributesForStack(data.component)) {
+					attributes.add(attribute);
+				}
+			}
+		}
 		
-		return new Attribute[] {};
+		return attributes.toArray(new Attribute[attributes.size()]);
 	}
 	
 	@SideOnly(Side.CLIENT)

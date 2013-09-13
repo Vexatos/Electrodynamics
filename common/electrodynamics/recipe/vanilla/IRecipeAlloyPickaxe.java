@@ -1,6 +1,7 @@
 package electrodynamics.recipe.vanilla;
 
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
@@ -17,6 +18,10 @@ import electrodynamics.item.ItemAlloyTool;
 import electrodynamics.item.ItemAlloyTool.ToolType;
 import electrodynamics.item.ItemPeelingSpud;
 import electrodynamics.purity.AlloyStack;
+import electrodynamics.purity.Attribute;
+import electrodynamics.purity.DynamicAlloyPurities;
+import electrodynamics.purity.MetalData;
+import electrodynamics.purity.Attribute.AttributeType;
 import electrodynamics.util.InventoryUtil;
 
 public class IRecipeAlloyPickaxe implements IRecipe {
@@ -48,6 +53,24 @@ public class IRecipeAlloyPickaxe implements IRecipe {
 		AlloyStack alloyTool = new AlloyStack(new ItemStack(ToolType.getTypeFromClass(tool.getItem().getClass()).getItem()));
 		
 		alloyTool.setMetals(alloyStack.getMetals());
+
+		int finalDurability = EnumToolMaterial.IRON.getMaxUses();
+		float modifierSum = 0F;
+		int modifiersCount = 0;
+		for (MetalData data : alloyTool.getMetals()) {
+			ItemStack component = data.component;
+			int total = data.getTotal();
+			
+			modifiersCount += total;
+			for (Attribute attribute : DynamicAlloyPurities.getAttributesForStack(component)) {
+				if (attribute.attribute == AttributeType.EFFICIENCY) {
+					modifierSum += attribute.modifier * total;
+				}
+			}
+		}
+		finalDurability *= 1 + modifierSum / modifiersCount;
+		
+		((ItemAlloyTool)alloyTool.getItem().getItem()).setMaxDamage(alloyTool.getItem(), finalDurability);
 		
 		return alloyTool.getItem().copy();
 	}

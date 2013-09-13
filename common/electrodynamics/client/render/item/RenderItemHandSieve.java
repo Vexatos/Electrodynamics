@@ -2,11 +2,11 @@ package electrodynamics.client.render.item;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModelHandSieve;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
+import electrodynamics.client.model.ModelHandSieve;
 import electrodynamics.item.EDItems;
 import electrodynamics.lib.client.Textures;
 

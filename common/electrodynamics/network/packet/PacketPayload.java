@@ -168,6 +168,8 @@ public class PacketPayload extends PacketED {
 			}
 			default: break;
 			}
+			
+			break;
 		}
 		case TILE_ENTITY: {
 			TileEntity tile = eplayer.worldObj.getBlockTileEntity(x, y, z);
@@ -175,9 +177,12 @@ public class PacketPayload extends PacketED {
 			if (tile != null && tile instanceof IPayloadReceptor) {
 				((IPayloadReceptor)tile).handlePayload(this.bytePayload, intPayload, doublePayload, floatPayload, stringPayload);
 			}
+			
+			break;
 		}
 		case CONFIG: {
 			ConfigurationSettings.readSettings(this);
+			break;
 		}
 		default: break;
 		}

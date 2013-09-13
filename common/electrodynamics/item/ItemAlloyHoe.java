@@ -1,7 +1,6 @@
 package electrodynamics.item;
 
 import java.util.Random;
-import java.util.logging.Level;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
@@ -16,8 +15,9 @@ import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
-import electrodynamics.core.EDLogger;
 import electrodynamics.network.packet.PacketUpdateSlot;
+import electrodynamics.purity.Attribute;
+import electrodynamics.purity.Attribute.AttributeType;
 import electrodynamics.util.BlockUtil;
 
 public class ItemAlloyHoe extends ItemAlloyTool {
@@ -38,15 +38,23 @@ public class ItemAlloyHoe extends ItemAlloyTool {
 		if (!player.capabilities.isCreativeMode) {
 			if (block != null) {
 				if (block instanceof IPlantable) { // Sickle functionality
-					for (int newX = -1; newX<2; newX++) {
-						for (int newZ = -1; newZ<2; newZ++) {
+					boolean efficientFlag = false;
+					
+					for (Attribute attribute : getAttributes(stack)) {
+						if (attribute.attribute == AttributeType.EFFICIENCY) {
+							efficientFlag = true;
+						}
+					}
+					
+					for (int newX = efficientFlag ? -2 : -1; newX<(efficientFlag ? 3 : 2); newX++) {
+						for (int newZ = efficientFlag ? -2 : -1; newZ<(efficientFlag ? 3 : 2); newZ++) {
 							block = Block.blocksList[world.getBlockId(x + newX, y, z + newZ)];
 							
 							if (block instanceof IPlantable) {
-								world.setBlockToAir(x + newX, y, z + newZ);
-								onBlockDestroyed(stack, world, x + newX, y, z + newZ, block.blockID, player);
 								if (!world.isRemote) {
+									block.harvestBlock(world, player, x + newX, y, z + newZ, blockMeta);
 									world.playAuxSFX(2001, x + newX, y, z + newZ, blockID + (blockMeta << 12));
+									world.setBlockToAir(x + newX, y, z + newZ);
 								}
 							}
 						}
@@ -88,8 +96,18 @@ public class ItemAlloyHoe extends ItemAlloyTool {
 					}
 					
 					if (consumed || player.capabilities.isCreativeMode) { // Apply bonemeal ONLY if consumed or if creative
-						if (BlockUtil.applyBonemeal(stack, world, x, y, z, player)) {
-							world.playAuxSFX(2005, x, y, z, 0);
+						boolean efficientFlag = false;
+						
+						for (Attribute attribute : getAttributes(stack)) {
+							if (attribute.attribute == AttributeType.EFFICIENCY) {
+								efficientFlag = true;
+							}
+						}
+						
+						for (int i=0; i<(efficientFlag ? 2 : 1); i++) {
+							if (BlockUtil.applyBonemeal(stack, world, x, y, z, player)) {
+								world.playAuxSFX(2005, x, y, z, 0);
+							}
 						}
 					}
 				}
