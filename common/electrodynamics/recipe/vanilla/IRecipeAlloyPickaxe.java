@@ -63,7 +63,7 @@ public class IRecipeAlloyPickaxe implements IRecipe {
 			
 			modifiersCount += total;
 			for (Attribute attribute : DynamicAlloyPurities.getAttributesForStack(component)) {
-				if (attribute.attribute == AttributeType.EFFICIENCY) {
+				if (attribute.attribute == AttributeType.DURABILITY) {
 					modifierSum += attribute.modifier * total;
 				}
 			}
