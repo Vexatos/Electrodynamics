@@ -40,6 +40,7 @@ public class PacketPayload extends PacketED {
 	public PacketPayload(PayloadType type, int byteLength, int intLength, int doubleLength, int floatLength, int stringLength) {
 		super(PacketTypeHandler.PAYLOAD, false);
 		
+		this.type = type;
 		this.bytePayload = new byte[byteLength];
 		this.doublePayload = new double[doubleLength];
 		this.intPayload = new int[intLength];

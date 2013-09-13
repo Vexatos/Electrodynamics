@@ -18,6 +18,8 @@ import electrodynamics.api.tool.ITool;
 import electrodynamics.api.tool.ToolType;
 import electrodynamics.core.CoreUtils;
 import electrodynamics.inventory.InventoryLimited;
+import electrodynamics.lib.block.BlockIDs;
+import electrodynamics.lib.block.UtilityBlock;
 import electrodynamics.tileentity.TileEntityInventoryWrapper;
 import electrodynamics.util.BlockUtil;
 import electrodynamics.util.ItemUtil;
@@ -90,7 +92,7 @@ public class TileEntityActuator extends TileEntityInventoryWrapper implements IS
 		int meta = this.worldObj.getBlockMetadata(coords[0], coords[1], coords[2]);
 		ItemStack picked = new ItemStack(id, 1, meta);
 
-		if (id == this.blockType.blockID) { // Removes the ability to make actuator chains
+		if (id == BlockIDs.BLOCK_UTILITY_ID && meta == UtilityBlock.BLOCK_DEPLOYER.ordinal()) { // Removes the ability to make actuator chains
 			return;
 		}
 		
