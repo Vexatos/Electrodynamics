@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagList;
 
 public class AttributeWrapper {
 
-	private List<Attribute> attributes = new ArrayList<Attribute>();
+	public List<Attribute> attributes = new ArrayList<Attribute>();
 	
 	public AttributeWrapper() {
 		

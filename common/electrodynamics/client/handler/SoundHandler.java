@@ -1,4 +1,4 @@
-package electrodynamics.core.handler;
+package electrodynamics.client.handler;
 
 import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.event.ForgeSubscribe;

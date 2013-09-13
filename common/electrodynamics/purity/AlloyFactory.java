@@ -82,12 +82,7 @@ public class AlloyFactory {
 				metals[i] = data;
 			}
 			
-			if (CraftingManager.getInstance().alloyManager.hasSpecificRecipe(metals)) {
-//				EDLogger.info("Has recipe");
-//				return CraftingManager.getInstance().alloyManager.definedRecipes.get(metals);
-			} else {
-				return metals;
-			}
+			return metals;
 		}
 		
 		return null;

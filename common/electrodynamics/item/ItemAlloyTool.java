@@ -20,10 +20,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import electrodynamics.core.EDLogger;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.purity.AlloyStack;
 import electrodynamics.purity.Attribute;
 import electrodynamics.purity.Attribute.AttributeType;
+import electrodynamics.purity.DynamicAlloyPurities;
 import electrodynamics.purity.MetalData;
 
 public abstract class ItemAlloyTool extends Item {
@@ -126,16 +128,15 @@ public abstract class ItemAlloyTool extends Item {
 					float modifierSum = 0F;
 					int modifiersCount = 0;
 					for (MetalData data : tool.getMetals()) {
-						//TODO
-//						MetalType type = MetalType.get(data);
-//
-//						int total = data.getTotal();
-//						modifiersCount += total;
-//						for (Attribute attribute : type.getAttributes()) {
-//							if (attribute.attribute == AttributeType.EFFICIENCY) {
-//								modifierSum += attribute.modifier * total;
-//							}
-//						}
+						ItemStack component = data.component;
+						int total = data.getTotal();
+						
+						modifiersCount += total;
+						for (Attribute attribute : DynamicAlloyPurities.getAttributesForStack(component)) {
+							if (attribute.attribute == AttributeType.EFFICIENCY) {
+								modifierSum += attribute.modifier * total;
+							}
+						}
 					}
 					
 					miningSpeed *= 1 + modifierSum / modifiersCount;

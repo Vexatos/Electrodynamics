@@ -1,4 +1,4 @@
-package electrodynamics.core.handler;
+package electrodynamics.client.handler;
 
 import java.util.HashMap;
 

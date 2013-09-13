@@ -12,10 +12,10 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import electrodynamics.Electrodynamics;
 import electrodynamics.addons.AddonManager;
+import electrodynamics.client.handler.IconHandler;
+import electrodynamics.client.handler.SoundHandler;
 import electrodynamics.control.KeyBindingHelper;
 import electrodynamics.control.KeybindingHandler;
-import electrodynamics.core.handler.IconHandler;
-import electrodynamics.core.handler.SoundHandler;
 import electrodynamics.lib.client.FXType;
 import electrodynamics.module.ModuleManager;
 

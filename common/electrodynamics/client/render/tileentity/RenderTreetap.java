@@ -7,9 +7,9 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import electrodynamics.client.handler.IconHandler;
 import electrodynamics.client.model.ModelLatexBucket;
 import electrodynamics.client.model.ModelTreeTap;
-import electrodynamics.core.handler.IconHandler;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.TileEntityTreetap;
 import electrodynamics.util.render.RenderUtil;
