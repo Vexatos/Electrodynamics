@@ -67,20 +67,22 @@ public class ItemHandheldSieve extends Item {
 				if (!player.worldObj.isRemote) {
 					RecipeSieve recipe = CraftingManager.getInstance().sieveManager.getRecipe(stack);
 					
-					float percentage = 0.0F;
-					int index = -1;
-					
-					for (int i=0; i<recipe.itemOutputs.size(); i++) {
-						WeightedRecipeOutput output = recipe.itemOutputs.get(i);
+					if (recipe != null) {
+						float percentage = 0.0F;
+						int index = -1;
 						
-						if (output != null && output.chance > percentage) {
-							percentage = output.chance;
-							index = i;
+						for (int i=0; i<recipe.itemOutputs.size(); i++) {
+							WeightedRecipeOutput output = recipe.itemOutputs.get(i);
+							
+							if (output != null && output.chance > percentage) {
+								percentage = output.chance;
+								index = i;
+							}
 						}
+						
+						player.dropPlayerItem(recipe.itemOutputs.get(index).output.copy());
+						ItemGlassJar.removeDust(stack, dust);
 					}
-					
-					player.dropPlayerItem(recipe.itemOutputs.get(index).output.copy());
-					ItemGlassJar.removeDust(stack, dust);
 				}
 			}
 		}
