@@ -72,7 +72,7 @@ public class GuiHandSieve extends GuiElectrodynamics implements IHotspotCallback
 						player.inventory.addItemStackToInventory(stackDust);
 					}
 					
-					PacketPayload payload = new PacketPayload(1).set(0, (byte) 0);
+					PacketPayload payload = new PacketPayload(1, 0, 0, 0, 0).setByte(0, (byte) 0);
 					PacketDispatcher.sendPacketToServer(payload.makePacket());
 					ItemGlassJar.dumpDusts(this.sieve);
 				}

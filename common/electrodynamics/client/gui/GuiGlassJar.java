@@ -148,7 +148,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 					player.inventory.addItemStackToInventory(alloyStack.copy());
 				}
 				
-				PacketPayload payload = new PacketPayload(1).set(0, (byte) 0);
+				PacketPayload payload = new PacketPayload(1, 0, 0, 0, 0).setByte(0, (byte) 0);
 				PacketDispatcher.sendPacketToServer(payload.makePacket());
 				ItemGlassJar.dumpDusts(this.jar);
 				ItemGlassJar.setMixed(this.jar, false);
@@ -283,8 +283,8 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 	}
 
 	@Override
-	public void handlePayload(byte[] array) {
-		if (array != null && array.length == 0 & array[0] == 0) {
+	public void handlePayload(byte[] byteArray, int[] intArray, double[] doubleArray, float[] floatArray, String[] stringArray) {
+		if (byteArray != null && byteArray.length == 0 & byteArray[0] == 0) {
 			this.updateJar();
 		}
 	}

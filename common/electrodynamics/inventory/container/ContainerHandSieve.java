@@ -75,8 +75,8 @@ public class ContainerHandSieve extends Container implements IHotspotCallback, I
 	}
 	
 	@Override
-	public void handlePayload(byte[] array) {
-		if (array != null && array.length == 1 && array[0] == 0) {
+	public void handlePayload(byte[] byteArray, int[] intArray, double[] doubleArray, float[] floatArray, String[] stringArray) {
+		if (byteArray != null && byteArray.length == 1 && byteArray[0] == 0) {
 			ItemStack[] dusts = ItemGlassJar.getStoredDusts(this.sieve);
 			
 			for (ItemStack stackDust : dusts) {

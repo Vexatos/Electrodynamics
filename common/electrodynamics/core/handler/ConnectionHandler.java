@@ -3,6 +3,7 @@ package electrodynamics.core.handler;
 import java.io.File;
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
@@ -13,12 +14,16 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.IConnectionHandler;
 import cpw.mods.fml.common.network.Player;
 import electrodynamics.Electrodynamics;
+import electrodynamics.configuration.ConfigurationSettings;
+import electrodynamics.core.EDLogger;
 
 public class ConnectionHandler implements IConnectionHandler {
 
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) {
-		
+		EntityPlayer eplayer = (EntityPlayer) player;
+		EDLogger.info(eplayer.username + " logged in. Sending configuration settings.");
+		ConfigurationSettings.sendSettings(eplayer);
 	}
 
 	@Override
