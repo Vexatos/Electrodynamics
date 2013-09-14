@@ -8,7 +8,7 @@ This mod is not to be used in any modpacks until a stable release is available. 
 
 #Release
 
-[Alpha v0.1.3.3 for 1.6.2] (https://www.dropbox.com/s/o2vrqzifj7x1ncr/Electrodynamics-Alpha-0.1.3.3.jar?dl=1 "Direct Download")
+[Alpha v0.1.4.2 for 1.6.2] (https://www.dropbox.com/s/bzlzz7hwr4e6p9f/Electrodynamics-Alpha-0.1.4.2.jar?dl=1 "Direct Download")
 
 #Compiling
 //TODO Freshen this bit up
@@ -30,6 +30,8 @@ Forge Dev Team
 Eloraam
 
 Chickenbones
+
+Azanor
 
 #Extended Description
 
