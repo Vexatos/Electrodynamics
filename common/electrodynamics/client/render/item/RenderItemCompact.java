@@ -22,7 +22,7 @@ public class RenderItemCompact implements IItemRenderer {
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 		switch(type) {
 		case ENTITY: return true;
-		case FIRST_PERSON_MAP: return false;
+		case FIRST_PERSON_HOLDING: return false;
 		case INVENTORY: return true;
 		default: return false;
 		}
