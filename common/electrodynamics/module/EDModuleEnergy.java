@@ -3,6 +3,8 @@ package electrodynamics.module;
 import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.block.BlockEnergy;
 import electrodynamics.block.EDBlocks;
 import electrodynamics.block.item.ItemBlockEnergy;
@@ -30,6 +32,7 @@ public class EDModuleEnergy extends EDModule {
 		GameRegistry.registerTileEntity(TileEntitySolarPanel.class, Strings.ENERGY_SOLAR_PANEL);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void preInitClient() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySolarPanel.class, new RenderSolarPanel());

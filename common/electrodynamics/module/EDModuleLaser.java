@@ -3,6 +3,8 @@ package electrodynamics.module;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.block.BlockHiddenRedstoneSource;
 import electrodynamics.block.EDBlocks;
 import electrodynamics.client.render.entity.RenderBeam;
@@ -47,6 +49,7 @@ public class EDModuleLaser extends EDModule {
 		GameRegistry.addRecipe(new IRecipeRedstoneEmitter());
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void initClient() {
 //		MinecraftForgeClient.registerItemRenderer(EDItems.itemPlasmaRifle.itemID, new RenderItemPlasmaRifle());
