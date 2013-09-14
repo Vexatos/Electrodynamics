@@ -15,7 +15,11 @@ import electrodynamics.purity.Attribute.AttributeType;
 public class DynamicAlloyPurities {
 
 	public static Map<ItemStack, AttributeWrapper> itemToAttributeMapping = new HashMap<ItemStack, AttributeWrapper>();
-	public static Map<ItemStack, Integer> itemToSmeltingDurationMapping  = new HashMap<ItemStack, Integer>();
+	
+	/** Simple mapping to store item heat/smelt duration requirements. 
+	 *  Value is simple two length array. Index 0 stores required heat, 
+	 *  Index 1 stores required duration                            */
+	public static Map<ItemStack, int[]> itemToSmeltInfoMapping  = new HashMap<ItemStack, int[]>();
 	
 	static {
 		// Arsenic Chunk
@@ -23,6 +27,7 @@ public class DynamicAlloyPurities {
 				new Attribute(AttributeType.DURABILITY, 0.025F),
 				new Attribute(AttributeType.EFFICIENCY, 0.025F)
 		));
+		itemToSmeltInfoMapping.put(Component.ARSENIC.toItemStack(), new int[] {0, 0});
 		
 		// Arsenic - Lead
 		
@@ -111,6 +116,20 @@ public class DynamicAlloyPurities {
 				new Attribute(AttributeType.REDUCED_WEIGHT, 0.1F),
 				new Attribute(AttributeType.IMPLOSION_CHANCE, 0.01F)
 		));
+	}
+	
+	public static int[] getSmeltInfoForStack(ItemStack stack) {
+		if (stack == null) {
+			return new int[] {};
+		}
+		
+		for (Entry<ItemStack, int[]> entry : itemToSmeltInfoMapping.entrySet()) {
+			if (entry.getKey().isItemEqual(stack)) {
+				return entry.getValue();
+			}
+		}
+		
+		return new int[] {};
 	}
 	
 	public static Attribute[] getAttributesForStack(ItemStack stack) {

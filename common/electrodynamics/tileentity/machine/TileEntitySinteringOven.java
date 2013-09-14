@@ -15,13 +15,14 @@ import net.minecraftforge.common.ForgeDirection;
 import electrodynamics.api.tool.ITool;
 import electrodynamics.api.tool.ToolType;
 import electrodynamics.core.CoreUtils;
-import electrodynamics.core.EDLogger;
 import electrodynamics.interfaces.IClientDisplay;
 import electrodynamics.interfaces.IHeatable;
 import electrodynamics.inventory.InventoryItem;
 import electrodynamics.item.EDItems;
 import electrodynamics.item.ItemAlloy;
-import electrodynamics.util.BlockUtil;
+import electrodynamics.purity.AlloyStack;
+import electrodynamics.purity.DynamicAlloyPurities;
+import electrodynamics.purity.MetalData;
 import electrodynamics.util.InventoryUtil;
 import electrodynamics.util.ItemUtil;
 
@@ -44,8 +45,6 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	/** Set to the recipes value when tray is input. If this is greater than zero, a valid recipe is present */
 	public int totalCookTime;
 
-	public float storedExperience = 0.0f;
-	
 	/** Set to the recipes value when tray is input, when equal to zero, tray contents are replaced with recipe output */
 	public int currentCookTime;
 	
@@ -62,7 +61,6 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		nbt.setBoolean("open", open);
 		nbt.setInteger("fuelLevel", fuelLevel);
 		nbt.setInteger("currentHeat", this.currentCookTime);
-		nbt.setFloat("storedExperience", storedExperience);
 		if (this.trayInventory != null) {
 			this.trayInventory.writeToNBT(nbt);
 		}
@@ -79,7 +77,6 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		else
 			this.burning = false;
 		this.currentHeat = nbt.getInteger("currentHeat");
-		this.storedExperience = nbt.getFloat("storedExperience");
 		if (nbt.hasKey("Items")) {
 			this.trayInventory = new InventoryItem(9, new ItemStack(EDItems.itemTray));
 			this.trayInventory.readFromNBT(nbt);
@@ -161,7 +158,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	}
 	
 	public AxisAlignedBB getTouchRadiusBoundingBox() {
-		return AxisAlignedBB.getAABBPool().getAABB(xCoord, yCoord, zCoord, xCoord + 0.25, yCoord + 0.25, zCoord + 0.25);
+		return AxisAlignedBB.getAABBPool().getAABB(xCoord - 0.25, yCoord - 0.25, zCoord - 0.25, xCoord + 1.25, yCoord + 1.25, zCoord + 1.25);
 	}
 	
 	@Override
@@ -199,6 +196,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 			--this.fuelLevel;
 			if (this.worldObj.getTotalWorldTime() % 5 == 0) { // Heats four times per second (roughly?)
 				++this.currentHeat;
+				sendHeatUpdate();
 			}
 			
 			if (this.open) {
@@ -208,7 +206,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 			} else {
 				if (totalCookTime > 0) {
 					if (trayInventory != null) {
-						if (currentCookTime == 0) {
+						if (currentCookTime == 0 && isHotEnough()) {
 							doProcess();
 
 							this.totalCookTime = 0;
@@ -226,7 +224,8 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 					if (trayInventory != null) {
 						ItemStack stack = this.trayInventory.getStackInSlot(0);
 						if (stack != null && stack.getItem() instanceof ItemAlloy && stack.getItemDamage() == 0) {
-							this.totalCookTime = this.currentCookTime = 200; //TEMP
+//							this.totalCookTime = this.currentCookTime = 200; //TEMP
+							this.totalCookTime = this.currentCookTime = DynamicAlloyPurities.getSmeltInfoForStack(getStrongestComponent())[1];
 							return;
 						}
 					}
@@ -238,6 +237,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		} else {
 			if (this.worldObj.getTotalWorldTime() % 5 == 0) { // Heats four times per second (roughly?)
 				--this.currentHeat;
+				sendHeatUpdate();
 			}
 		}
 	}
@@ -327,11 +327,6 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	private void removeTray(EntityPlayer player) {
 		player.setCurrentItemOrArmor(0, trayInventory.parent.copy());
 
-		// Give experience
-		if( storedExperience > 0.0f ) {
-			BlockUtil.spawnExperienceOrbs(worldObj, xCoord, yCoord, zCoord, storedExperience);
-		}
-		this.storedExperience = 0.0f;
 		this.trayInventory = null;
 		this.currentCookTime = 0;
 		this.totalCookTime = 0;
@@ -371,6 +366,28 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setInteger("currentHeat", this.currentHeat);
 		sendUpdatePacket(nbt);
+	}
+	
+	private boolean isHotEnough() {
+		return DynamicAlloyPurities.getSmeltInfoForStack(getStrongestComponent())[0] <= this.currentHeat;
+	}
+	
+	private ItemStack getStrongestComponent() {
+		ItemStack item = this.trayInventory.getStackInSlot(0);
+		AlloyStack alloy = new AlloyStack(item);
+		
+		int highestHeat = 0;
+		ItemStack stack = null;
+		
+		for (MetalData data : alloy.getMetals()) {
+			int[] info = DynamicAlloyPurities.getSmeltInfoForStack(data.component);
+			if (info[0] > highestHeat) {
+				highestHeat = info[0];
+				stack = data.component;
+			}
+		}
+		
+		return stack.copy();
 	}
 	
 	private void doProcess() {
