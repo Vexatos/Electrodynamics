@@ -47,17 +47,19 @@ public abstract class ItemLaserTool extends ItemPowerTool {
 	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count) {
 		String id = "BEAM: " + player.username;
 		
-		int charge = startCharges.get(id);
-		
-		int use = 1;
-		if (useCount.get(id) != null) {
-			useCount.put(id, useCount.get(id) + 1);
-		} else {
-			useCount.put(id, 1);
-		}
-		
-		if (charge > 0 && charge - use > 0) {
-			generateOrUpdateLaser(id, player.worldObj, onTick(stack, player, charge, use));
+		if (this.startCharges != null) {
+			int charge = startCharges.get(id);
+			
+			int use = 1;
+			if (useCount.get(id) != null) {
+				useCount.put(id, useCount.get(id) + 1);
+			} else {
+				useCount.put(id, 1);
+			}
+			
+			if (charge > 0 && charge - use > 0) {
+				generateOrUpdateLaser(id, player.worldObj, onTick(stack, player, charge, use));
+			}
 		}
     }
 	

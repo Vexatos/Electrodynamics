@@ -62,7 +62,7 @@ public class ContainerGlassJar extends Container implements IHotspotCallback, IP
 		// Replicated here to ensure everything is kept in sync
 		// Main code is run in GuiGlassJar
 		if (!ItemGlassJar.isMixed(this.glassJar)) {
-			if (FMLClientHandler.instance().getClient().thePlayer.capabilities.isCreativeMode) {
+			if (player.capabilities.isCreativeMode) {
 				if (state == MouseState.MOUSE_RIGHT) {
 					ItemGlassJar.setMixed(this.glassJar, true);
 				}

@@ -1,5 +1,17 @@
 package electrodynamics.mbs.structure;
 
+import static electrodynamics.lib.block.StructureComponent.CONVEYOR_BELT;
+import static electrodynamics.lib.block.StructureComponent.FURNACE_GAUGE;
+import static electrodynamics.lib.block.StructureComponent.FURNACE_HEATER;
+import static electrodynamics.lib.block.StructureComponent.FURNACE_VENT;
+import static electrodynamics.lib.block.StructureComponent.MACHINE_FRAME;
+import static electrodynamics.lib.block.StructureComponent.VALVE;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.api.render.ModelTechne;
 import electrodynamics.client.model.ModelSinteringFurnace;
 import electrodynamics.lib.block.StructureComponent;
@@ -9,23 +21,14 @@ import electrodynamics.mbs.StructureBlock;
 import electrodynamics.mbs.util.WorldBlock;
 import electrodynamics.mbs.util.WorldChunk;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static electrodynamics.lib.block.StructureComponent.*;
-
 public class SinteringFurnace extends MultiBlockStructure {
 
 	public static final String UID = "SintFurnace";
-	
-	public ModelTechne model;
 	
 	private static final int REQUIREMENT_HEATER = 1, REQUIREMENT_VALVE = 1, REQUIREMENT_GAUGE = 1, REQUIREMENT_VENT = 2;
 
 	public SinteringFurnace() {
 		super( UID, makePattern() );
-		
-		this.model = new ModelSinteringFurnace();
 	}
 
 	@Override

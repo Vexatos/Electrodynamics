@@ -15,9 +15,9 @@ import electrodynamics.util.BlockUtil;
 
 public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyConnection {
 
-	@SideOnly(Side.CLIENT)
+//	@SideOnly(Side.CLIENT)
 	public float vertOffset = 0.0F;
-	@SideOnly(Side.CLIENT)
+//	@SideOnly(Side.CLIENT)
 	public float currAngle = 0.0F;
 	
 	public float setAngle;
@@ -82,6 +82,7 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 		return aabb;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void updateEntityClient() {
 		if (!this.panelDisabled) {
