@@ -1,22 +1,16 @@
 package electrodynamics.inventory.container;
 
-import static electrodynamics.client.gui.module.GuiModule.MouseState.MOUSE_LEFT;
-import cpw.mods.fml.common.network.IPacketHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import electrodynamics.api.crafting.util.WeightedRecipeOutput;
-import electrodynamics.client.gui.module.GuiModule.MouseState;
-import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
-import electrodynamics.item.ItemGlassJar;
-import electrodynamics.network.packet.PacketHotspotCallback;
-import electrodynamics.network.packet.PacketPayload.IPayloadReceptor;
-import electrodynamics.purity.AlloyFactory;
-import electrodynamics.recipe.RecipeSieve;
-import electrodynamics.recipe.manager.CraftingManager;
-import electrodynamics.util.InventoryUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import electrodynamics.client.gui.GuiHandSieve;
+import electrodynamics.client.gui.module.GuiModule.MouseState;
+import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
+import electrodynamics.item.ItemGlassJar;
+import electrodynamics.network.packet.PacketPayload.IPayloadReceptor;
+import electrodynamics.recipe.manager.CraftingManager;
+import electrodynamics.util.InventoryUtil;
 
 public class ContainerHandSieve extends Container implements IHotspotCallback, IPayloadReceptor {
 
@@ -59,15 +53,34 @@ public class ContainerHandSieve extends Container implements IHotspotCallback, I
 		if (uuid.equalsIgnoreCase("sieveClick")) {
 			if (stack != null) {
 				if (CraftingManager.getInstance().sieveManager.getRecipe(stack) != null) {
-					if (state == MOUSE_LEFT) {
+					switch(state) {
+					case MOUSE_LEFT: {
+						int max = GuiHandSieve.MAX_DUST_AMOUNT - ItemGlassJar.getStoredDusts(sieve).length;
+						if (stack.stackSize >= max) {
+							stack.stackSize -= max;
+							ItemStack grind = stack.copy();
+							grind.stackSize = max;
+							ItemGlassJar.addDusts(this.sieve, new ItemStack[] {grind});
+							break;
+						} else {
+							ItemGlassJar.addDusts(this.sieve, new ItemStack[] {stack.copy()});
+							stack.stackSize = 0;
+							break;
+						}
+					}
+					case MOUSE_RIGHT: {
+						--stack.stackSize;
 						ItemStack grind = stack.copy();
 						grind.stackSize = 1;
 						ItemGlassJar.addDusts(this.sieve, new ItemStack[] {grind});
-						--stack.stackSize;
-						if (stack.stackSize == 0) {
-							stack = null;
-						}
 					}
+					default: break;
+					
+					}
+					if (stack.stackSize == 0) {
+						stack = null;
+					}
+						
 					this.player.inventory.setItemStack(stack);
 				}
 			}

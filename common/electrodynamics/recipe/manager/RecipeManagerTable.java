@@ -101,7 +101,7 @@ public class RecipeManagerTable {
 		});
 		
 		//First 9 ore/grinding ordinals are equal
-		for (int i=0; i<9; i++) {
+		for (int i=0; i<8; i++) {
 			registerSmashingRecipe(Ore.get(i).toItemStack(), Grinding.get(i).toItemStack(), 1);
 		}
 		

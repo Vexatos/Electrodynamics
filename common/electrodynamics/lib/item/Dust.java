@@ -23,10 +23,9 @@ public enum Dust {
 	TUNGSTEN(Strings.DUST_TUNGSTEN, "dustTungsten"),
 	LODESTONE(Strings.DUST_LODESTONE, "dustLodestone"),
 	VOIDSTONE(Strings.DUST_VOIDSTONE, "dustVoidstone"),
+	GRAPHITE(Strings.DUST_GRAPHITE, "dustGraphite"),
 	IRON(Strings.DUST_IRON, "dustIron"),
 	GOLD(Strings.DUST_GOLD, "dustGold"),
-	BLUESTONE(Strings.DUST_BLUESTONE, "dustBluestone"),
-	GREENSTONE(Strings.DUST_GREENSTONE, "dustGreenstone"),
 	TIN(Strings.DUST_TIN, "dustTin"),
 	URANIUM(Strings.DUST_URANIUM, "dustUranium"),
 	SILVER(Strings.DUST_SILVER, "dustSilver");

@@ -13,9 +13,8 @@ public enum Ore {
 	NICKEL( Strings.ORE_NICKEL_NAME, "oreNickel" ),
 	WOLFRAMITE( Strings.ORE_WOLFRAMITE_NAME, "oreWolframite" ),
 	VOIDSTONE(Strings.ORE_VOIDSTONE, "oreVoidstone"),
-	BLUESTONE(Strings.ORE_BLUESTONE, "oreBluestone"),
-	GREENSTONE(Strings.ORE_GREENSTONE, "oreGreenstone");
-
+	GRAPHITE(Strings.ORE_GRAPHITE, "oreGraphite");
+	
 	public String unlocalizedName;
 	public String textureFile;
 

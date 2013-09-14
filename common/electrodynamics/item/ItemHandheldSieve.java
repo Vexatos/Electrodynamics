@@ -65,7 +65,7 @@ public class ItemHandheldSieve extends Item {
 				setShakeProgress(player, 0);
 				
 				if (!player.worldObj.isRemote) {
-					RecipeSieve recipe = CraftingManager.getInstance().sieveManager.getRecipe(stack);
+					RecipeSieve recipe = CraftingManager.getInstance().sieveManager.getRecipe(dust);
 					
 					if (recipe != null) {
 						float percentage = 0.0F;

@@ -112,8 +112,8 @@ public class BlockRubberWood extends Block {
 		textures = new Icon[3];
 		
 		textures[0] = Block.wood.getBlockTextureFromSide(0);
-		textures[1] = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/rubberTree");
-		textures[2] = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/rubberTreePeeled");
+		textures[1] = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/woodRubber");
+		textures[2] = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/woodRubber_cut");
 	}
 	
 }

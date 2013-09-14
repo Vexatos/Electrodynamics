@@ -50,14 +50,29 @@ public class GuiHandSieve extends GuiElectrodynamics implements IHotspotCallback
 			if (stack != null) {
 				if (ItemGlassJar.getStoredDusts(sieve).length < MAX_DUST_AMOUNT) {
 					if (CraftingManager.getInstance().sieveManager.getRecipe(stack) != null) {
-						if (state == MOUSE_LEFT) {
-							PacketHotspotCallback packet = new PacketHotspotCallback(uuid, state, stack);
-							PacketDispatcher.sendPacketToServer(packet.makePacket());
-							--stack.stackSize;
-							if (stack.stackSize == 0) {
-								stack = null;
+						PacketHotspotCallback packet = new PacketHotspotCallback(uuid, state, stack);
+						PacketDispatcher.sendPacketToServer(packet.makePacket());
+						switch(state) {
+						case MOUSE_LEFT: {
+							int max = MAX_DUST_AMOUNT - ItemGlassJar.getStoredDusts(sieve).length;
+							if (stack.stackSize >= max) {
+								stack.stackSize -= max;
+							} else {
+								stack.stackSize = 0;
 							}
+							break;
 						}
+						case MOUSE_RIGHT: {
+							--stack.stackSize;
+							break;
+						}
+						default: break;
+						
+						}
+						if (stack.stackSize == 0) {
+							stack = null;
+						}
+							
 						this.player.inventory.setItemStack(stack);
 					}
 				}

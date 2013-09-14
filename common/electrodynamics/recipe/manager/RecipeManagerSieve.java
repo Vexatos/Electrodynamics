@@ -21,7 +21,7 @@ public class RecipeManagerSieve {
 		if (input == null) return null;
 		
 		for (RecipeSieve recipe : sieveRecipes) {
-			if (recipe.isInput(input)) {
+			if (input.isItemEqual(recipe.itemInput)) {
 				return recipe;
 			}
 		}
@@ -86,7 +86,7 @@ public class RecipeManagerSieve {
 		registerRecipe(new RecipeSieve(Grinding.NICKEL.toItemStack()) {
 			@Override
 			public void setOutput(ArrayList<WeightedRecipeOutput> outputs) {
-				outputs.add(new WeightedRecipeOutput(Dust.IRON, 0.5F));
+				outputs.add(new WeightedRecipeOutput(Dust.IRON, 0.05F));
 				outputs.add(new WeightedRecipeOutput(Dust.NICKEL, 1F));
 				outputs.add(new WeightedRecipeOutput(Dust.SULFUR, 0.05F));
 			}

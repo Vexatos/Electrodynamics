@@ -106,8 +106,8 @@ public class BlockRubberLeaves extends BlockLeaves {
 	public void registerIcons(IconRegister register) {
 		this.textures = new Icon[2];
 
-		this.textures[0] = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/rubberLeavesFast");
-		this.textures[1] = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/rubberLeavesFancy");
+		this.textures[0] = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/rubberLeaves_fast");
+		this.textures[1] = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/rubberLeaves_fancy");
 	}
 
 	@Override

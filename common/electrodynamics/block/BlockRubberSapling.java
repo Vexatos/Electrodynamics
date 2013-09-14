@@ -48,7 +48,7 @@ public class BlockRubberSapling extends BlockSapling {
 	
 	@Override
 	public void registerIcons(IconRegister register) {
-		this.texture = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/rubberSapling");
+		this.texture = register.registerIcon(ModInfo.ICON_PREFIX + "world/plant/saplingRubber_sparse");
 	}
 	
 }

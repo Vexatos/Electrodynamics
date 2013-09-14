@@ -103,9 +103,8 @@ public class Strings {
 	public static final String ORE_NICKEL_NAME = "ore.nickel";
 	public static final String ORE_WOLFRAMITE_NAME = "ore.wolframite";
 	public static final String ORE_VOIDSTONE = "ore.voidstone";
-	public static final String ORE_BLUESTONE = "ore.bluestone";
-	public static final String ORE_GREENSTONE = "ore.greenstone";
-
+	public static final String ORE_GRAPHITE = "ore.graphite";
+	
 	/* Internal dust names */
 	public static final String DUST_CLAY = "dust.clay";
 	public static final String DUST_COBALT = "dust.cobalt";
@@ -124,10 +123,9 @@ public class Strings {
 	public static final String DUST_TUNGSTEN = "dust.tungsten";
 	public static final String DUST_LODESTONE = "dust.lodestone";
 	public static final String DUST_VOIDSTONE = "dust.voidstone";
+	public static final String DUST_GRAPHITE = "dust.graphite";
 	public static final String DUST_IRON = "dust.iron";
 	public static final String DUST_GOLD = "dust.gold";
-	public static final String DUST_BLUESTONE = "dust.bluestone";
-	public static final String DUST_GREENSTONE = "dust.greenstone";
 	public static final String DUST_TIN = "dust.tin";
 	public static final String DUST_URANIUM = "dust.uranium";
 	public static final String DUST_SILVER = "dust.silver";
@@ -141,14 +139,13 @@ public class Strings {
 	public static final String GROUND_NICKEL = "ground.nickel";
 	public static final String GROUND_WOLFRAMITE = "ground.wolframite";
 	public static final String GROUND_VOIDSTONE = "ground.voidstone";
+	public static final String GROUND_GRAPHITE = "ground.graphite";
 	public static final String GROUND_DIAMOND = "ground.diamond";
 	public static final String GROUND_EMERALD = "ground.emerald";
 	public static final String GROUND_GOLD = "ground.gold";
 	public static final String GROUND_IRON = "ground.iron";
 	public static final String GROUND_LAPIS = "ground.lapis";
 	public static final String GROUND_REDSTONE = "ground.redstone";
-	public static final String GROUND_BLUESTONE = "ground.bluestone";
-	public static final String GROUND_GREENSTONE = "ground.greenstone";
 	public static final String GROUND_COPPER = "ground.copper";
 	public static final String GROUND_LEAD = "ground.lead";
 	public static final String GROUND_SILVER = "ground.silver";

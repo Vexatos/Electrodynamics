@@ -22,8 +22,6 @@ public class IconUtil {
 	public static Map<String, GLColor> iconColorCache = new HashMap<String, GLColor>();
 	
 	static {
-		cacheColor(Dust.GREENSTONE.toItemStack(), new GLColor(0, 170, 0));
-		cacheColor(Dust.BLUESTONE.toItemStack(), new GLColor(0, 85, 255));
 		cacheColor(Dust.VOIDSTONE.toItemStack(), new GLColor(50, 25, 120));
 		cacheColor(Dust.SULFUR.toItemStack(), new GLColor(180, 190, 180));
 		cacheColor(Dust.LIME_PURE.toItemStack(), new GLColor(250, 250, 250));
