@@ -148,17 +148,8 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 		return this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getFireDetectionBoundingBox());
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<EntityLivingBase> getEntitiesTouching() {
-		return this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, getFireDetectionBoundingBox());
-	}
-	
 	public AxisAlignedBB getFireDetectionBoundingBox() {
 		return AxisAlignedBB.getAABBPool().getAABB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).addCoord(1 * this.rotation.offsetX, 0, 1 * this.rotation.offsetZ);
-	}
-	
-	public AxisAlignedBB getTouchRadiusBoundingBox() {
-		return AxisAlignedBB.getAABBPool().getAABB(xCoord - 0.25, yCoord - 0.25, zCoord - 0.25, xCoord + 1.25, yCoord + 1.25, zCoord + 1.25);
 	}
 	
 	@Override
@@ -177,21 +168,6 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 
 	@Override
 	public void updateEntityServer() {
-		if (this.currentHeat > LAST_BAREABLE_HEAT) {
-			for (EntityLivingBase living : getEntitiesTouching()) {
-				boolean protectedFrom = false;
-				
-				if (living instanceof EntityPlayer) {
-					if (((EntityPlayer)living).inventory.armorInventory[1] != null && ((EntityPlayer)living).inventory.armorItemInSlot(1).getItem() == EDItems.itemBlacksmithApron) {
-						protectedFrom = true;
-					}
-				}
-				
-				if (!protectedFrom) {
-					living.attackEntityFrom(DamageSource.inFire, 1);
-				}
-			}
-		}
 		if (fuelLevel > 0) {
 			--this.fuelLevel;
 			if (this.worldObj.getTotalWorldTime() % 5 == 0) { // Heats four times per second (roughly?)
