@@ -7,7 +7,6 @@ import electrodynamics.lib.client.Textures;
 import electrodynamics.util.render.RenderUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
 public class RenderItemEnergy implements IItemRenderer {
 
@@ -19,12 +18,12 @@ public class RenderItemEnergy implements IItemRenderer {
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-		return type != ItemRenderType.FIRST_PERSON_MAP;
+		return true;
 	}
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		return helper != ItemRendererHelper.HOLD_BACKGROUND && helper != ItemRendererHelper.HOLD_HANDS;
+		return true;
 	}
 
 	@Override

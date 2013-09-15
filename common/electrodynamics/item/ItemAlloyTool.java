@@ -106,7 +106,7 @@ public abstract class ItemAlloyTool extends Item {
 	}
 	
 	@Override
-	public float getStrVsBlock(ItemStack stack, Block block) {
+	public float getStrVsBlock(ItemStack stack, Block block, int meta) {
 		if (this.type != ToolType.SWORD) {
 			if (!stack.hasTagCompound()) {
 				return 1.0F;
@@ -114,7 +114,7 @@ public abstract class ItemAlloyTool extends Item {
 			
 			NBTTagCompound tag = stack.getTagCompound();
 			
-			if (canHarvestBlock(block)) {
+			if (shouldModify(block)) {
 				float miningSpeed = AttributeType.EFFICIENCY.baseValue;
 				
 				AlloyStack tool = new AlloyStack(stack);
@@ -141,19 +141,15 @@ public abstract class ItemAlloyTool extends Item {
 			}
 		}
 		
-		return super.getStrVsBlock(stack, block);
+		return super.getStrVsBlock(stack, block, meta);
 	}
 	
 	@Override
-	public float getStrVsBlock(ItemStack stack, Block block, int meta) {
-		return getStrVsBlock(stack, block);
-	}
-	
-	@Override
-	public boolean canHarvestBlock(Block block) {
+	public boolean shouldModify(Block block) {
 		if (block.blockMaterial == Material.plants ||
 			block.blockMaterial == Material.vine ||
 			block.blockMaterial == Material.coral ||
+			block.blockMaterial.isAdventureModeExempt() ||
 			block.blockMaterial.isToolNotRequired()) { // Plants apparently require tools
 			return false;
 		}
