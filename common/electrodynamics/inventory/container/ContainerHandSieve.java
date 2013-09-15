@@ -49,6 +49,11 @@ public class ContainerHandSieve extends Container implements IHotspotCallback, I
 	}
 
 	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
+		return null; // Simply disables shift-clicking
+	}
+	
+	@Override
 	public void onClicked(EntityPlayer player, String uuid, MouseState state, ItemStack stack) {
 		if (uuid.equalsIgnoreCase("sieveClick")) {
 			if (stack != null) {

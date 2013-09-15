@@ -159,12 +159,6 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 			this.lastClickTime = currentClickTime;
 			
 			if (!ItemGlassJar.isMixed(this.jar)) {
-				if (FMLClientHandler.instance().getClient().thePlayer.capabilities.isCreativeMode) {
-					if (state == MouseState.MOUSE_RIGHT) {
-						ItemGlassJar.setMixed(this.jar, true);
-					}
-				}
-				
 				if (ItemDust.isDust(stack)) {
 					if (ItemGlassJar.getStoredDusts(this.jar).length < GuiGlassJar.DUST_MAX) {
 						if (state == MOUSE_LEFT) {

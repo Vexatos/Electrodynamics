@@ -58,6 +58,11 @@ public class ContainerGlassJar extends Container implements IHotspotCallback, IP
 	}
 
 	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
+		return null; // Simply disables shift-clicking
+	}
+	
+	@Override
 	public void onClicked(EntityPlayer player, String uuid, MouseState state, ItemStack stack) {
 		// Replicated here to ensure everything is kept in sync
 		// Main code is run in GuiGlassJar
