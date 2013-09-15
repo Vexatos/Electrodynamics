@@ -107,11 +107,6 @@ public abstract class ItemAlloyTool extends Item {
 	
 	@Override
 	public float getStrVsBlock(ItemStack stack, Block block) {
-		return getStrVsBlock(stack, block, 0);
-	}
-	
-	@Override
-	public float getStrVsBlock(ItemStack stack, Block block, int meta) {
 		if (this.type != ToolType.SWORD) {
 			if (!stack.hasTagCompound()) {
 				return 1.0F;
@@ -146,7 +141,12 @@ public abstract class ItemAlloyTool extends Item {
 			}
 		}
 		
-		return super.getStrVsBlock(stack, block, meta);
+		return super.getStrVsBlock(stack, block);
+	}
+	
+	@Override
+	public float getStrVsBlock(ItemStack stack, Block block, int meta) {
+		return getStrVsBlock(stack, block);
 	}
 	
 	@Override
