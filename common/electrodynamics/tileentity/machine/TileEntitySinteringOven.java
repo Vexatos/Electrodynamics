@@ -360,9 +360,11 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 				
 				for (MetalData data : alloy.getMetals()) {
 					int[] info = DynamicAlloyPurities.getSmeltInfoForStack(data.component);
-					if (info[0] > highestHeat) {
-						highestHeat = info[0];
-						stack = data.component;
+					if (info.length == 2) {
+						if (info[0] > highestHeat) {
+							highestHeat = info[0];
+							stack = data.component;
+						}
 					}
 				}
 				
