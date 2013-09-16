@@ -64,8 +64,10 @@ public class ContainerHandSieve extends Container implements IHotspotCallback, I
 						if (stack.stackSize >= max) {
 							stack.stackSize -= max;
 							ItemStack grind = stack.copy();
-							grind.stackSize = max;
-							ItemGlassJar.addDusts(this.sieve, new ItemStack[] {grind});
+							grind.stackSize = 1;
+							for (int i=0; i<max; i++) {
+								ItemGlassJar.addDusts(this.sieve, new ItemStack[] {grind.copy()});
+							}
 							break;
 						} else {
 							ItemGlassJar.addDusts(this.sieve, new ItemStack[] {stack.copy()});
