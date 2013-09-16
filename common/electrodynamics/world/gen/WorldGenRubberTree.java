@@ -60,21 +60,19 @@ public class WorldGenRubberTree implements IWorldGenerator {
 			return false;
 		}
 		
-		int h = getGrowHeight(world, x, y, z);
-		if (h < 2) {
+		int h = getGrowHeight(world, x, y, z, 6);
+		if (h < 5) {
 			return false;
 		}
 
-		int height = h / 2;
-		h -= h / 2;
-		height += random.nextInt(h + 1);
-		for (int i = 0; i < height; i++) {
+		h += random.nextInt((h / 2));
+		for (int i = 0; i < h; i++) {
 			world.setBlock(x, y + i, z, EDBlocks.blockRubberWood.blockID, 1, 7);
 
-			if ((height < 4) || ((height < 7) && (i > 1)) || (i > 2)) {
+			if (i > 2) {
 				for (int a = x - 2; a <= x + 2; a++) {
 					for (int b = z - 2; b <= z + 2; b++) {
-						int c = i + 4 - height;
+						int c = i + 4 - h;
 						if (c < 1) {
 							c = 1;
 						}
@@ -89,18 +87,18 @@ public class WorldGenRubberTree implements IWorldGenerator {
 			}
 		}
 		
-		world.setBlock(x, y + height, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+		world.setBlock(x, y + h, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 		
 		return true;
 	}
 
-	public int getGrowHeight(World world, int x, int y, int z) {
+	public int getGrowHeight(World world, int x, int y, int z, int max) {
 		int id = world.getBlockId(x, y - 1, z);
 		if ((Block.blocksList[id] == null) || (!Block.blocksList[id].canSustainPlant(world, x, y - 1, z, ForgeDirection.UP, (IPlantable) Block.blocksList[EDBlocks.blockRubberSapling.blockID])) || ((world.getBlockId(x, y, z) != 0) && (world.getBlockId(x, y, z) != EDBlocks.blockRubberSapling.blockID))) {
 			return 0;
 		}
 		int height = 1;
-		for (; (world.getBlockId(x, y + 1, z) == 0) && (height < 8); y++) {
+		for (; (world.getBlockId(x, y + 1, z) == 0) && (height < max); y++) {
 			height++;
 		}
 		return height;

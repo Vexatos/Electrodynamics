@@ -74,7 +74,7 @@ public class BlockRubberWood extends Block {
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		if (world.getBlockMetadata(x, y, z) < 1) {
+		if (world.getBlockMetadata(x, y, z) > 1) {
 			world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) - 4, 2);
 		}
 	}
