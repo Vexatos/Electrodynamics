@@ -3,6 +3,8 @@ package electrodynamics.item;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -12,6 +14,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import electrodynamics.api.crafting.util.WeightedRecipeOutput;
+import electrodynamics.api.render.ICustomRender;
+import electrodynamics.api.render.ModelTechne;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.core.EDLogger;
 import electrodynamics.core.handler.GuiHandler;
@@ -19,7 +23,7 @@ import electrodynamics.lib.core.ModInfo;
 import electrodynamics.recipe.RecipeSieve;
 import electrodynamics.recipe.manager.CraftingManager;
 
-public class ItemHandheldSieve extends Item {
+public class ItemHandheldSieve extends Item implements ICustomRender {
  
 	public static final int SHAKE_PER_DUST = 60;
 	
@@ -116,6 +120,18 @@ public class ItemHandheldSieve extends Item {
 	@Override
 	public void registerIcons(IconRegister register) {
 		this.texture = register.registerIcon(ModInfo.ICON_PREFIX + "tool/handSieveWood");
+	}
+
+	@Override
+	public void glManipulation() {
+		GL11.glRotated(-90, 1, 0, 0);
+		GL11.glTranslated(0, -0.075, 0);
+		GL11.glTranslated(0, 0, 0.25);
+	}
+
+	@Override
+	public ModelTechne getCustomModel() { // Not used
+		return null;
 	}
 	
 }

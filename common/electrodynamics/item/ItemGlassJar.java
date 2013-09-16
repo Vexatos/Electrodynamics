@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 
 import net.minecraft.entity.Entity;
@@ -16,6 +18,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import electrodynamics.api.render.ICustomRender;
+import electrodynamics.api.render.ModelTechne;
 import electrodynamics.client.gui.GuiGlassJar;
 import electrodynamics.configuration.ConfigurationSettings;
 import electrodynamics.core.CreativeTabED;
@@ -26,7 +30,7 @@ import electrodynamics.purity.AlloyFactory;
 import electrodynamics.purity.MetalData;
 import electrodynamics.util.ItemUtil;
 
-public class ItemGlassJar extends Item {
+public class ItemGlassJar extends Item implements ICustomRender {
 
 	public static Map<String, Vec3> playerLook = new HashMap<String, Vec3>();
 	
@@ -302,6 +306,19 @@ public class ItemGlassJar extends Item {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void glManipulation() {
+		GL11.glRotated(-90, 1, 0, 0);
+		GL11.glTranslated(0, -0.040, 0);
+		GL11.glTranslated(0, 0, 0.25);
+		GL11.glScaled(1.5, 1.5, 1.5);
+	}
+
+	@Override
+	public ModelTechne getCustomModel() { // Not used
+		return null;
 	}
 	
 }

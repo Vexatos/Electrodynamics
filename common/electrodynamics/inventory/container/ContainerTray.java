@@ -41,7 +41,7 @@ public class ContainerTray extends ContainerInventory {
 				if (!this.mergeItemStack(itemstack1, 1, 36, true)) {
 					return null;
 				}
-			} else if (!this.mergeItemStack(itemstack1, 0, 9, false)) {
+			} else if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
 				return null;
 			}
 

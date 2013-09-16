@@ -166,7 +166,6 @@ public class InventoryItem implements IInventory, INBTTagable {
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
-		EDLogger.info("STACK LIMIT: "+this.getInventoryStackLimit());
 		if (slot < this.inventory.length) {
 			this.inventory[slot] = stack;
 
