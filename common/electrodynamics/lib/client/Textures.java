@@ -32,6 +32,7 @@ public enum Textures {
 	SOLAR_PANEL("models/textures/solarPanel.png"),
 	GLASS_JAR("models/textures/glassJar.png"),
 	HANDSIEVE("models/textures/handSieve.png"),
+	THERMOMETER("models/textures/thermometer.png"),
 	
 	/* GUI Textures */
 	GUI_METAL_TRAY("textures/gui/metalTray.png"),

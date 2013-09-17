@@ -1,11 +1,11 @@
 package electrodynamics.block;
 
-import electrodynamics.core.CreativeTabED;
-import electrodynamics.tileentity.TileEntityThermometer;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import electrodynamics.core.CreativeTabED;
+import electrodynamics.tileentity.TileEntityThermometer;
 
 public class BlockThermometer extends BlockContainer {
 
@@ -19,6 +19,16 @@ public class BlockThermometer extends BlockContainer {
 	@Override
 	public int getRenderType() {
 		return -1;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
 	}
 	
 	@Override

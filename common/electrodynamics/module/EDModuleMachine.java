@@ -19,12 +19,14 @@ import electrodynamics.block.BlockMachine;
 import electrodynamics.block.BlockStorage;
 import electrodynamics.block.BlockStructure;
 import electrodynamics.block.BlockTable;
+import electrodynamics.block.BlockThermometer;
 import electrodynamics.block.BlockUtility;
 import electrodynamics.block.EDBlocks;
 import electrodynamics.block.item.ItemBlockMachine;
 import electrodynamics.block.item.ItemBlockStorage;
 import electrodynamics.block.item.ItemBlockStructure;
 import electrodynamics.block.item.ItemBlockTable;
+import electrodynamics.block.item.ItemBlockThermometer;
 import electrodynamics.block.item.ItemBlockUtility;
 import electrodynamics.client.render.block.RenderBlockUtility;
 import electrodynamics.client.render.item.RenderItemGlassJar;
@@ -36,6 +38,7 @@ import electrodynamics.client.render.tileentity.RenderBasicKiln;
 import electrodynamics.client.render.tileentity.RenderBasicSieve;
 import electrodynamics.client.render.tileentity.RenderSinteringOven;
 import electrodynamics.client.render.tileentity.RenderTable;
+import electrodynamics.client.render.tileentity.RenderThermometer;
 import electrodynamics.client.render.tileentity.RenderTileStructure;
 import electrodynamics.core.handler.EntityDeathHandler;
 import electrodynamics.core.lang.EDLanguage;
@@ -79,6 +82,7 @@ import electrodynamics.recipe.manager.RecipeManagerKiln;
 import electrodynamics.recipe.manager.RecipeManagerSieve;
 import electrodynamics.recipe.manager.RecipeManagerTable;
 import electrodynamics.recipe.vanilla.IRecipeAlloyPickaxe;
+import electrodynamics.tileentity.TileEntityThermometer;
 import electrodynamics.tileentity.machine.TileEntityBasicKiln;
 import electrodynamics.tileentity.machine.TileEntityBasicSieve;
 import electrodynamics.tileentity.machine.TileEntitySinteringOven;
@@ -127,6 +131,10 @@ public class EDModuleMachine extends EDModule {
 		for (UtilityBlock util : UtilityBlock.values()) {
 			EDLanguage.getInstance().registerItemStack(util.toItemStack(), util.unlocalizedName);
 		}
+		
+		EDBlocks.blockThermometer = new BlockThermometer(BlockIDs.BLOCK_THERMOMETER).setUnlocalizedName(Strings.BLOCK_THERMOMETER);
+		GameRegistry.registerBlock(EDBlocks.blockThermometer, ItemBlockThermometer.class, Strings.BLOCK_THERMOMETER);
+		EDLanguage.getInstance().registerBlock(EDBlocks.blockThermometer);
 		
 		/* ITEM */
 		EDItems.itemDust = new ItemDust(ItemIDs.ITEM_DUST_ID).setUnlocalizedName(Strings.ITEM_DUST);
@@ -318,6 +326,7 @@ public class EDModuleMachine extends EDModule {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBasicKiln.class, new RenderBasicKiln());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStructure.class, new RenderTileStructure());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityActuator.class, new RenderActuator());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityThermometer.class, new RenderThermometer());
 		
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockTable.blockID, new RenderItemTable());
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockMachine.blockID, new RenderItemMachine());
