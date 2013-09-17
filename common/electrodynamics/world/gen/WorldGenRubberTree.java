@@ -69,7 +69,7 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		for (int i = 0; i < h; i++) {
 			world.setBlock(x, y + i, z, EDBlocks.blockRubberWood.blockID, 1, 7);
 
-			if (i > 2) {
+			if (i > 4) {
 				for (int a = x - 2; a <= x + 2; a++) {
 					for (int b = z - 2; b <= z + 2; b++) {
 						int c = i + 4 - h;
@@ -86,7 +86,6 @@ public class WorldGenRubberTree implements IWorldGenerator {
 				}
 			}
 		}
-		
 		world.setBlock(x, y + h, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 		
 		return true;
