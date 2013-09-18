@@ -22,5 +22,6 @@ public class EDBlocks {
 	public static Block blockUtility;
 	public static Block blockEnergy;
 	public static Block blockThermometer;
+	public static Block blockAnvil;
 	
 }

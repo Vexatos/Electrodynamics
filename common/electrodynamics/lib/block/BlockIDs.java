@@ -62,4 +62,7 @@ public class BlockIDs {
 	@EDXProperty(category = CATEGORY_BLOCK)
 	public static int BLOCK_THERMOMETER = 518;
 	
+	@EDXProperty(category = CATEGORY_BLOCK)
+	public static int BLOCK_ANVIL_ID = 519;
+	
 }

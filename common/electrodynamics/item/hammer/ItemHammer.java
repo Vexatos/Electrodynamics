@@ -1,12 +1,16 @@
 package electrodynamics.item.hammer;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import electrodynamics.api.tool.ITool;
 import electrodynamics.api.tool.ToolType;
 import electrodynamics.core.CreativeTabED;
+import electrodynamics.lib.block.BlockIDs;
+import electrodynamics.tileentity.TileEntityAnvil;
 
 public class ItemHammer extends Item implements ITool {
 
@@ -21,6 +25,22 @@ public class ItemHammer extends Item implements ITool {
 		setMaxDamage(maxDamage);
 	}
 
+	@Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fx, float fy, float fz) {
+		if (!world.isRemote) {
+			if (!player.isSneaking()) {
+				if (world.getBlockId(x, y, z) == Block.anvil.blockID) {
+					int rotation = world.getBlockMetadata(x, y, z);
+					world.setBlock(x, y, z, BlockIDs.BLOCK_ANVIL_ID);
+					((TileEntityAnvil)world.getBlockTileEntity(x, y, z)).rotation = ForgeDirection.getOrientation(rotation);
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public ToolType getToolType() {
 		return ToolType.HAMMER;

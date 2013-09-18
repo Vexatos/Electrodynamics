@@ -15,6 +15,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import electrodynamics.block.BlockAnvil;
 import electrodynamics.block.BlockMachine;
 import electrodynamics.block.BlockStorage;
 import electrodynamics.block.BlockStructure;
@@ -34,6 +35,7 @@ import electrodynamics.client.render.item.RenderItemHandSieve;
 import electrodynamics.client.render.item.RenderItemMachine;
 import electrodynamics.client.render.item.RenderItemTable;
 import electrodynamics.client.render.tileentity.RenderActuator;
+import electrodynamics.client.render.tileentity.RenderAnvil;
 import electrodynamics.client.render.tileentity.RenderBasicKiln;
 import electrodynamics.client.render.tileentity.RenderBasicSieve;
 import electrodynamics.client.render.tileentity.RenderSinteringOven;
@@ -82,6 +84,7 @@ import electrodynamics.recipe.manager.RecipeManagerKiln;
 import electrodynamics.recipe.manager.RecipeManagerSieve;
 import electrodynamics.recipe.manager.RecipeManagerTable;
 import electrodynamics.recipe.vanilla.IRecipeAlloyPickaxe;
+import electrodynamics.tileentity.TileEntityAnvil;
 import electrodynamics.tileentity.TileEntityThermometer;
 import electrodynamics.tileentity.machine.TileEntityBasicKiln;
 import electrodynamics.tileentity.machine.TileEntityBasicSieve;
@@ -135,6 +138,10 @@ public class EDModuleMachine extends EDModule {
 		EDBlocks.blockThermometer = new BlockThermometer(BlockIDs.BLOCK_THERMOMETER).setUnlocalizedName(Strings.BLOCK_THERMOMETER);
 		GameRegistry.registerBlock(EDBlocks.blockThermometer, ItemBlockThermometer.class, Strings.BLOCK_THERMOMETER);
 		EDLanguage.getInstance().registerBlock(EDBlocks.blockThermometer);
+		
+		EDBlocks.blockAnvil = new BlockAnvil(BlockIDs.BLOCK_ANVIL_ID).setUnlocalizedName(Strings.BLOCK_ANVIL);
+		GameRegistry.registerBlock(EDBlocks.blockAnvil, Strings.BLOCK_ANVIL);
+		EDLanguage.getInstance().registerBlock(EDBlocks.blockAnvil);
 		
 		/* ITEM */
 		EDItems.itemDust = new ItemDust(ItemIDs.ITEM_DUST_ID).setUnlocalizedName(Strings.ITEM_DUST);
@@ -327,6 +334,7 @@ public class EDModuleMachine extends EDModule {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStructure.class, new RenderTileStructure());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityActuator.class, new RenderActuator());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityThermometer.class, new RenderThermometer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAnvil.class, new RenderAnvil());
 		
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockTable.blockID, new RenderItemTable());
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockMachine.blockID, new RenderItemMachine());

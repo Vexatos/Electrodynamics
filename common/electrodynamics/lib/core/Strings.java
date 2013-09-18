@@ -62,6 +62,7 @@ public class Strings {
 	public static final String BLOCK_SIGNAL_DIMMER = "signal_dimmer";
 	public static final String BLOCK_ENERGY = "energy";
 	public static final String BLOCK_THERMOMETER = "thermometer";
+	public static final String BLOCK_ANVIL = "anvil";
 	
 	/* Internal component names */
 	public static final String COMPONENT_FAN_BLADE = "component.fanBlade";
