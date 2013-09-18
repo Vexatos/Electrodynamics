@@ -21,14 +21,11 @@ public enum Textures {
 	BUCKET_LATEX("models/textures/latexBucketFull.png"),
 	KILN_TRAY("models/textures/kilnTray.png"),
 	METAL_TRAY("models/textures/metalTray.png"),
-	CHICKEN_RAW("models/textures/chicken.png"),
-	CHICKEN_COOKED("models/textures/chickenCooked.png"),
 	SINTERING_FURNACE("models/textures/sinteringFurnace.png"),
 	INGOT("models/textures/ingotTrayRender.png"),
+	DUST("models/textures/alloyDust.png"),
 	MOB_GRINDER_CLEAN("models/textures/mobGrinder.png"),
 	MOB_GRINDER_BLOODY("models/textures/mobGrinder_blood.png"),
-	SIGNAL_DIMMER("textures/misc/signalDimmer.png"), // Move this texture to the models texture folder
-	RED_WIRE("textures/misc/redAlloyWire.png"), // This one too
 	SOLAR_PANEL("models/textures/solarPanel.png"),
 	GLASS_JAR("models/textures/glassJar.png"),
 	HANDSIEVE("models/textures/handSieve.png"),

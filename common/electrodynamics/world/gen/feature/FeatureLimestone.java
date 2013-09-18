@@ -101,7 +101,7 @@ public class FeatureLimestone extends FeatureBase {
   @Override
   public void handleConfig(Configuration config) {
     //Todo: double defaults?
-    this.frequency = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "frequency", 15).getInt(15);
+    this.frequency = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "frequency", 5).getInt(5);
     this.maxDepth = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "max_depth", 3).getInt(3) - 1;
     this.maxSize = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "max_size", 4096).getInt(4096);
   }

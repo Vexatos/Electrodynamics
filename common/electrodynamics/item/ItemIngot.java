@@ -27,7 +27,7 @@ public class ItemIngot extends Item {
 	}
 	
 	public static boolean isIngot(ItemStack stack) {
-		return (stack.getItem() == EDItems.itemIngot) || (stack.getItem() == Item.ingotGold) || (stack.getItem() == Item.ingotIron);
+		return (stack.getItem() == EDItems.itemIngot) || (stack.getItem() == Item.ingotGold) || (stack.getItem() == Item.ingotIron || (stack.getItem() == EDItems.itemAlloy && stack.getItemDamage() == 1));
 	}
 	
 	@Override

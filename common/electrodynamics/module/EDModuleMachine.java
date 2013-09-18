@@ -247,8 +247,8 @@ public class EDModuleMachine extends EDModule {
 		// Basic Table
 		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockTable), "SSS", "WWW", "T T", 'S', new ItemStack(Block.woodSingleSlab, 1, OreDictionary.WILDCARD_VALUE), 'W', new ItemStack(Block.planks, 1, OreDictionary.WILDCARD_VALUE), 'T', Item.stick);
 		// Oven Wall Component
-		GameRegistry.addRecipe(Component.OVEN_WALL.toItemStack(), " IL", " IL", " IL", 'I', Item.ingotIron, 'L', Decorative.LIMESTONE.toItemStack());
-		GameRegistry.addRecipe(Component.OVEN_WALL.toItemStack(), "LI ", "LI ", "LI ", 'I', Item.ingotIron, 'L', Decorative.LIMESTONE.toItemStack());
+		GameRegistry.addRecipe(ItemUtil.getAndResize(Component.OVEN_WALL.toItemStack(), 5), " IL", " IL", " IL", 'I', Item.ingotIron, 'L', Decorative.LIMESTONE.toItemStack());
+		GameRegistry.addRecipe(ItemUtil.getAndResize(Component.OVEN_WALL.toItemStack(), 5), "LI ", "LI ", "LI ", 'I', Item.ingotIron, 'L', Decorative.LIMESTONE.toItemStack());
 		// Sintering Oven
 		GameRegistry.addRecipe(Machine.SINTERING_FURNACE.toItemStack(), "WWW", "WBW", "III", 'W', Component.OVEN_WALL.toItemStack(), 'B', Block.fenceIron, 'I', Item.ingotIron);
 		// Oven Tray

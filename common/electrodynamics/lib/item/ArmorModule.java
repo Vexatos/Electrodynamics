@@ -12,8 +12,8 @@ import electrodynamics.util.InventoryUtil;
 public enum ArmorModule {
 
 	MAGNETIC_PULL(Strings.MODULE_MAGNETIC_PULL, Strings.MODULE_MAGNETIC_PULL_DESC, new int[] {1}, new LogicMagneticPull(), "moduleMagnet"),
-	XRAY(Strings.MODULE_XRAY, Strings.MODULE_XRAY_DESC, new int[] {0}, null, "moduleXray"),
-	BACKTRACK(Strings.MODULE_BACKTRACK, Strings.MODULE_BACKTRACK_DESC, new int[] {1}, null, "moduleBacktrack");
+	XRAY(Strings.MODULE_XRAY, Strings.MODULE_XRAY_DESC, new int[] {0}, null, "moduleXray");
+//	BACKTRACK(Strings.MODULE_BACKTRACK, Strings.MODULE_BACKTRACK_DESC, new int[] {1}, null, "moduleBacktrack");
 	
 	public String unlocalizedName;
 	public String moduleDescription;

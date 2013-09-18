@@ -22,7 +22,7 @@ public class BlockAnvil extends BlockContainer {
 		super(id, Material.iron);
 		setHardness(2F);
 		setResistance(10F);
-		setCreativeTab(CreativeTabED.block);
+//		setCreativeTab(CreativeTabED.block);
 	}
 
 	@Override

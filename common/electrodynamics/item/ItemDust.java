@@ -29,8 +29,7 @@ public class ItemDust extends Item {
 	
 	public static boolean isDust(ItemStack stack) {
 		if (stack == null) return false;
-		
-		return (stack.getItem() instanceof ItemDust && stack.getItemDamage() < DUST_COUNT);
+		return (stack.getItem() instanceof ItemDust && stack.getItemDamage() < DUST_COUNT || (stack.getItem() == EDItems.itemAlloy && stack.getItemDamage() == 0));
 	}
 	
 	@Override

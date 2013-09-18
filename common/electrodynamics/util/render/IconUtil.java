@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import electrodynamics.core.EDLogger;
+import electrodynamics.item.EDItems;
+import electrodynamics.item.ItemAlloy;
 import electrodynamics.item.ItemIngot;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.lib.item.Dust;
@@ -27,6 +29,7 @@ public class IconUtil {
 		cacheColor(Dust.LIME_PURE.toItemStack(), new GLColor(250, 250, 250));
 		cacheColor(Dust.TELLURIUM.toItemStack(), new GLColor(230, 230, 230));
 		cacheColor(Dust.CLAY.toItemStack(), new GLColor(130, 145, 170));
+		cacheColor(Dust.GRAPHITE.toItemStack(), new GLColor(65, 65, 65));	
 		cacheColor(Dust.IRON.toItemStack(), new GLColor(180, 180, 180));
 		cacheColor(Dust.GOLD.toItemStack(), new GLColor(255, 235, 40));
 		cacheColor(Dust.COBALT.toItemStack(), new GLColor(40, 40, 60));
@@ -38,6 +41,9 @@ public class IconUtil {
 		cacheColor(Dust.COPPER.toItemStack(), new GLColor(185, 100, 30));
 		cacheColor(Dust.SILICON.toItemStack(), new GLColor(60, 60, 60));
 		cacheColor(Dust.COBALT_HEXAHYDRATE.toItemStack(), new GLColor(205, 110, 130));
+		cacheColor(Dust.TIN.toItemStack(), new GLColor(225, 225, 225));
+		cacheColor(Dust.URANIUM.toItemStack(), new GLColor(30, 170, 35));
+		cacheColor(Dust.SILVER.toItemStack(), new GLColor(210, 220, 235));
 	}
 	
 	private static InputStream getTextureResource(String texture) throws IOException {
@@ -108,6 +114,10 @@ public class IconUtil {
 		
 		if (stack.isItemEqual(new ItemStack(Item.ingotIron))) {
 			return ItemIngot.ingotColors[0];
+		}
+		
+		if (stack.getItem() == EDItems.itemAlloy) {
+			return ItemAlloy.getColorFromAlloy(stack);
 		}
 		
 		try {

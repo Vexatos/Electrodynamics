@@ -2,7 +2,6 @@ package electrodynamics.module;
 
 import java.util.Random;
 
-import electrodynamics.item.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,6 +12,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -37,6 +37,10 @@ import electrodynamics.client.render.block.RenderBlockOre;
 import electrodynamics.client.render.block.RenderBlockStructure;
 import electrodynamics.client.render.tileentity.RenderTreetap;
 import electrodynamics.core.lang.EDLanguage;
+import electrodynamics.item.EDItems;
+import electrodynamics.item.ItemLatexBucket;
+import electrodynamics.item.ItemPeelingSpud;
+import electrodynamics.item.ItemSeed;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Decorative;
 import electrodynamics.lib.block.Ore;
@@ -127,12 +131,21 @@ public class EDModuleWorld extends EDModule {
 		FurnaceRecipes.smelting().addSmelting(BlockIDs.BLOCK_DECORATIVE_ID, 3, new ItemStack(EDBlocks.blockDecorative, 1, 0), 0F);
 		FurnaceRecipes.smelting().addSmelting(ItemIDs.ITEM_COMPONENT_ID + 256, Component.WORMWOOD_LEAF.ordinal(), Component.SAP.toItemStack(), 0F);
 		
+		// Limestone
 		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockDecorative, 4, 1), "XX", "XX", 'X', new ItemStack(EDBlocks.blockDecorative, 1, 0));
 		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockDecorative, 4, 2), "XX", "XX", 'X', new ItemStack(EDBlocks.blockDecorative, 1, 1));
-		
+		 
+		// Twine -> String
 		GameRegistry.addRecipe(new ItemStack(Item.silk), "TTT", 'T', Component.TWINE.toItemStack());
 		
+		// Glass Jar
 		GameRegistry.addRecipe(new ItemStack(EDItems.itemGlassJar), "GLG", "G G", "GGG", 'G', Block.glass, 'L', Decorative.LIMESTONE.toItemStack());
+		
+		// Spud Peeler
+		GameRegistry.addRecipe(new ItemStack(EDItems.itemSpudPeeler), "I", "W", "S", 'I', Item.ingotIron, 'W', new ItemStack(Block.woodSingleSlab, 1, OreDictionary.WILDCARD_VALUE), 'S', Item.stick);
+		
+		// Treetap
+		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockTreetap), " I", "M ", 'I', Item.ingotIron, 'M', Component.METAL_BAR.toItemStack());
 		
 		FeatureHandler featureHandler = FeatureHandler.getInstance();
 		featureHandler.prepareFeatures();
