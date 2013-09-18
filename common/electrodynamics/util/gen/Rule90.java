@@ -16,6 +16,11 @@ public class Rule90
 		state.add(init);
 	}
 	
+	public Rule90()
+	{
+		this.state = new ArrayList<boolean[]>();
+	}
+	
 	private static boolean[] calculateNext(boolean[] last)
 	{
 		int size = last.length;

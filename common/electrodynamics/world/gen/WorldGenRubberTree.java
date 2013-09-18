@@ -72,33 +72,18 @@ public class WorldGenRubberTree implements IWorldGenerator {
 			world.setBlock(x, y+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
 		}
 		
-		int canopySize = random.nextInt(5) + 2;		
-		int canopyHeight = random.nextInt(canopySize) + 2;
-		boolean[] cellInit = new boolean[canopySize];
-		cellInit[0] = true;
-		
-		Rule90 cells = new Rule90(cellInit);
-		
-		int[] offset = new int[4];
-		for(int i=0; i<4; i++)
+		boolean[] cellInit = new boolean[5];
+		Rule90[] cells = new Rule90[4];
+		for(int i =0; i<4; i++)
 		{
-			offset[i] = random.nextInt(2);
-			if(random.nextBoolean())
-			{
-				offset[i] *= -1;
-			}
+			cellInit[0] = random.nextBoolean();
+			cellInit[1] = random.nextBoolean();
+			cells[i] = new Rule90(cellInit.clone());
 		}
 		
-		for(int i=0; i<canopySize; i++)
-		for(int j=0; j<canopyHeight; j++)
+		for(int i=0; i<random.nextInt(h/2); i++)
 		{
-			if(cells.testCell(j, i))
-			{				
-				world.setBlock(x+i+offset[0], y+h+j, z, EDBlocks.blockRubberWood.blockID, 0, 7);
-				world.setBlock(x, y+h+j, z+i+offset[1], EDBlocks.blockRubberWood.blockID, 0, 7);
-				world.setBlock(x-i+offset[2], y+h+j, z, EDBlocks.blockRubberWood.blockID, 0, 7);
-				world.setBlock(x, y+h+j, z-i+offset[3], EDBlocks.blockRubberWood.blockID, 0, 7);
-			}
+			
 		}
 		
 		return true;
