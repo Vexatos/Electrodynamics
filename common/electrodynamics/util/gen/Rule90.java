@@ -25,17 +25,11 @@ public class Rule90
 		{
 			if(i==0)
 			{
-				if(last[i+1])
-				{
-					next[i] = true;
-				}
+				next[i] = last[i+1];
 			}
-			else if(i==size)
+			else if(i==size-1)
 			{
-				if(last[i-1])
-				{
-					next[i] = true;
-				}
+				next[i] = last[i-1];
 			}
 			else
 			{
@@ -48,16 +42,16 @@ public class Rule90
 	
 	public boolean[] next()
 	{
-		boolean[] next = calculateNext(state.get(state.size()));
+		boolean[] next = calculateNext(state.get(state.size()-1));
 		state.add(next);
 		return next;
 	}
 	
 	public boolean[] get(int timeStep)
 	{
-		if(timeStep > state.size())
+		if(timeStep >= state.size())
 		{
-			for(int i=state.size(); i<timeStep; i++)
+			for(int i=state.size()-1; i<=timeStep; i++)
 			{
 				next();
 			}
@@ -78,6 +72,11 @@ public class Rule90
 	public boolean[] getInit()
 	{
 		return this.init;
+	}
+	
+	public boolean testCell(int timeStep, int index)
+	{
+		return get(timeStep)[index];
 	}
 
 }

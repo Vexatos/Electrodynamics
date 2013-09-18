@@ -16,6 +16,7 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 import cpw.mods.fml.common.IWorldGenerator;
 import electrodynamics.block.EDBlocks;
 import electrodynamics.util.BlockUtil;
+import electrodynamics.util.gen.Rule90;
 
 public class WorldGenRubberTree implements IWorldGenerator {
 
@@ -66,27 +67,39 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		}
 
 		h += random.nextInt((h / 2));
-		for (int i = 0; i < h; i++) {
-			world.setBlock(x, y + i, z, EDBlocks.blockRubberWood.blockID, 1, 7);
-
-			if (i > 4) {
-				for (int a = x - 2; a <= x + 2; a++) {
-					for (int b = z - 2; b <= z + 2; b++) {
-						int c = i + 4 - h;
-						if (c < 1) {
-							c = 1;
-						}
-						boolean gen = ((a > x - 2) && (a < x + 2) && (b > z - 2) && (b < z + 2)) || ((a > x - 2) && (a < x + 2) && (random.nextInt(c) == 0)) || ((b > z - 2) && (b < z + 2) && (random.nextInt(c) == 0));
-						Block block = Block.blocksList[world.getBlockId(a, y + i, b)];
-						
-						if ((gen) && (block == null || block.canBeReplacedByLeaves(world, a, y + i, b))) {
-							world.setBlock(a, y + i, b, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-						}
-					}
-				}
+		for(int i = 0; i<h; i++)
+		{
+			world.setBlock(x, y+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
+		}
+		
+		int canopySize = random.nextInt(5) + 2;		
+		int canopyHeight = random.nextInt(canopySize) + 2;
+		boolean[] cellInit = new boolean[canopySize];
+		cellInit[0] = true;
+		
+		Rule90 cells = new Rule90(cellInit);
+		
+		int[] offset = new int[4];
+		for(int i=0; i<4; i++)
+		{
+			offset[i] = random.nextInt(2);
+			if(random.nextBoolean())
+			{
+				offset[i] *= -1;
 			}
 		}
-		world.setBlock(x, y + h, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+		
+		for(int i=0; i<canopySize; i++)
+		for(int j=0; j<canopyHeight; j++)
+		{
+			if(cells.testCell(j, i))
+			{				
+				world.setBlock(x+i+offset[0], y+h+j, z, EDBlocks.blockRubberWood.blockID, 0, 7);
+				world.setBlock(x, y+h+j, z+i+offset[1], EDBlocks.blockRubberWood.blockID, 0, 7);
+				world.setBlock(x-i+offset[2], y+h+j, z, EDBlocks.blockRubberWood.blockID, 0, 7);
+				world.setBlock(x, y+h+j, z-i+offset[3], EDBlocks.blockRubberWood.blockID, 0, 7);
+			}
+		}
 		
 		return true;
 	}
