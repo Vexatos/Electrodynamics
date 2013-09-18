@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import electrodynamics.addons.misc.EDAddonBOP;
+import electrodynamics.configuration.ConfigurationSettings;
 import electrodynamics.lib.block.Decorative;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.world.gen.feature.FeatureHandler.FeatureType;
@@ -46,6 +48,10 @@ public class FeatureLimestone extends FeatureBase {
       return;
     }
 
+    if (EDAddonBOP.bopLoaded && world.provider.dimensionId == EDAddonBOP.promisedLandDIMID) {
+		return;
+	}
+    
     // Find exposed stone
     int y;
     int x = chunkX * 16 + 8;
@@ -75,7 +81,9 @@ public class FeatureLimestone extends FeatureBase {
         d = 0; depthMap.put(t,new Integer(0));
       }
 
-      if(world.getBlockId(x1, y1, z1) == Block.stone.blockID){
+      Block block = Block.blocksList[world.getBlockId(x1, y1, z1)];
+      
+      if(block == null || block.isGenMineableReplaceable(world, x1, y1, z1, Block.stone.blockID)){
         world.setBlock(x1, y1, z1, BlockIDs.BLOCK_DECORATIVE_ID, 0, Decorative.LIMESTONE.ordinal());
         placed.put(t, true);
 

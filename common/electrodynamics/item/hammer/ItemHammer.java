@@ -11,6 +11,7 @@ import electrodynamics.api.tool.ToolType;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.tileentity.TileEntityAnvil;
+import electrodynamics.util.PlayerUtil;
 
 public class ItemHammer extends Item implements ITool {
 
@@ -30,9 +31,8 @@ public class ItemHammer extends Item implements ITool {
 		if (!world.isRemote) {
 			if (player.isSneaking()) {
 				if (world.getBlockId(x, y, z) == Block.anvil.blockID) {
-					int rotation = world.getBlockMetadata(x, y, z);
 					world.setBlock(x, y, z, BlockIDs.BLOCK_ANVIL_ID);
-					((TileEntityAnvil)world.getBlockTileEntity(x, y, z)).rotation = ForgeDirection.getOrientation(rotation);
+					((TileEntityAnvil)world.getBlockTileEntity(x, y, z)).rotation = PlayerUtil.determine3DOrientation_F(world, x, y, z, player);
 					return true;
 				}
 			}

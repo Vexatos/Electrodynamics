@@ -8,6 +8,9 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
+import electrodynamics.addons.AddonManager;
+import electrodynamics.addons.misc.EDAddonBOP;
+import electrodynamics.configuration.ConfigurationSettings;
 
 public class WorldGenNear implements IWorldGenerator {
 
@@ -50,6 +53,10 @@ public class WorldGenNear implements IWorldGenerator {
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 		if (world.getWorldInfo().getTerrainType() == WorldType.FLAT) {
+			return;
+		}
+		
+		if (EDAddonBOP.bopLoaded && world.provider.dimensionId == EDAddonBOP.promisedLandDIMID) {
 			return;
 		}
 		

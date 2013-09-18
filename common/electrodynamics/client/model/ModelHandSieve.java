@@ -1,9 +1,9 @@
 package electrodynamics.client.model;
 
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import electrodynamics.api.render.ModelTechne;
 
-public class ModelHandSieve extends ModelTechne {
+public class ModelHandSieve extends ModelBase {
 	ModelRenderer east;
 	ModelRenderer south;
 	ModelRenderer northEast;
@@ -18,7 +18,7 @@ public class ModelHandSieve extends ModelTechne {
 		textureWidth = 64;
 		textureHeight = 32;
 
-		east = new ModelRenderer(this, 0, 0);
+		east = new ModelRenderer(this, 19, 0);
 		east.addBox(0F, 0F, -5F, 1, 2, 5);
 		east.setRotationPoint(4.35F, 21F, 2.5F);
 		east.setTextureSize(64, 32);
@@ -30,37 +30,37 @@ public class ModelHandSieve extends ModelTechne {
 		south.setTextureSize(64, 32);
 		south.mirror = true;
 		setRotation(south, 0F, 0F, 0F);
-		northEast = new ModelRenderer(this, 0, 0);
+		northEast = new ModelRenderer(this, 0, 3);
 		northEast.addBox(0F, 0F, -1F, 4, 2, 1);
 		northEast.setRotationPoint(2.5F, 21F, 5.3F);
 		northEast.setTextureSize(64, 32);
 		northEast.mirror = true;
 		setRotation(northEast, 0F, 0.7853982F, 0F);
-		southEast = new ModelRenderer(this, 0, 0);
+		southEast = new ModelRenderer(this, 0, 3);
 		southEast.addBox(0F, 0F, 0F, 4, 2, 1);
 		southEast.setRotationPoint(2.5F, 21F, -5.3F);
 		southEast.setTextureSize(64, 32);
 		southEast.mirror = true;
 		setRotation(southEast, 0F, -0.7853982F, 0F);
-		west = new ModelRenderer(this, 0, 0);
+		west = new ModelRenderer(this, 19, 0);
 		west.addBox(0F, 0F, -5F, 1, 2, 5);
 		west.setRotationPoint(-5.35F, 21F, 2.5F);
 		west.setTextureSize(64, 32);
 		west.mirror = true;
 		setRotation(west, 0F, 0F, 0F);
-		southWest = new ModelRenderer(this, 0, 0);
+		southWest = new ModelRenderer(this, 0, 3);
 		southWest.addBox(-4F, 0F, 0F, 4, 2, 1);
 		southWest.setRotationPoint(-2.5F, 21F, -5.3F);
 		southWest.setTextureSize(64, 32);
 		southWest.mirror = true;
 		setRotation(southWest, 0F, 0.7853982F, 0F);
-		northWest = new ModelRenderer(this, 0, 0);
+		northWest = new ModelRenderer(this, 0, 3);
 		northWest.addBox(-4F, 0F, -1F, 4, 2, 1);
 		northWest.setRotationPoint(-2.5F, 21F, 5.3F);
 		northWest.setTextureSize(64, 32);
 		northWest.mirror = true;
 		setRotation(northWest, 0F, -0.7853982F, 0F);
-		north = new ModelRenderer(this, 0, 0);
+		north = new ModelRenderer(this, 12, 0);
 		north.addBox(0F, 0F, -1F, 5, 2, 1);
 		north.setRotationPoint(-2.5F, 21F, 5.3F);
 		north.setTextureSize(64, 32);
