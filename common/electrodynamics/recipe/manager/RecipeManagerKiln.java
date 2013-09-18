@@ -2,6 +2,7 @@ package electrodynamics.recipe.manager;
 
 
 import electrodynamics.lib.block.Decorative;
+import electrodynamics.lib.item.Component;
 import electrodynamics.recipe.RecipeKiln;
 import electrodynamics.util.ItemUtil;
 import net.minecraft.item.Item;
@@ -21,8 +22,14 @@ public class RecipeManagerKiln {
 				new RecipeKiln( Arrays.asList( Decorative.LIMESTONE.toItemStack() ), Arrays.asList( Decorative.LIMESTONE_SCORCHED.toItemStack() ) )
 		);
 		
+		// Rotten Flesh -> Leather
 		registerRecipe(
 				new RecipeKiln( Arrays.asList( new ItemStack(Item.rottenFlesh) ), Arrays.asList( new ItemStack(Item.leather) ) )
+		);
+		
+		// Wormwood Leaf -> Sap
+		registerRecipe(
+				new RecipeKiln( Arrays.asList(Component.WORMWOOD_LEAF.toItemStack()), Arrays.asList(Component.SAP.toItemStack()) )
 		);
 	}
 
