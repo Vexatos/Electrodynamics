@@ -43,9 +43,13 @@ public abstract class TileEntityEDRoot extends TileEntity {
 	}
 
 	public void sendUpdatePacket(NBTTagCompound nbt) {
-		PacketUtils.sendToPlayers(new Packet132TileEntityData(xCoord, yCoord, zCoord, Packet132TileEntityDataType.UPDATE, nbt), this);
+		sendUpdatePacket(new Packet132TileEntityData(xCoord, yCoord, zCoord, Packet132TileEntityDataType.UPDATE, nbt));
 	}
 
+	public void sendUpdatePacket(Packet packet) {
+		PacketUtils.sendToPlayers(packet, this);
+	}
+	
 	public void getDescriptionForClient(NBTTagCompound nbt) {
 
 	}
@@ -87,4 +91,8 @@ public abstract class TileEntityEDRoot extends TileEntity {
 		worldObj.markBlockForRenderUpdate(xCoord, yCoord, zCoord);
     }
 
+	public void updateClient() {
+		this.sendUpdatePacket(getDescriptionPacket());
+	}
+	
 }

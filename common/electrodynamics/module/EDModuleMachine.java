@@ -254,7 +254,7 @@ public class EDModuleMachine extends EDModule {
 		// Oven Tray
 		GameRegistry.addRecipe(new ItemStack(EDItems.itemTray), new Object[] {"RIR", 'R', Component.METAL_BAR.toItemStack(), 'I', Item.ingotIron});
 		
-		GameRegistry.addRecipe(new IRecipeAlloyPickaxe());
+//		GameRegistry.addRecipe(new IRecipeAlloyPickaxe());
 		
 		FurnaceRecipes.smelting().addSmelting(ItemIDs.ITEM_COMPONENT_ID + 256, Component.LITHIUM_CLAY_WET.ordinal(), Component.LITHIUM_CLAY.toItemStack(), 0F);
 
@@ -288,6 +288,8 @@ public class EDModuleMachine extends EDModule {
 		GameRegistry.registerTileEntity(TileEntityHatch.class, Strings.STRUCTURE_COMPONENT_MACHINE_HATCH);
 		GameRegistry.registerTileEntity(TileEntityActuator.class, Strings.UTILITY_ACTUATOR);
 		GameRegistry.registerTileEntity(TileEntityRedstoneConductor.class, Strings.STRUCTURE_COMPONENT_MACHINE_RS_CONDUCTOR);
+		GameRegistry.registerTileEntity(TileEntityThermometer.class, Strings.BLOCK_THERMOMETER);
+		GameRegistry.registerTileEntity(TileEntityAnvil.class, Strings.BLOCK_ANVIL);
 		
 		CraftingManager.getInstance().tableManager = new RecipeManagerTable();
 		CraftingManager.getInstance().tableManager.initRecipes();

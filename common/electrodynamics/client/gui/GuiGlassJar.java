@@ -75,7 +75,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		if (this.lastColor != null) {
-			this.fontRenderer.drawString("(" + (int)lastColor.r + ", " + (int)lastColor.g + ", " + (int)lastColor.b + ")", 5, 5, 0xFFFFFF);
+//			this.fontRenderer.drawString("(" + (int)lastColor.r + ", " + (int)lastColor.g + ", " + (int)lastColor.b + ")", 5, 5, 0xFFFFFF);
 		}
 	}
 	

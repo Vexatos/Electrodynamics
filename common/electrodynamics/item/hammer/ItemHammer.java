@@ -28,7 +28,7 @@ public class ItemHammer extends Item implements ITool {
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fx, float fy, float fz) {
 		if (!world.isRemote) {
-			if (!player.isSneaking()) {
+			if (player.isSneaking()) {
 				if (world.getBlockId(x, y, z) == Block.anvil.blockID) {
 					int rotation = world.getBlockMetadata(x, y, z);
 					world.setBlock(x, y, z, BlockIDs.BLOCK_ANVIL_ID);
