@@ -83,6 +83,12 @@ public class TileEntityTreetap extends TileEntityMachine {
 					
 					player.setCurrentItemOrArmor(0, new ItemStack(Item.bucketEmpty));
 					((EntityPlayerMP)player).updateHeldItem();
+				} else if (hasBucket && player.getCurrentEquippedItem().getItem() == Item.bucketEmpty) {
+					liquidAmount = 0;
+					sendLiquidUpdate();
+					
+					player.setCurrentItemOrArmor(0, new ItemStack(EDItems.itemLatexBucket));
+					((EntityPlayerMP)player).updateHeldItem();
 				}
 			} else {
 				if (hasBucket && (liquidAmount == 0 || liquidAmount == 1000)) {
