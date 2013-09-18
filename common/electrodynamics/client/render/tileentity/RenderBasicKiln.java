@@ -76,7 +76,7 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 
 	public void renderLED(TileEntityBasicKiln kiln) {
 		GL11.glPushMatrix();
-		GL11.glTranslated(0.395, 0.6, -0.378);
+		GL11.glTranslated(0.395, 0.6, -0.44);
 		GL11.glColor4f(1, 1, 1, 1);
 		
 		GL11.glEnable(GL11.GL_BLEND);
@@ -104,7 +104,7 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 	}
 	
 	public void renderTray(World world, ItemStack[] inv) {
-		GL11.glTranslated( 0, -0.15f, 0 );
+		GL11.glTranslated( -0.025, -0.15f, 0 );
 //		GL11.glRotatef( 0.0f, 0, 1, 0 );
 //		GL11.glScaled( 1.0f, 1.0f, 1.0f );
 
