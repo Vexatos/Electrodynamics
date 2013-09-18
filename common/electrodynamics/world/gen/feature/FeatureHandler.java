@@ -44,7 +44,7 @@ public class FeatureHandler {
 		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_CHALCOPYRITE, Ore.CHALCOPYRITE, 8, 6, 16, 64);
 		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_COBALTITE, Ore.COBALTITE, 8, 4, 32, 78);
 		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_GALENA, Ore.GALENA, 4, 2, 16, 32);
-		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_MAGNETITE, Ore.MAGNETITE, 12, 6, 16, 32);
+		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_MAGNETITE, Ore.MAGNETITE, 12, 3, 16, 32);
 		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_NICKEL, Ore.NICKEL, 8, 6, 16, 64);
 		
 		// Gas
