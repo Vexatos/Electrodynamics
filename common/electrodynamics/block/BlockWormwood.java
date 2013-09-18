@@ -92,12 +92,12 @@ public class BlockWormwood extends BlockFlower implements IPlantable {
 			ret.add(new ItemStack(EDItems.itemComponent, 1, Component.SAP.ordinal()));
 		}
 		if( metadata > 3 ) { // leaves
-			ret.add(new ItemStack(EDItems.itemComponent, MathHelper.getRandomIntegerInRange(random, 0, 3), Component.WORMWOOD_LEAF.ordinal()));
+			ret.add(new ItemStack(EDItems.itemComponent, MathHelper.getRandomIntegerInRange(random, 0, 1), Component.WORMWOOD_LEAF.ordinal()));
 		}
 		if( metadata > 6 ) { // twine
 			ret.add(new ItemStack(EDItems.itemComponent, MathHelper.getRandomIntegerInRange(random, 0, 3), Component.TWINE.ordinal()));
 		}
-		ret.add(new ItemStack(EDItems.itemWormSeed, isFullyGrown(metadata) ? MathHelper.getRandomIntegerInRange( random, 0, 3 ) : MathHelper.getRandomIntegerInRange( random, 0, 1 )));
+		ret.add(new ItemStack(EDItems.itemWormSeed, isFullyGrown(metadata) ? MathHelper.getRandomIntegerInRange( random, 1, 2 ) : MathHelper.getRandomIntegerInRange( random, 0, 1 )));
 		return ret;
 	}
 

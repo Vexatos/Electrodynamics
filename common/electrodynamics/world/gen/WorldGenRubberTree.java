@@ -37,11 +37,11 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		int count = 0;
 		
 		if (Arrays.asList(BiomeDictionary.getBiomesForType(Type.PLAINS)).contains(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16))) {
-			count = 2;
+			count = 1;
 		} else if (Arrays.asList(BiomeDictionary.getBiomesForType(Type.SWAMP)).contains(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16))) {
-			count = 5;
+			count = 2;
 		} else if (Arrays.asList(BiomeDictionary.getBiomesForType(Type.JUNGLE)).contains(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16))) {
-			count = 10;
+			count = 3;
 		}
 		
 		for (; count > 0; count--) {
