@@ -30,16 +30,13 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
 		GL11.glDisable( GL11.GL_LIGHTING );
-
+		
 		GL11.glColor4f( 1, 1, 1, 1 );
 		GL11.glTranslated( x + 0.5, y + 1.5, z + 0.5 );
 		GL11.glRotatef( 180, 0, 0, 1 );
 
 		if( ((TileEntityMachine) tile).rotation != null ) {
 			switch( ((TileEntityMachine) tile).rotation ) {
-				case NORTH:
-//					GL11.glRotatef(0, 0, 1, 0);
-					break;
 				case SOUTH:
 					GL11.glRotatef( 180, 0, 1, 0 );
 					break;
@@ -62,11 +59,6 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 
 		if (kiln.trayInventory != null) {
 			renderLED(kiln);
-		}
-
-		// todo: render fire and particles
-
-		if( kiln.trayInventory != null ) { // render tray
 			renderTray( kiln.worldObj, kiln.trayInventory.inventory );
 		}
 

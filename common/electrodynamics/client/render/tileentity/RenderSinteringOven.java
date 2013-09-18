@@ -39,7 +39,9 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partial) {
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
-
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
 		GL11.glColor4f(1, 1, 1, 1);
 		GL11.glTranslated(x + 0.5, y + 1.5, z + 0.5);
 		GL11.glRotatef(180, 0, 0, 1);
@@ -55,9 +57,6 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 			case WEST:
 				GL11.glRotatef(180, 0, 1, 0);
 				break;
-			case EAST:
-				// GL11.glRotatef(0, 0, 1, 0);
-				break;
 			default:
 				break;
 			}
@@ -66,12 +65,13 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 		Textures.SINTERING_OVEN.bind();
 		
 		modelSinteringOven.rotateDoor(((TileEntitySinteringOven)tile).doorAngle);
-		modelSinteringOven.renderAll(0.0625F);
+		modelSinteringOven.render(0.0625F);
 
 		if (((TileEntitySinteringOven)tile).trayInventory != null) {
 			renderTray(tile.worldObj, ((TileEntitySinteringOven)tile).trayInventory.inventory);
 		}
 		
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 	}

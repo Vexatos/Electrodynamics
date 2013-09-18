@@ -116,7 +116,7 @@ public class RenderItemMachine implements IItemRenderer {
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(180, 1, 0, 0);
 		GL11.glRotatef(-90, 0, 1, 0);
-		modelSinteringOven.renderAll(0.0625F);
+		modelSinteringOven.render(0.0625F);
 		GL11.glPopMatrix();
 	}
 	
