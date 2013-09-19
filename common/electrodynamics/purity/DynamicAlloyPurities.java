@@ -22,6 +22,7 @@ public class DynamicAlloyPurities {
 	public static Map<ItemStack, int[]> itemToSmeltInfoMapping  = new HashMap<ItemStack, int[]>();
 	
 	static {
+		/* ATTRIBUTES */
 		// Arsenic Chunk
 		itemToAttributeMapping.put(Component.ARSENIC.toItemStack(), new AttributeWrapper(
 				new Attribute(AttributeType.DURABILITY, 0.025F),
