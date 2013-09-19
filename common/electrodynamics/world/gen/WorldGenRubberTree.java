@@ -66,13 +66,10 @@ public class WorldGenRubberTree implements IWorldGenerator {
 			return false;
 		}
 
-		h += random.nextInt((h / 2));
-		for(int i = 0; i<h; i++)
-		{
-			world.setBlock(x, y+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
-		}
+		h += random.nextInt((h / 2));		
 		
-		boolean[] cellInit = new boolean[5];
+		int canopyWidth = 5;
+		boolean[] cellInit = new boolean[canopyWidth];		
 		Rule90[] cells = new Rule90[4];
 		for(int i =0; i<4; i++)
 		{
@@ -81,9 +78,104 @@ public class WorldGenRubberTree implements IWorldGenerator {
 			cells[i] = new Rule90(cellInit.clone());
 		}
 		
-		for(int i=0; i<random.nextInt(h/2); i++)
+		for(int i=0; i<h; i++)
 		{
-			
+			for(int c=0; c<2; c++)
+			{
+				for(int j=0; j<canopyWidth; j++)
+				{
+					if(cells[0].testCell(i, j))
+					{		
+						world.setBlock(x+j, y+h+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
+						switch(random.nextInt(4))
+						{
+							case 0:
+								world.setBlock(x+j, y+h+i+1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+							case 1:
+								world.setBlock(x+j, y+h+i, z+1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+							case 2:
+								world.setBlock(x+j, y+h+i, z-1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;	
+							case 3:
+								world.setBlock(x+j, y+h+i-1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+						}
+					}
+				}
+				for(int j=0; j<canopyWidth; j++)
+				{
+					if(cells[1].testCell(i, j))
+					{	
+						world.setBlock(x-j, y+h+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
+						switch(random.nextInt(4))
+						{
+							case 0:
+								world.setBlock(x-j, y+h+i+1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+							case 1:
+								world.setBlock(x-j, y+h+i, z+1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+							case 2:
+								world.setBlock(x-j, y+h+i, z-1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;	
+							case 3:
+								world.setBlock(x-j, y+h+i-1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+						}
+					}
+				}
+				for(int j=0; j<canopyWidth; j++)
+				{
+					if(cells[2].testCell(i, j))
+					{	
+						world.setBlock(x, y+h+i, z+j, EDBlocks.blockRubberWood.blockID, 0, 7);
+						switch(random.nextInt(4))
+						{
+							case 0:
+								world.setBlock(x, y+h+i+1, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+							case 1:
+								world.setBlock(x+1, y+h+i, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+							case 2:
+								world.setBlock(x-1, y+h+i, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;	
+							case 3:
+								world.setBlock(x, y+h+i-1, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+						}
+					}
+				}
+				for(int j=0; j<canopyWidth; j++)
+				{
+					if(cells[3].testCell(i, j))
+					{			
+						world.setBlock(x, y+h+i, z-j, EDBlocks.blockRubberWood.blockID, 0, 7);
+						switch(random.nextInt(4))
+						{
+							case 0:
+								world.setBlock(x, y+h+i+1, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+							case 1:
+								world.setBlock(x+1, y+h+i, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+							case 2:
+								world.setBlock(x-1, y+h+i, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;	
+							case 3:
+								world.setBlock(x, y+h+i-1, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								break;
+						}
+					}
+				}
+			}
+		}
+		
+		for(int i = 0; i<h; i++)
+		{
+			world.setBlock(x, y+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
 		}
 		
 		return true;
