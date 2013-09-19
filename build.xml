@@ -1,4 +1,4 @@
-<project name="Numina" default="install" basedir=".">
+<project name="Electrodynamics" default="install" basedir=".">
 
     <property environment="env"/>
 
@@ -12,7 +12,7 @@
     <property name="mcp.version" value="805"/>
     <property name="minecraft.version" value="1.6.2"/>
     <property name="forgemajor.version" value="9.10.1"/>
-    <property name="forgebuild" value="856"/>
+    <property name="forgebuild" value="862"/>
 
     <property name="forge.version" value="${minecraft.version}-${forgemajor.version}.${forgebuild}"/>
     <property name="forgeant.version" value="${forgemajor.version}.${forgebuild}"/>
@@ -86,20 +86,6 @@
 		</move>
     </target>
 
-    <target name="update-names" depends="copy-source">
-        <get src="http://mcpold.ocean-labs.de/files/mcptest/methods.csv" dest="${mcp.dir}/conf/methods.csv"/>
-        <get src="http://mcpold.ocean-labs.de/files/mcptest/fields.csv" dest="${mcp.dir}/conf/fields.csv"/>
-
-        <exec dir="${mcp.dir}" executable="cmd" osfamily="windows" failonerror="true">
-            <arg line="/c updatenames.bat"/>
-        </exec>
-
-        <exec dir="${mcp.dir}" executable="bash" osfamily="unix" failonerror="true">
-            <arg value="-c"/>
-            <arg value="echo Yes | ./updatenames.sh"/>
-        </exec>
-    </target>
-
     <target name="install" depends="build">
         <delete>
             <fileset dir="${dist.dir}">
@@ -132,12 +118,7 @@
         </copy>
     </target>
 
-    <target name="build" depends="extract-apis,copy-source,update-names" unless="already-compiled">
-
-        <exec dir="${mcp.dir}/conf" executable="sh" osfamily="unix" failonerror="false">
-            <arg value="scalapatch.sh"/>
-        </exec>
-
+    <target name="build" depends="extract-apis,copy-source" unless="already-compiled">
 
         <!-- Recompile -->
         <exec dir="${mcp.dir}" executable="cmd" osfamily="windows" failonerror="true">
