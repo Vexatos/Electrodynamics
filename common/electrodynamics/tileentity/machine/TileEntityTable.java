@@ -29,8 +29,12 @@ import electrodynamics.util.InventoryUtil;
 
 public class TileEntityTable extends TileEntityEDRoot {
 	
+	public static final int MAX_SMASHING_TABLE_DAMAGE = 256;
+	
 	/** Item to be displayed on the display table */
 	public ItemStack displayedItem;
+	
+	public int currentDamage = 0;
 	
 	private class ActivationActionType {
 		public static final int NOTHING = 0;
@@ -49,6 +53,7 @@ public class TileEntityTable extends TileEntityEDRoot {
 		if (displayedItem != null) {
 			nbt.setTag("displayedItem", displayedItem.writeToNBT(new NBTTagCompound()));
 		}
+		nbt.setInteger("damage", this.currentDamage);
 	}
 
 	@Override
@@ -60,6 +65,8 @@ public class TileEntityTable extends TileEntityEDRoot {
 		}else{
 			this.displayedItem = null;
 		}
+		
+		this.currentDamage = nbt.getInteger("damage");
 	}
 
 	@Override
@@ -73,6 +80,10 @@ public class TileEntityTable extends TileEntityEDRoot {
 		if(nbt.hasKey("noDisplay"))
 		{
 			this.displayedItem = null;
+		}
+		
+		if (nbt.hasKey("damage")) {
+			this.currentDamage = nbt.getInteger("damage");
 		}
 	}
 	
@@ -146,6 +157,22 @@ public class TileEntityTable extends TileEntityEDRoot {
 						
 						setItem(recipe.outputItem);
 						tool.damageItem(recipe.hammerDamage, player);
+						
+						++this.currentDamage;
+						sendDamageUpdate();
+						
+						if (this.currentDamage >= MAX_SMASHING_TABLE_DAMAGE) {
+							if (this.displayedItem != null) {
+								BlockUtil.dropItemFromBlock(worldObj, xCoord, yCoord, zCoord, displayedItem, new Random());
+							}
+							
+							this.worldObj.setBlock(xCoord, yCoord, zCoord, BlockIDs.BLOCK_TABLE_ID, 0, 2);
+						
+							PacketFX packet = new PacketFX(FXType.BLOCK_BREAK, xCoord, yCoord, zCoord, new int[] {Block.stoneSingleSlab.blockID, 0});
+							PacketDispatcher.sendPacketToAllAround(xCoord, yCoord + 2, zCoord, 64D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(packet));
+							PacketSound sound = new PacketSound(Sound.ORE_CRUSH, xCoord, yCoord, zCoord);
+							PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(sound));
+						}
 					}
 					break;
 					
@@ -210,30 +237,10 @@ public class TileEntityTable extends TileEntityEDRoot {
 		sendDisplayUpdate();
 	}
 	
-	public void handleToolUse(EntityPlayer player, ItemStack tool) {
-		if (displayedItem != null) {
-			byte type = (byte)this.worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
-			if (type == 0 && displayedItem.getItem().itemID == Block.stoneSingleSlab.blockID) {
-				this.displayedItem = null;
-				this.worldObj.setBlock(xCoord, yCoord, zCoord, BlockIDs.BLOCK_TABLE_ID, 1, 2);
-			} else if (type == 1) {
-				RecipeTable recipe = CraftingManager.getInstance().tableManager.getRecipe(displayedItem, tool);
-
-				if (recipe != null) {
-					if (displayedItem.getItem() instanceof ItemBlock) {
-						PacketFX packet = new PacketFX(FXType.BLOCK_BREAK, xCoord, yCoord, zCoord, new int[] {displayedItem.itemID, displayedItem.getItemDamage()});
-						PacketDispatcher.sendPacketToAllAround(xCoord, yCoord + 2, zCoord, 64D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(packet));
-						PacketSound sound = new PacketSound(Sound.ORE_CRUSH, xCoord, yCoord, zCoord);
-						PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 32D, this.worldObj.provider.dimensionId, PacketTypeHandler.fillPacket(sound));
-					}
-
-					recipe.onSmashed(player, this, this.displayedItem);
-
-					setItem(recipe.outputItem);
-					tool.damageItem(recipe.hammerDamage, player);
-				}
-			}
-		}
+	private void sendDamageUpdate() {
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setInteger("damage", this.currentDamage);
+		sendUpdatePacket(tag);
 	}
 	
 	public ItemStack getOrePieceFromPlayer(EntityPlayer player, ItemStack tool) {
