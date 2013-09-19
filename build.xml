@@ -86,20 +86,6 @@
 		</move>
     </target>
 
-    <target name="update-names" depends="copy-source">
-        <get src="http://mcpold.ocean-labs.de/files/mcptest/methods.csv" dest="${mcp.dir}/conf/methods.csv"/>
-        <get src="http://mcpold.ocean-labs.de/files/mcptest/fields.csv" dest="${mcp.dir}/conf/fields.csv"/>
-
-        <exec dir="${mcp.dir}" executable="cmd" osfamily="windows" failonerror="true">
-            <arg line="/c updatenames.bat"/>
-        </exec>
-
-        <exec dir="${mcp.dir}" executable="bash" osfamily="unix" failonerror="true">
-            <arg value="-c"/>
-            <arg value="echo Yes | ./updatenames.sh"/>
-        </exec>
-    </target>
-
     <target name="install" depends="build">
         <delete>
             <fileset dir="${dist.dir}">
@@ -132,19 +118,14 @@
         </copy>
     </target>
 
-    <target name="build" depends="extract-apis,copy-source,update-names" unless="already-compiled">
-
-        <exec dir="${mcp.dir}/conf" executable="sh" osfamily="unix" failonerror="false">
-            <arg value="scalapatch.sh"/>
-        </exec>
-
+    <target name="build" depends="extract-apis,copy-source" unless="already-compiled">
 
         <!-- Recompile -->
         <exec dir="${mcp.dir}" executable="cmd" osfamily="windows" failonerror="true">
             <arg line="/c recompile.bat"/>
         </exec>
 
-        <exec dir="${mcp.dir}" executable="sh" osfamily="unix" failonerror="false">
+        <exec dir="${mcp.dir}" executable="sh" osfamily="unix" failonerror="true">
             <arg value="recompile.sh"/>
         </exec>
 
