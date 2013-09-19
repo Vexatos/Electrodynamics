@@ -2,10 +2,13 @@ package electrodynamics.util.gen;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Basic simulation of a rule 90 cellular automaton. 
+ * Might expand later to be a general-use CA class if needed. 
+ * More tree types perhaps?	
+ */
 public class Rule90 
 {
-	
 	private boolean[] init;
 	private List<boolean[]> state;
 	
@@ -20,7 +23,12 @@ public class Rule90
 	{
 		this.state = new ArrayList<boolean[]>();
 	}
-	
+	/**
+	 * Private method for calculating the steps
+	 * 
+	 * @param last the previous time-step
+	 * @return     1D array of bools representing result
+	 */
 	private static boolean[] calculateNext(boolean[] last)
 	{
 		int size = last.length;
@@ -44,14 +52,23 @@ public class Rule90
 		
 		return next;
 	}
-	
+	/**
+	 * Advances the internal simulation one time-step
+	 * 
+	 * @return the resulting array of bools
+	 */
 	public boolean[] next()
 	{
 		boolean[] next = calculateNext(state.get(state.size()-1));
 		state.add(next);
 		return next;
 	}
-	
+	/**
+	 * Returns an array of bools representing a specific time-step in the simulation
+	 * 
+	 * @param timeStep int representing the desired step in the simulation. 0-indexed
+	 * @return         array of bools representing the state of the simulation at the desired step
+	 */
 	public boolean[] get(int timeStep)
 	{
 		if(timeStep >= state.size())

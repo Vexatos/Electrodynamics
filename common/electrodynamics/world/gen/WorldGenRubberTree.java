@@ -67,11 +67,12 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		}
 
 		h += random.nextInt((h / 2));		
-		
-		int canopyWidth = 5;
+		//Could do something with the canopyWidth value. Maybe randomize? Make proportional to h in some way? I dunno
+		int canopyWidth = 5;		
 		boolean[] cellInit = new boolean[canopyWidth];		
 		Rule90[] cells = new Rule90[4];
 		for(int i =0; i<4; i++)
+		//Initialize 4 independent CAs for main branch lines of tree.
 		{
 			cellInit[0] = random.nextBoolean();
 			cellInit[1] = random.nextBoolean();
@@ -79,6 +80,12 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		}
 		
 		for(int i=0; i<h; i++)
+		//Begin "growing" tree using 4 cellular automata as base for branches
+		//Basic algorithm for the four unique cases:
+		//Place wood block for every "1" cell
+		//Place 1-2 random leaves blocks orthogonally to wood block in opposite X/Z plane
+		//Repeat for 3 other "branches"
+		//Repeat for rest of tree
 		{
 			for(int c=0; c<2; c++)
 			{
@@ -173,6 +180,7 @@ public class WorldGenRubberTree implements IWorldGenerator {
 			}
 		}
 		
+		//Build trunk
 		for(int i = 0; i<h; i++)
 		{
 			world.setBlock(x, y+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
