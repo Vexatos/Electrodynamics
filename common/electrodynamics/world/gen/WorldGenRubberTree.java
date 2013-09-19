@@ -67,8 +67,9 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		}
 
 		h += random.nextInt((h / 2));		
-		//Could do something with the canopyWidth value. Maybe randomize? Make proportional to h in some way? I dunno
-		int canopyWidth = 5;		
+		int branchStart = random.nextInt(h / 2) + h / 2;
+		int canopyWidth = h - random.nextInt(h/2);	
+		if(canopyWidth > 5) canopyWidth = 5;
 		boolean[] cellInit = new boolean[canopyWidth];		
 		Rule90[] cells = new Rule90[4];
 		for(int i =0; i<4; i++)
@@ -87,26 +88,26 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		//Repeat for 3 other "branches"
 		//Repeat for rest of tree
 		{
-			for(int c=0; c<2; c++)
+			for(int c=0; c<6; c++)
 			{
 				for(int j=0; j<canopyWidth; j++)
 				{
 					if(cells[0].testCell(i, j))
 					{		
-						world.setBlock(x+j, y+h+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
+						world.setBlock(x+j, y+branchStart+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
 						switch(random.nextInt(4))
 						{
 							case 0:
-								world.setBlock(x+j, y+h+i+1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x+j, y+branchStart+i+1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 							case 1:
-								world.setBlock(x+j, y+h+i, z+1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x+j, y+branchStart+i, z+1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 							case 2:
-								world.setBlock(x+j, y+h+i, z-1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x+j, y+branchStart+i, z-1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;	
 							case 3:
-								world.setBlock(x+j, y+h+i-1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x+j, y+branchStart+i-1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 						}
 					}
@@ -115,20 +116,20 @@ public class WorldGenRubberTree implements IWorldGenerator {
 				{
 					if(cells[1].testCell(i, j))
 					{	
-						world.setBlock(x-j, y+h+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
+						world.setBlock(x-j, y+branchStart+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
 						switch(random.nextInt(4))
 						{
 							case 0:
-								world.setBlock(x-j, y+h+i+1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x-j, y+branchStart+i+1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 							case 1:
-								world.setBlock(x-j, y+h+i, z+1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x-j, y+branchStart+i, z+1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 							case 2:
-								world.setBlock(x-j, y+h+i, z-1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x-j, y+branchStart+i, z-1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;	
 							case 3:
-								world.setBlock(x-j, y+h+i-1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x-j, y+branchStart+i-1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 						}
 					}
@@ -137,20 +138,20 @@ public class WorldGenRubberTree implements IWorldGenerator {
 				{
 					if(cells[2].testCell(i, j))
 					{	
-						world.setBlock(x, y+h+i, z+j, EDBlocks.blockRubberWood.blockID, 0, 7);
+						world.setBlock(x, y+branchStart+i, z+j, EDBlocks.blockRubberWood.blockID, 0, 7);
 						switch(random.nextInt(4))
 						{
 							case 0:
-								world.setBlock(x, y+h+i+1, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x, y+branchStart+i+1, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 							case 1:
-								world.setBlock(x+1, y+h+i, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x+1, y+branchStart+i, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 							case 2:
-								world.setBlock(x-1, y+h+i, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x-1, y+branchStart+i, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;	
 							case 3:
-								world.setBlock(x, y+h+i-1, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x, y+branchStart+i-1, z+j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 						}
 					}
@@ -159,20 +160,20 @@ public class WorldGenRubberTree implements IWorldGenerator {
 				{
 					if(cells[3].testCell(i, j))
 					{			
-						world.setBlock(x, y+h+i, z-j, EDBlocks.blockRubberWood.blockID, 0, 7);
+						world.setBlock(x, y+branchStart+i, z-j, EDBlocks.blockRubberWood.blockID, 0, 7);
 						switch(random.nextInt(4))
 						{
 							case 0:
-								world.setBlock(x, y+h+i+1, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x, y+branchStart+i+1, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 							case 1:
-								world.setBlock(x+1, y+h+i, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x+1, y+branchStart+i, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 							case 2:
-								world.setBlock(x-1, y+h+i, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x-1, y+branchStart+i, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;	
 							case 3:
-								world.setBlock(x, y+h+i-1, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+								world.setBlock(x, y+branchStart+i-1, z-j, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 								break;
 						}
 					}

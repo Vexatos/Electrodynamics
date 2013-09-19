@@ -81,7 +81,12 @@ public class Rule90
 		
 		return state.get(timeStep);
 	}
-	
+	/**
+	 * Re-initialize internal simulation with a new starting state
+	 * 
+	 * @param init new initial state
+	 * @return     for method chaining
+	 */
 	public Rule90 init(boolean[] init)
 	{
 		this.init = init;
@@ -90,12 +95,20 @@ public class Rule90
 		
 		return this;
 	}
-	
+	/**
+	 * 
+	 * @return initial state of sim
+	 */
 	public boolean[] getInit()
 	{
 		return this.init;
 	}
-	
+	/**
+	 * 
+	 * @param timeStep desired time step of simulation
+	 * @param index    desired index in 1D array of cells
+	 * @return         boolean representing the alive/dead state of cell
+	 */
 	public boolean testCell(int timeStep, int index)
 	{
 		return get(timeStep)[index];
