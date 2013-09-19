@@ -69,7 +69,7 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		
 		int canopyRadius = h/2;
 		
-		for(int r=canopyRadius; r>0; r--)
+		for(int r=canopyRadius; r>1; r--)
 		{	
 			world.setBlock(x, y+h-r, z+r, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 			world.setBlock(x, y+h-r, z-r, EDBlocks.blockRubberLeaves.blockID, 0, 7);
@@ -81,34 +81,99 @@ public class WorldGenRubberTree implements IWorldGenerator {
 			int cy = (int) (Math.sqrt(r2 - 1) + 0.5);
 			
 			while(cx<cy)
-			{
-				world.setBlock(x+cx, y+h-r, z+cy, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x+cx, y+h-r, z-cy, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x-cx, y+h-r, z+cy, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x-cx, y+h-r, z-cy, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x+cy, y+h-r, z+cx, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x+cy, y+h-r, z-cx, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x-cy, y+h-r, z+cx, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x-cy, y+h-r, z-cx, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+			{	
+				for(int i=0; i<cy; i++)
+				{
+					world.setBlock(x+cx, y+h-r, z+i, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x+cx, y+h-r, z-i, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x-cx, y+h-r, z+i, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x-cx, y+h-r, z-i, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x+i, y+h-r, z+cx, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x+i, y+h-r, z-cx, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x-i, y+h-r, z+cx, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x-i, y+h-r, z-cx, EDBlocks.blockRubberLeaves.blockID, 0, 7);				
+				}
+				
+				switch(random.nextInt(4))
+				{
+					case 0:
+						break;
+					case 1:
+						world.setBlock(x+r, y+h-r, z+1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+					case 2:
+						world.setBlock(x+r, y+h-r, z-1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+					case 3:
+						world.setBlock(x+r, y+h-r+1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+				}
+				switch(random.nextInt(4))
+				{
+					case 0:
+						break;
+					case 1:
+						world.setBlock(x-r, y+h-r, z+1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+					case 2:
+						world.setBlock(x-r, y+h-r, z-1, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+					case 3:
+						world.setBlock(x-r, y+h-r+1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+				}
+				switch(random.nextInt(4))
+				{
+					case 0:
+						break;
+					case 1:
+						world.setBlock(x+1, y+h-r, z+r, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+					case 2:
+						world.setBlock(x-1, y+h-r, z+r, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;					
+					case 3:
+						world.setBlock(x, y+h-r+1, z+r, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+				}
+				switch(random.nextInt(4))
+				{
+					case 0:
+						break;
+					case 1:
+						world.setBlock(x+1, y+h-r, z-r, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+					case 2:
+						world.setBlock(x-1, y+h-r, z-r, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+					case 3:
+						world.setBlock(x, y+h-r+1, z-r, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+						break;
+				}
 				
 				cx += 1;
 				cy = (int) (Math.sqrt(r2 - cx*cx) + 0.5);
 			}
 			if(cx==cy)
 			{
-				world.setBlock(x+cx, y+h-r, z+cy, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x+cx, y+h-r, z-cy, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x-cx, y+h-r, z+cy, EDBlocks.blockRubberLeaves.blockID, 0, 7);
-				world.setBlock(x-cx, y+h-r, z-cy, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+				for(int i=0; i<cy; i++)
+				{
+					world.setBlock(x+cx, y+h-r, z+i, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x+cx, y+h-r, z-i, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x-cx, y+h-r, z+i, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+					world.setBlock(x-cx, y+h-r, z-i, EDBlocks.blockRubberLeaves.blockID, 0, 7);
+				}
 			}
 		}
 		
 		
 		//Build trunk
-		for(int i = 0; i<h; i++)
+		for(int i = 0; i<h-1; i++)
 		{
 			world.setBlock(x, y+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
 		}
+		
+		world.setBlock(x, y+h-1, z, EDBlocks.blockRubberLeaves.blockID, 0, 7);
 		
 		return true;
 	}
