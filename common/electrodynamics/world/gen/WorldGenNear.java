@@ -11,6 +11,8 @@ import cpw.mods.fml.common.IWorldGenerator;
 import electrodynamics.addons.AddonManager;
 import electrodynamics.addons.misc.EDAddonBOP;
 import electrodynamics.configuration.ConfigurationSettings;
+import electrodynamics.lib.block.BlockIDs;
+import electrodynamics.lib.block.Ore;
 
 public class WorldGenNear implements IWorldGenerator {
 
@@ -69,7 +71,7 @@ public class WorldGenNear implements IWorldGenerator {
 				return;
 			}
 			
-			(new WorldGenMinable(blockID, blockMeta, blockCount)).generate(world, random, x, y, z);
+			world.setBlock(x, y, z, BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), 7);
 		}
 	}
 	
