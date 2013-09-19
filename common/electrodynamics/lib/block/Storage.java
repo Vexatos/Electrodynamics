@@ -12,7 +12,8 @@ public enum Storage {
 	LODESTONE(Strings.STORAGE_LODESTONE, "blockLodestone", Ingot.LODESTONE),
 	NICKEL(Strings.STORAGE_NICKEL, "blockNickel", Ingot.NICKEL),
 	TELLURIUM(Strings.STORAGE_TELLURIUM, "blockTellurium", Ingot.TELLURIUM),
-	TUNGSTEN(Strings.STORAGE_TUNGSTEN, "blockTungsten", Ingot.TUNGSTEN);
+	TUNGSTEN(Strings.STORAGE_TUNGSTEN, "blockTungsten", Ingot.TUNGSTEN),
+	COBALT(Strings.STORAGE_COBALT, "blockCobalt", Ingot.COBALT);
 	
 	public String unlocalizedName;
 	public String textureFile;

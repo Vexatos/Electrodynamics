@@ -225,6 +225,7 @@ public class Strings {
 	public static final String STORAGE_NICKEL = "storage.nickel";
 	public static final String STORAGE_TELLURIUM = "storage.tellurium";
 	public static final String STORAGE_TUNGSTEN = "storage.tungsten";
+	public static final String STORAGE_COBALT = "storage.cobalt";
 
 	/* Internal alloy attribute names */
 	public static final String ATTRIBUTE_DURABILITY = "attribute.durability";

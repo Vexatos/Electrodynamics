@@ -121,7 +121,7 @@ public class DynamicAlloyPurities {
 	
 	public static int[] getSmeltInfoForStack(ItemStack stack) {
 		if (stack == null) {
-			return new int[] {0, 0};
+			return new int[] {0, 200};
 		}
 		
 		for (Entry<ItemStack, int[]> entry : itemToSmeltInfoMapping.entrySet()) {
@@ -130,7 +130,7 @@ public class DynamicAlloyPurities {
 			}
 		}
 		
-		return new int[] {0, 0};
+		return new int[] {0, 200};
 	}
 	
 	public static Attribute[] getAttributesForStack(ItemStack stack) {

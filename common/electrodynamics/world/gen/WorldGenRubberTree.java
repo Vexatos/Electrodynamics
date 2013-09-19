@@ -184,7 +184,7 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		//Build trunk
 		for(int i = 0; i<h; i++)
 		{
-			world.setBlock(x, y+i, z, EDBlocks.blockRubberWood.blockID, 0, 7);
+			world.setBlock(x, y+i, z, EDBlocks.blockRubberWood.blockID, 1, 7);
 		}
 		
 		return true;

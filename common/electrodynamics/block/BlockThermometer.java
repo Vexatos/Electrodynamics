@@ -19,6 +19,7 @@ public class BlockThermometer extends BlockContainer {
 		setHardness(1);
 		setResistance(1);
 		setCreativeTab(CreativeTabED.tool);
+		setBlockBounds(0.25F, 0F, 0.25F, 0.75F, 0.5F, 0.75F);
 	}
 
 	@Override
