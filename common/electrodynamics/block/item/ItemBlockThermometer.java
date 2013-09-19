@@ -59,6 +59,10 @@ public class ItemBlockThermometer extends ItemBlock {
 		
 		TileEntity tile = world.getBlockTileEntity(xOrig, yOrig, zOrig);
 		 
+		if (sideForge != ForgeDirection.UP) {
+			return false;
+		}
+		
 		if (tile == null || !(tile instanceof IHeatable)) {
 			return false;
 		}

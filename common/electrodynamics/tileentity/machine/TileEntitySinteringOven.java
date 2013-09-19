@@ -170,7 +170,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	public void updateEntityServer() {
 		if (fuelLevel > 0) {
 			--this.fuelLevel;
-			if (this.worldObj.getTotalWorldTime() % 5 == 0) { // Heats four times per second (roughly?)
+			if (this.worldObj.getTotalWorldTime() % 5 == 0 && this.currentHeat < MAX_HEAT) { // Heats four times per second (roughly?)
 				++this.currentHeat;
 				sendHeatUpdate();
 			}
@@ -211,7 +211,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 			this.burning = false;
 			sendBurningUpdate();
 		} else {
-			if (this.worldObj.getTotalWorldTime() % 5 == 0) { // Heats four times per second (roughly?)
+			if (this.worldObj.getTotalWorldTime() % 5 == 0 && this.currentCookTime > 0) { // Heats four times per second (roughly?)
 				--this.currentHeat;
 				sendHeatUpdate();
 			}
