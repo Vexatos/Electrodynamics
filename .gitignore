@@ -12,6 +12,9 @@ download/
 unpack/
 .gradle/
 
+# APIs #
+dan200/
+
 # Windows image cache #
 Thumbs.db
 
