@@ -3,6 +3,7 @@ package electrodynamics.module;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -79,6 +80,7 @@ public class EDModuleWorld extends EDModule {
 		for (Decorative dec : Decorative.values()) {
 			EDLanguage.getInstance().registerItemStack(dec.toItemStack(), dec.unlocalizedName);
 		}
+        MinecraftForge.setBlockHarvestLevel(EDBlocks.blockDecorative, "pickaxe", EnumToolMaterial.WOOD.getHarvestLevel());
 
 		EDBlocks.blockWormwood = new BlockWormwood( BlockIDs.BLOCK_WORMWOOD_ID ).setUnlocalizedName( Strings.BLOCK_WORMWOOD );
 		GameRegistry.registerBlock( EDBlocks.blockWormwood, ItemBlockWormwood.class, Strings.BLOCK_WORMWOOD );
