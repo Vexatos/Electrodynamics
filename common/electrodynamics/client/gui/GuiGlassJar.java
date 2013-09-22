@@ -5,51 +5,36 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import electrodynamics.client.gui.module.GuiModule;
 import electrodynamics.client.gui.module.GuiModule.MouseState;
 import electrodynamics.client.gui.module.GuiModuleHotspot;
 import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
-import electrodynamics.client.handler.IconHandler;
 import electrodynamics.configuration.ConfigurationSettings;
-import electrodynamics.core.CoreUtils;
-import electrodynamics.core.EDLogger;
 import electrodynamics.core.handler.GuiHandler.GuiType;
 import electrodynamics.inventory.container.ContainerGlassJar;
+import electrodynamics.item.EDItems;
 import electrodynamics.item.ItemDust;
 import electrodynamics.item.ItemGlassJar;
 import electrodynamics.network.packet.PacketHotspotCallback;
 import electrodynamics.network.packet.PacketPayload;
-import electrodynamics.network.packet.PacketUpdateSlot;
 import electrodynamics.network.packet.PacketPayload.IPayloadReceptor;
+import electrodynamics.network.packet.PacketUpdateSlot;
 import electrodynamics.purity.AlloyFactory;
-import electrodynamics.purity.DynamicAlloyPurities;
 import electrodynamics.purity.MetalData;
-import electrodynamics.util.StringUtil;
+import electrodynamics.util.math.Rectangle;
 import electrodynamics.util.render.GLColor;
 import electrodynamics.util.render.IconUtil;
-import electrodynamics.util.render.RenderUtil;
 
 public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback, IPayloadReceptor {
 
 	public static final ResourceLocation ITEM_ATLAS = TextureMap.locationItemsTexture;
 	
-	public static final Rectangle GUI_JAR_DIMENSIONS = new Rectangle(62, 16, 53, 63);
+	public static final Rectangle GUI_JAR_DIMENSIONS = new Rectangle(62, 16, 115, 79);
 
 	public static final int DUST_MAX = 9;
-	public static final int DUST_HEIGHT = (int) Math.floor(GUI_JAR_DIMENSIONS.h / DUST_MAX);
+	public static final int DUST_HEIGHT = (int) Math.floor(GUI_JAR_DIMENSIONS.getHeight() / DUST_MAX);
 
-//	public static final ResourceLocation[] GUI_DUST_IMAGES;
-//	
-//	static {
-//		GUI_DUST_IMAGES = new ResourceLocation[9];
-//		
-//		for (int i=0; i<GUI_DUST_IMAGES.length; i++) {
-//			GUI_DUST_IMAGES[i] = CoreUtils.getResource("textures/gui/dust/generic_dustJar" + i + ".png");
-//		}
-//	}
-	
 	public EntityPlayer player;
 
 	public ItemStack jar;
@@ -72,12 +57,12 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 		updateJar();
 	}
 	
-	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-		if (this.lastColor != null) {
+//	@Override
+//	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
+//		if (this.lastColor != null) {
 //			this.fontRenderer.drawString("(" + (int)lastColor.r + ", " + (int)lastColor.g + ", " + (int)lastColor.b + ")", 5, 5, 0xFFFFFF);
-		}
-	}
+//		}
+//	}
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
@@ -101,9 +86,9 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 					}
 					
 					if (index == 0) {
-						this.drawRect(k + rect.x, l + rect.y, k + rect.x + rect.w, l + rect.y + rect.h - 1, color.toInt());
+						this.drawRect(k + rect.pointA.x, l + rect.pointA.y, k + rect.pointB.x, l + rect.pointB.y - 1, color.toInt());
 					} else {
-						this.drawRect(k + rect.x, l + rect.y, k + rect.x + rect.w, l + rect.y + rect.h, color.toInt());
+						this.drawRect(k + rect.pointA.x, l + rect.pointA.y, k + rect.pointB.x, l + rect.pointB.y, color.toInt());
 					}
 					
 					GLColor.WHITE.apply();
@@ -116,7 +101,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 				GLColor average = new GLColor(colors);
 				Rectangle rect = getMixedDustDimensions();
 
-				this.drawRect(k + rect.x, l + rect.y + GUI_JAR_DIMENSIONS.h - rect.h, k + rect.x + rect.w, l + rect.y + rect.h - 1 + GUI_JAR_DIMENSIONS.h - rect.h, average.toInt());
+				this.drawRect(k + rect.pointA.x, l + rect.pointA.y + GUI_JAR_DIMENSIONS.getHeight() - rect.getHeight(), k + rect.pointB.x, l + rect.pointB.y - 1 + GUI_JAR_DIMENSIONS.getHeight() - rect.getHeight(), average.toInt());
 			}
 		}
 	}
@@ -159,7 +144,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 			this.lastClickTime = currentClickTime;
 			
 			if (!ItemGlassJar.isMixed(this.jar)) {
-				if (ItemDust.isDust(stack)) {
+				if (ItemDust.isDust(stack) && !(stack.getItem() == EDItems.itemAlloy)) {
 					if (ItemGlassJar.getStoredDusts(this.jar).length < GuiGlassJar.DUST_MAX) {
 						if (state == MOUSE_LEFT) {
 							ItemStack newDust = stack.copy();
@@ -211,7 +196,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 				for (int i=0; i<dimensions.length; i++) {
 					final String dustName = this.storedDusts[i].getDisplayName();
 					Rectangle rectangle = dimensions[i];
-					GuiModule module = new GuiModule("dust"+i, rectangle.x, rectangle.y, rectangle.w, rectangle.h) {
+					GuiModule module = new GuiModule("dust"+i, rectangle.pointA.x, rectangle.pointA.y, rectangle.getWidth(), rectangle.getHeight() - 1) {
 						@Override
 						public String[] getTooltip() {
 							return new String[] {dustName};
@@ -221,7 +206,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 				}
 			} else {
 				Rectangle dim = getMixedDustDimensions();
-				GuiModule module = new GuiModule("mixed", dim.x, dim.y + GUI_JAR_DIMENSIONS.h - dim.h, dim.w, dim.h) {
+				GuiModule module = new GuiModule("mixed", dim.pointA.x, dim.pointA.y + GUI_JAR_DIMENSIONS.getHeight() - dim.getHeight(), dim.getWidth(), dim.getHeight()) {
 					@Override
 					public String[] getTooltip() {
 						AlloyFactory factory = AlloyFactory.fromArray(storedDusts);
@@ -244,9 +229,11 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 		
 		for (int i=0; i<this.storedDusts.length; i++) {
 			Rectangle rectangle = GUI_JAR_DIMENSIONS.copy();
-			rectangle.y = GUI_JAR_DIMENSIONS.y + GUI_JAR_DIMENSIONS.h - (i + 1) * DUST_HEIGHT;
-			rectangle.w -= 1;
-			rectangle.h = DUST_HEIGHT;
+			
+			rectangle.pointA.y += GUI_JAR_DIMENSIONS.getHeight() - ((i + 1) * DUST_HEIGHT);
+			--rectangle.pointB.x;
+			rectangle.pointB.y = rectangle.pointA.y + DUST_HEIGHT;
+			
 			dimensions[i] = rectangle;
 		}
 		
@@ -255,27 +242,13 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 	
 	private Rectangle getMixedDustDimensions() {
 		Rectangle rect = GUI_JAR_DIMENSIONS.copy();
-		rect.h = (DUST_HEIGHT * this.storedDusts.length) - 2;
-		rect.w -= 1;
+		
+		rect.pointA.y = rect.pointB.y - (this.storedDusts.length * DUST_HEIGHT);
+		--rect.pointB.x;
+		
 		return rect;
 	}
 	
-	public static class Rectangle {
-		int x, y, w, h;
-		public Rectangle(int x, int y, int w, int h) {
-			this.x = x;
-			this.y = y;
-			this.w = w;
-			this.h = h;
-		}
-		public Rectangle copy() {
-			return new Rectangle(x, y, w, h);
-		}
-		public String toString() {
-			return ("X: " + x + " Y: " + y + " W: " + w + " H: " + h);
-		}
-	}
-
 	@Override
 	public void handlePayload(byte[] byteArray, int[] intArray, double[] doubleArray, float[] floatArray, String[] stringArray) {
 		if (byteArray != null && byteArray.length == 0 & byteArray[0] == 0) {
