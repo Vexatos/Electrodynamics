@@ -27,6 +27,10 @@ public class Cuboid {
 		return pointB.z - pointA.z;
 	}
 	
+	public boolean contains(Vector3D vec) {
+		return (vec.x >= pointA.x && vec.x <= pointB.x && vec.y >= pointA.y && vec.y <= pointB.y && vec.z >= pointA.z && vec.z <= pointB.z);
+	}
+	
 	public Cuboid copy() {
 		return new Cuboid(pointA.copy(), pointB.copy());
 	}

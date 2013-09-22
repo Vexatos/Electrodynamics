@@ -15,6 +15,12 @@ public class Vector2D {
 		this.y = vec.y;
 	}
 	
+	public Vector2D move(int xAdjust, int yAdjust) {
+		this.x += xAdjust;
+		this.y += yAdjust;
+		return this;
+	}
+	
 	public Vector2D copy() {
 		return new Vector2D(x, y);
 	}

@@ -18,6 +18,13 @@ public class Vector3D {
 		this.z = vec.z;
 	}
 	
+	public Vector3D move(int xAdjust, int yAdjust, int zAdjust) {
+		this.x += xAdjust;
+		this.y += yAdjust;
+		this.z += zAdjust;
+		return this;
+	}
+	
 	public Vector3D copy() {
 		return new Vector3D(x, y, z);
 	}

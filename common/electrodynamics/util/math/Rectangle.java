@@ -23,6 +23,10 @@ public class Rectangle {
 		return pointB.y - pointA.y;
 	}
 	
+	public boolean contains(Vector2D vec) {
+		return (vec.x >= pointA.x && vec.x <= pointB.x && vec.y >= pointA.y && vec.y <= pointB.y);
+	}
+	 
 	public Rectangle copy() {
 		return new Rectangle(pointA.copy(), pointB.copy());
 	}
