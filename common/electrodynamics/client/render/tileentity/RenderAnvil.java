@@ -1,20 +1,26 @@
 package electrodynamics.client.render.tileentity;
 
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+
 import org.lwjgl.opengl.GL11;
 
 import electrodynamics.client.model.ModelAnvil;
+import electrodynamics.client.model.ModelIngot;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.TileEntityAnvil;
 import electrodynamics.tileentity.machine.TileEntityMachine;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
+import electrodynamics.util.render.IconUtil;
 
 public class RenderAnvil extends TileEntitySpecialRenderer {
 
-	public final ModelAnvil model;
+	public final ModelAnvil modelAnvil;
+	public final ModelIngot modelIngot;
 	
 	public RenderAnvil() {
-		this.model = new ModelAnvil();
+		this.modelAnvil = new ModelAnvil();
+		this.modelIngot = new ModelIngot();
 	}
 	
 	public void renderAnvil(TileEntityAnvil tile, double x, double y, double z, float partial) {
@@ -35,7 +41,20 @@ public class RenderAnvil extends TileEntitySpecialRenderer {
 		}
 		
 		Textures.ANVIL.bind();
-		this.model.render(0.0625F);
+		this.modelAnvil.render(0.0625F);
+		
+		if (((TileEntityAnvil)tile).placedIngot != null) {
+			IconUtil.getCachedColor(((TileEntityAnvil)tile).placedIngot).apply();
+
+			GL11.glTranslated(-.25, .375, -.1);
+			
+			// Bigger ingot
+//			GL11.glTranslated(-.3, .29, -.15);
+//			GL11.glScaled(1.5, 1.5, 1.5);
+			
+			Textures.INGOT.bind();
+			this.modelIngot.render(0.0625F);
+		}
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();

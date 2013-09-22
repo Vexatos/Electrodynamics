@@ -90,7 +90,6 @@ public class IconUtil {
 		
 		for (int x=0; x<image.getWidth(); x++) {
 			for (int y=0; y<image.getHeight(); y++) {
-				EDLogger.info(image.toString() + ":" + image.getRGB(x, y));
 				GLColor color = new GLColor(image.getRGB(x, y));
 				
 				pCount++;
