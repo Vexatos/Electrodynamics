@@ -86,7 +86,8 @@ public class FeatureLimestone extends FeatureBase {
 
             Block block = Block.blocksList[world.getBlockId(x1, y1, z1)];
 
-            if (block == null || block.isGenMineableReplaceable(world, x1, y1, z1, Block.stone.blockID)) {
+            if (block == null) continue;
+            if (block.isGenMineableReplaceable(world, x1, y1, z1, Block.stone.blockID)) {
                 world.setBlock(x1, y1, z1, BlockIDs.BLOCK_DECORATIVE_ID, 0, Decorative.LIMESTONE.ordinal());
                 placed.put(t, true);
 
