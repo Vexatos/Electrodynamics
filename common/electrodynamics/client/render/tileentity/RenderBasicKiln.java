@@ -60,7 +60,9 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 		modelKiln.rotateDoor( kiln.doorAngle );
 		modelKiln.render( 0.0625F );
 
-		renderLED(kiln);
+		if (kiln.trayInventory != null) {
+			renderLED(kiln);
+		}
 
 		// todo: render fire and particles
 
@@ -74,23 +76,19 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 
 	public void renderLED(TileEntityBasicKiln kiln) {
 		GL11.glPushMatrix();
-		GL11.glTranslated(0.395, 0.6, -0.378);
+		GL11.glTranslated(0.395, 0.6, -0.44);
 		GL11.glColor4f(1, 1, 1, 1);
 		
 		GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		if (kiln.trayInventory != null) {
-			if (kiln.totalCookTime > 0) {
-				GL11.glColor3f(1, 0, 0);
-			} else {
-				GL11.glColor3f(0, 1, 0);
-			}
-		} else {
-			GL11.glColor3f(0, 0, 0);
-		}
-		
+        if (kiln.totalCookTime > 0 && kiln.currentCookTime > 0) {
+        	GL11.glColor3f(1, 0, 0);
+        } else {
+        	GL11.glColor3f(0, 1, 0);
+        }
+        
 		GL11.glBegin(GL11.GL_QUADS);
 		GL11.glVertex3d(0, 0, 0);
 		GL11.glVertex3d(0, .05, 0);
@@ -106,7 +104,7 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 	}
 	
 	public void renderTray(World world, ItemStack[] inv) {
-		GL11.glTranslated( 0, -0.15f, 0 );
+		GL11.glTranslated( -0.025, -0.15f, 0 );
 //		GL11.glRotatef( 0.0f, 0, 1, 0 );
 //		GL11.glScaled( 1.0f, 1.0f, 1.0f );
 
@@ -136,7 +134,7 @@ public class RenderBasicKiln extends TileEntitySpecialRenderer {
 					GL11.glPushMatrix();
 					GL11.glScaled( .8, .8, .8 );
 					GL11.glRotatef( 90, 1, 0, 0 );
-					GL11.glTranslated( 0, -.24, -.26 );
+					GL11.glTranslated( 0, -.24, -.19 );
 
 					RenderUtil.renderEntityItem(world, stack, true);
 

@@ -1,10 +1,9 @@
 package electrodynamics.client.model;
 
-import electrodynamics.api.render.ModelTechne;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 
-public class ModelBasicKiln extends ModelTechne {
-
+public class ModelBasicKiln extends ModelBase {
 	ModelRenderer kilnRight;
 	ModelRenderer kilnLeft;
 	ModelRenderer kilnTop;
@@ -17,71 +16,85 @@ public class ModelBasicKiln extends ModelTechne {
 
 	public ModelBasicKiln() {
 		textureWidth = 128;
-		textureHeight = 128;
+		textureHeight = 64;
 
-		kilnRight = new ModelRenderer( this, 0, 30 );
-		kilnRight.addBox( 0F, 0F, 0F, 4, 16, 14 );
-		kilnRight.setRotationPoint( 4F, 8F, -6F );
-		kilnRight.setTextureSize( 128, 128 );
+		kilnRight = new ModelRenderer(this, 86, 0);
+		kilnRight.addBox(0F, 0F, 0F, 4, 16, 15);
+		kilnRight.setRotationPoint(4F, 8F, -7F);
+		kilnRight.setTextureSize(128, 64);
 		kilnRight.mirror = true;
-		kilnLeft = new ModelRenderer( this, 0, 0 );
-		kilnLeft.addBox( 0F, 0F, 0F, 4, 16, 14 );
-		kilnLeft.setRotationPoint( -8F, 8F, -6F );
-		kilnLeft.setTextureSize( 128, 128 );
+		setRotation(kilnRight, 0F, 0F, 0F);
+		kilnLeft = new ModelRenderer(this, 0, 0);
+		kilnLeft.addBox(0F, 0F, 0F, 4, 16, 15);
+		kilnLeft.setRotationPoint(-8F, 8F, -7F);
+		kilnLeft.setTextureSize(128, 64);
 		kilnLeft.mirror = true;
-		kilnTop = new ModelRenderer( this, 40, 0 );
-		kilnTop.addBox( 0F, 0F, 0F, 8, 4, 14 );
-		kilnTop.setRotationPoint( -4F, 8F, -6F );
-		kilnTop.setTextureSize( 128, 128 );
+		setRotation(kilnLeft, 0F, 0F, 0F);
+		kilnTop = new ModelRenderer(this, 40, 0);
+		kilnTop.addBox(0F, 0F, 0F, 8, 4, 15);
+		kilnTop.setRotationPoint(-4F, 8F, -7F);
+		kilnTop.setTextureSize(128, 64);
 		kilnTop.mirror = true;
-		kilnBottom = new ModelRenderer( this, 84, 0 );
-		kilnBottom.addBox( 0F, 0F, 0F, 8, 4, 14 );
-		kilnBottom.setRotationPoint( -4F, 20F, -6F );
-		kilnBottom.setTextureSize( 128, 128 );
+		setRotation(kilnTop, 0F, 0F, 0F);
+		kilnBottom = new ModelRenderer(this, 40, 19);
+		kilnBottom.addBox(0F, 0F, 0F, 8, 4, 15);
+		kilnBottom.setRotationPoint(-4F, 20F, -7F);
+		kilnBottom.setTextureSize(128, 64);
 		kilnBottom.mirror = true;
-		kilnBack = new ModelRenderer( this, 40, 18 );
-		kilnBack.addBox( 0F, 0F, 0F, 8, 8, 4 );
-		kilnBack.setRotationPoint( -4F, 12F, 4F );
-		kilnBack.setTextureSize( 128, 128 );
+		setRotation(kilnBottom, 0F, 0F, 0F);
+		kilnBack = new ModelRenderer(this, 23, 0);
+		kilnBack.addBox(0F, 0F, 0F, 8, 8, 5);
+		kilnBack.setRotationPoint(-4F, 12F, 3F);
+		kilnBack.setTextureSize(128, 64);
 		kilnBack.mirror = true;
-		bottomHinge = new ModelRenderer( this, 0, 0 );
-		bottomHinge.addBox( 0F, 0F, 0F, 1, 4, 1 );
-		bottomHinge.setRotationPoint( -7F, 18F, -7F );
-		bottomHinge.setTextureSize( 128, 128 );
+		setRotation(kilnBack, 0F, 0F, 0F);
+		bottomHinge = new ModelRenderer(this, 0, 0);
+		bottomHinge.addBox(0F, 0F, 0F, 1, 4, 1);
+		bottomHinge.setRotationPoint(-7F, 18F, -8F);
+		bottomHinge.setTextureSize(128, 64);
 		bottomHinge.mirror = true;
-		topHinge = new ModelRenderer( this, 0, 0 );
-		topHinge.addBox( 0F, 0F, 0F, 1, 4, 1 );
-		topHinge.setRotationPoint( -7F, 10F, -7F );
-		topHinge.setTextureSize( 128, 128 );
+		setRotation(bottomHinge, 0F, 0F, 0F);
+		topHinge = new ModelRenderer(this, 0, 0);
+		topHinge.addBox(0F, 0F, 0F, 1, 4, 1);
+		topHinge.setRotationPoint(-7F, 10F, -8F);
+		topHinge.setTextureSize(128, 64);
 		topHinge.mirror = true;
-		kilnDoorInner = new ModelRenderer( this, 40, 30 );
-		kilnDoorInner.addBox( 2F, 3F, 1F, 8, 8, 1 );
-		kilnDoorInner.setRotationPoint( -6F, 9F, -7F );
-		kilnDoorInner.setTextureSize( 128, 128 );
+		setRotation(topHinge, 0F, 0F, 0F);
+		kilnDoorInner = new ModelRenderer(this, 71, 0);
+		kilnDoorInner.addBox(2F, 3F, 0.5F, 8, 8, 1);
+		kilnDoorInner.setRotationPoint(-6F, 9F, -8F);
+		kilnDoorInner.setTextureSize(128, 64);
 		kilnDoorInner.mirror = true;
-		kilnDoor = new ModelRenderer( this, 40, 39 );
-		kilnDoor.addBox( 0F, 0F, 0F, 12, 14, 1 );
-		kilnDoor.setRotationPoint( -6F, 9F, -7F );
-		kilnDoor.setTextureSize( 128, 128 );
+		setRotation(kilnDoorInner, 0F, 0F, 0F);
+		kilnDoor = new ModelRenderer(this, 0, 31);
+		kilnDoor.addBox(0F, 0F, 0F, 12, 14, 1);
+		kilnDoor.setRotationPoint(-6F, 9F, -8F);
+		kilnDoor.setTextureSize(128, 64);
 		kilnDoor.mirror = true;
+		setRotation(kilnDoor, 0F, 0F, 0F);
 	}
 
-	@Override
 	public void render(float f5) {
-		kilnRight.render( f5 );
-		kilnLeft.render( f5 );
-		kilnTop.render( f5 );
-		kilnBottom.render( f5 );
-		kilnBack.render( f5 );
-		bottomHinge.render( f5 );
-		topHinge.render( f5 );
-		kilnDoorInner.render( f5 );
-		kilnDoor.render( f5 );
+		kilnRight.render(f5);
+		kilnLeft.render(f5);
+		kilnTop.render(f5);
+		kilnBottom.render(f5);
+		kilnBack.render(f5);
+		bottomHinge.render(f5);
+		topHinge.render(f5);
+		kilnDoorInner.render(f5);
+		kilnDoor.render(f5);
 	}
 
 	public void rotateDoor(float angle) {
 		kilnDoor.rotateAngleY = angle;
 		kilnDoorInner.rotateAngleY = angle;
+	}
+	
+	private void setRotation(ModelRenderer model, float x, float y, float z) {
+		model.rotateAngleX = x;
+		model.rotateAngleY = y;
+		model.rotateAngleZ = z;
 	}
 
 }

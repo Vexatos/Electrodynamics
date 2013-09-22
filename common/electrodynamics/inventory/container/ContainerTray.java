@@ -5,6 +5,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import electrodynamics.core.EDLogger;
 import electrodynamics.inventory.InventoryItem;
+import electrodynamics.item.ItemDust;
 
 public class ContainerTray extends ContainerInventory {
 
@@ -12,7 +13,12 @@ public class ContainerTray extends ContainerInventory {
 		super(player, inventory);
 		
 		// Tray Inventory
-		this.addSlotToContainer(new Slot(inventory, 0, 62 + 1 * 18, 17 + 1 * 18));
+		this.addSlotToContainer(new Slot(inventory, 0, 62 + 1 * 18, 17 + 1 * 18) {
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+				return ItemDust.isDust(stack);
+			}
+		});
 		
 		// Player Inventory
 		for (int i = 0; i < 3; ++i) {
