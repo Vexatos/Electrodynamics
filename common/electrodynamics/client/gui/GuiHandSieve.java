@@ -1,26 +1,18 @@
 package electrodynamics.client.gui;
 
-import static electrodynamics.client.gui.module.GuiModule.MouseState.MOUSE_LEFT;
-
-import java.awt.geom.Rectangle2D;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import electrodynamics.client.gui.GuiGlassJar.Rectangle;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import electrodynamics.client.gui.module.GuiModule.MouseState;
 import electrodynamics.client.gui.module.GuiModuleHotspot;
 import electrodynamics.client.gui.module.GuiModuleHotspot.IHotspotCallback;
-import electrodynamics.core.EDLogger;
 import electrodynamics.core.handler.GuiHandler.GuiType;
 import electrodynamics.item.ItemGlassJar;
 import electrodynamics.network.packet.PacketHotspotCallback;
 import electrodynamics.network.packet.PacketPayload;
-import electrodynamics.network.packet.PacketUpdateSlot;
-import electrodynamics.purity.AlloyFactory;
 import electrodynamics.recipe.manager.CraftingManager;
+import electrodynamics.util.math.Rectangle;
 
 public class GuiHandSieve extends GuiElectrodynamics implements IHotspotCallback {
 
@@ -41,7 +33,7 @@ public class GuiHandSieve extends GuiElectrodynamics implements IHotspotCallback
 		this.container = container;
 		this.sieve = sieve;
 		
-		this.manager.registerModule(new GuiModuleHotspot("sieveClick", HOTSPOT_DIMENSIONS.x, HOTSPOT_DIMENSIONS.y, HOTSPOT_DIMENSIONS.w, HOTSPOT_DIMENSIONS.h).setCallback(this));
+		this.manager.registerModule(new GuiModuleHotspot("sieveClick", HOTSPOT_DIMENSIONS.pointA.x, HOTSPOT_DIMENSIONS.pointA.y, HOTSPOT_DIMENSIONS.getWidth(), HOTSPOT_DIMENSIONS.getWidth()).setCallback(this));
 	}
 
 	@Override
