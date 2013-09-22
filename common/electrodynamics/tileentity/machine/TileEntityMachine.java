@@ -23,7 +23,7 @@ public abstract class TileEntityMachine extends TileEntityEDRoot {
 	}
 
 	@Override
-	public void getDescriptionForClient(NBTTagCompound nbt) {	
+	public void getDescriptionForClient(NBTTagCompound nbt) {
 		nbt.setByte("direction", (byte) rotation.ordinal());
 	}
 	

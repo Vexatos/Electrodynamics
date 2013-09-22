@@ -22,7 +22,7 @@ import electrodynamics.interfaces.IAcceptsTool;
 import electrodynamics.lib.core.Strings;
 import electrodynamics.tileentity.machine.TileEntityTable;
 
-public class BlockTable extends BlockContainer implements IAcceptsTool {
+public class BlockTable extends BlockContainer {
 
 	public static String[] subNames = new String[] {Strings.BASIC_TABLE, Strings.SMASH_TABLE};
 	
@@ -117,18 +117,4 @@ public class BlockTable extends BlockContainer implements IAcceptsTool {
 		return world.getBlockMetadata(x, y, z);
 	}
 
-	@Override
-	public boolean accepts(ToolType tool) {
-		return tool == ToolType.HAMMER;
-	}
-
-	@Override
-	public boolean onToolUse(World world, int x, int y, int z, EntityPlayer player, ItemStack stack) {
-		TileEntityTable table = (TileEntityTable) world.getBlockTileEntity(x, y, z);
-		
-		table.handleToolUse(player, stack);
-		
-		return false;
-	}
-	
 }

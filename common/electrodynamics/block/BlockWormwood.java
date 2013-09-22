@@ -55,7 +55,12 @@ public class BlockWormwood extends BlockFlower implements IPlantable {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
-		fertilize(world, x, y, z);
+		final int growthRate = 100;
+        if (world.getBlockLightValue(x, y, z) >= 9) {
+            if (random.nextInt((int)(growthRate / 25F)) + 1 == 0){
+                fertilize(world, x, y, z);
+            }
+        }
 		super.updateTick( world, x, y, z, random );
 	}
 

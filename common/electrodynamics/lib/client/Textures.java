@@ -13,7 +13,7 @@ public enum Textures {
 	/* Model Textures */
 	TABLE_WOOD("models/textures/tableWood.png"),
 	TABLE_STONE("models/textures/tableStone.png"),
-	SINTERING_OVEN("models/textures/basicSinteringOven.png"),
+	SINTERING_OVEN("models/textures/sinteringOven.png"),
 	BASIC_SIEVE("models/textures/basicSieve.png"),
 	BASIC_KILN("models/textures/basicKiln.png"),
 	TREETAP("models/textures/treeTap.png"),

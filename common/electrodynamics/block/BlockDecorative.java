@@ -41,7 +41,7 @@ public class BlockDecorative extends Block {
 		
 		return meta;
 	}
-	
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void getSubBlocks(int id, CreativeTabs tab, List list) {

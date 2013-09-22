@@ -21,6 +21,9 @@ import electrodynamics.lib.core.ModInfo;
 
 public class BlockOre extends Block {
 
+    public static final float DEFAULT_RESISTANCE = 5F;
+    public static final float DEFAULT_HARDNESS = 3F;
+
 	public Icon[] textures;
 	
 	public Icon voidstoneTexture;
@@ -32,20 +35,15 @@ public class BlockOre extends Block {
 	
 	public BlockOre(int i) {
 		super(i, Material.rock);
-		setHardness(3F);
-		setResistance(5F);
+		setHardness(DEFAULT_HARDNESS);
+		setResistance(DEFAULT_RESISTANCE);
 		setCreativeTab(CreativeTabED.resource);
 	}
 
 	@Override
 	public float getBlockHardness(World world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
-		
-		switch(meta) {
-		case 3: return 0.8F;
-		case 6: return 4F;
-		default: return 3F;
-		}
+		return Ore.get(meta).blockHardness;
 	}
 	
 	@Override

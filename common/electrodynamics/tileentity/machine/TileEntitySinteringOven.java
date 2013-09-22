@@ -170,7 +170,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	public void updateEntityServer() {
 		if (fuelLevel > 0) {
 			--this.fuelLevel;
-			if (this.worldObj.getTotalWorldTime() % 5 == 0) { // Heats four times per second (roughly?)
+			if (this.worldObj.getTotalWorldTime() % 5 == 0 && this.currentHeat < MAX_HEAT) { // Heats four times per second (roughly?)
 				++this.currentHeat;
 				sendHeatUpdate();
 			}
@@ -200,8 +200,8 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 					if (trayInventory != null) {
 						ItemStack stack = this.trayInventory.getStackInSlot(0);
 						if (stack != null && stack.getItem() instanceof ItemAlloy && stack.getItemDamage() == 0) {
-							this.totalCookTime = this.currentCookTime = 200; //TEMP
-//							this.totalCookTime = this.currentCookTime = getStrongestComponent() != null ? DynamicAlloyPurities.getSmeltInfoForStack(getStrongestComponent())[1] : 0;
+//							this.totalCookTime = this.currentCookTime = 200; //TEMP
+							this.totalCookTime = this.currentCookTime = getStrongestComponent() != null ? DynamicAlloyPurities.getSmeltInfoForStack(getStrongestComponent())[1] : 0;
 							return;
 						}
 					}
@@ -211,7 +211,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 			this.burning = false;
 			sendBurningUpdate();
 		} else {
-			if (this.worldObj.getTotalWorldTime() % 5 == 0) { // Heats four times per second (roughly?)
+			if (this.worldObj.getTotalWorldTime() % 5 == 0 && this.currentCookTime > 0) { // Heats four times per second (roughly?)
 				--this.currentHeat;
 				sendHeatUpdate();
 			}
@@ -345,8 +345,8 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	}
 	
 	private boolean isHotEnough() {
-//		return getStrongestComponent() != null && DynamicAlloyPurities.getSmeltInfoForStack(getStrongestComponent())[0] <= this.currentHeat;
-		return true;
+		return getStrongestComponent() != null && DynamicAlloyPurities.getSmeltInfoForStack(getStrongestComponent())[0] <= this.currentHeat;
+//		return true;
 	}
 	
 	private ItemStack getStrongestComponent() {

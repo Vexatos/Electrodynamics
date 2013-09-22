@@ -32,7 +32,7 @@ public class ItemAlloy extends Item {
 	@SideOnly(Side.CLIENT)
 	public Icon ingotIcon;
 	@SideOnly(Side.CLIENT)
-	public Icon transIcon;
+	public Icon mangledIngotIcon;
 	
 	public ItemAlloy(int id) {
 		super(id);
@@ -53,7 +53,12 @@ public class ItemAlloy extends Item {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Icon getIconFromDamage(int damage) {
-		return damage == 0 ? this.dustIcon : this.ingotIcon;
+		switch(damage) {
+		case 0: return this.dustIcon;
+		case 1: return this.ingotIcon;
+		case 2: return this.mangledIngotIcon;
+		default: return null;
+		}
 	}
 	
     @SideOnly(Side.CLIENT)
@@ -61,7 +66,7 @@ public class ItemAlloy extends Item {
     public void registerIcons(IconRegister register) {
     	this.dustIcon = register.registerIcon(ModInfo.GENERIC_MOD_ID.toLowerCase() + ":dust/dustAlloy");
     	this.ingotIcon = register.registerIcon(ModInfo.GENERIC_MOD_ID.toLowerCase() + ":ingot/ingotAlloy");
-    	this.transIcon = register.registerIcon(ModInfo.GENERIC_MOD_ID.toLowerCase() + ":misc/trans");
+    	this.mangledIngotIcon = register.registerIcon(ModInfo.GENERIC_MOD_ID.toLowerCase() + ":ingot/ingotAlloyMangled");
     }
     
     @SideOnly(Side.CLIENT)

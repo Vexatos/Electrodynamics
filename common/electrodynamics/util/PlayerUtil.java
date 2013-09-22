@@ -29,6 +29,20 @@ public class PlayerUtil {
 		return head;
 	}
 	
+	public static ForgeDirection determine2DOrientation_F(EntityLivingBase entity) {
+		switch(determine2DOrientation_I(entity)) {
+		case 0: return ForgeDirection.EAST;
+		case 1: return ForgeDirection.NORTH;
+		case 2: return ForgeDirection.SOUTH;
+		case 3: return ForgeDirection.WEST;
+		default: return ForgeDirection.UNKNOWN;
+		}
+	}
+	
+	public static int determine2DOrientation_I(EntityLivingBase entity) {
+		return MathHelper.floor_double((double)(entity.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+	}
+	
 	public static ForgeDirection determine3DOrientation_F(World world, int x, int y, int z, EntityLivingBase entity) {
 		return (ForgeDirection.getOrientation(determine3DOrientation_I(world, x, y, z, entity)));
 	}

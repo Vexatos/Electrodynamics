@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import cpw.mods.fml.common.Loader;
 
 import electrodynamics.addons.computercraft.EDAddonComputerCraft;
+import electrodynamics.addons.misc.EDAddonBOP;
 import electrodynamics.addons.thermalexpansion.EDAddonThermalExpansion;
 
 public class AddonManager {
@@ -18,6 +19,10 @@ public class AddonManager {
 		
 		if (Loader.isModLoaded("ThermalExpansion")) {
 			addons.add(new EDAddonThermalExpansion());
+		}
+		
+		if (Loader.isModLoaded("BiomesOPlenty")) {
+			addons.add(new EDAddonBOP());
 		}
 	}
 	

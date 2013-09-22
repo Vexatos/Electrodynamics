@@ -8,6 +8,11 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
+import electrodynamics.addons.AddonManager;
+import electrodynamics.addons.misc.EDAddonBOP;
+import electrodynamics.configuration.ConfigurationSettings;
+import electrodynamics.lib.block.BlockIDs;
+import electrodynamics.lib.block.Ore;
 
 public class WorldGenNear implements IWorldGenerator {
 
@@ -53,6 +58,10 @@ public class WorldGenNear implements IWorldGenerator {
 			return;
 		}
 		
+		if (EDAddonBOP.bopLoaded && world.provider.dimensionId == EDAddonBOP.promisedLandDIMID) {
+			return;
+		}
+		
 		for (int i=0; i<rarity; i++) {
 			int x = (chunkX * 16) + random.nextInt(16);
 			int y = random.nextInt(MathHelper.getRandomIntegerInRange(random, yMin, yMax));
@@ -62,7 +71,7 @@ public class WorldGenNear implements IWorldGenerator {
 				return;
 			}
 			
-			(new WorldGenMinable(blockID, blockMeta, blockCount)).generate(world, random, x, y, z);
+			world.setBlock(x, y, z, BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), 7);
 		}
 	}
 	

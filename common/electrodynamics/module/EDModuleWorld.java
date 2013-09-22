@@ -3,6 +3,7 @@ package electrodynamics.module;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -55,6 +56,8 @@ import electrodynamics.world.gen.WorldGenNear;
 import electrodynamics.world.gen.WorldGenRubberTree;
 import electrodynamics.world.gen.WorldGenWormwood;
 import electrodynamics.world.gen.feature.FeatureHandler;
+import electrodynamics.world.gen.feature.FeatureOreGen;
+import electrodynamics.world.gen.feature.FeatureHandler.FeatureType;
 import electrodynamics.world.handler.BonemealEventHandler;
 
 public class EDModuleWorld extends EDModule {
@@ -77,6 +80,7 @@ public class EDModuleWorld extends EDModule {
 		for (Decorative dec : Decorative.values()) {
 			EDLanguage.getInstance().registerItemStack(dec.toItemStack(), dec.unlocalizedName);
 		}
+        MinecraftForge.setBlockHarvestLevel(EDBlocks.blockDecorative, "pickaxe", EnumToolMaterial.WOOD.getHarvestLevel());
 
 		EDBlocks.blockWormwood = new BlockWormwood( BlockIDs.BLOCK_WORMWOOD_ID ).setUnlocalizedName( Strings.BLOCK_WORMWOOD );
 		GameRegistry.registerBlock( EDBlocks.blockWormwood, ItemBlockWormwood.class, Strings.BLOCK_WORMWOOD );
@@ -153,10 +157,13 @@ public class EDModuleWorld extends EDModule {
 		
 		// Lithium
 		GameRegistry.registerWorldGenerator(new WorldGenClay(BlockIDs.BLOCK_LITHIUM_CLAY_ID, 4));
-		//MinecraftForge.TERRAIN_GEN_BUS.register(new electrodynamics.world.handler.CreateDecoratorHandler());
+
 		// Wolframite
-		GameRegistry.registerWorldGenerator(new WorldGenNear(BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), 4, 4).setTarget(Block.lavaStill.blockID, 0).setYValues(6, 16));
+		int[] wolframiteGen = FeatureOreGen.getOreGenerationSettings(FeatureHandler.getConfig(), FeatureType.ORE_WOLFRAMITE, Ore.WOLFRAMITE, 4, 4, 6, 16);
+		GameRegistry.registerWorldGenerator(new WorldGenNear(BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), wolframiteGen[0], wolframiteGen[1]).setTarget(Block.lavaStill.blockID, 0).setYValues(wolframiteGen[2], wolframiteGen[3]));
+		
 		// Voidstone
+		int[] voidstoneGen = FeatureOreGen.getOreGenerationSettings(FeatureHandler.getConfig(), FeatureType.ORE_VOIDSTONE, Ore.VOIDSTONE, 1, 10, 2, 6);
 		GameRegistry.registerWorldGenerator(new WorldGenBlock(BlockIDs.BLOCK_ORE_ID, Ore.VOIDSTONE.ordinal(), 1, 10) {
 			@Override
 			public void onGenned(World world, int x, int y, int z, Random random) {

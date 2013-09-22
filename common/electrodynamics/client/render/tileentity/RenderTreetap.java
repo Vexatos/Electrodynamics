@@ -1,8 +1,10 @@
 package electrodynamics.client.render.tileentity;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -59,10 +61,19 @@ public class RenderTreetap extends TileEntitySpecialRenderer {
 		if (tile.hasBucket) {
 			renderBucket(tile);
 			if (tile.liquidAmount > 0) {
-				GL11.glPushMatrix();
-				GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
-				RenderUtil.drawIcon(0, 0, IconHandler.getInstance().registeredIcons.get("misc.liquidLatex"), 16, 16);
-				GL11.glPopMatrix();
+				RenderUtil.bindBlockAtlas();
+				
+				GL11.glTranslated(-.75, 0.3, -.7);
+				
+				Icon latex = IconHandler.getInstance().getIcon("misc.liquidLatex");
+				Tessellator tess = Tessellator.instance;
+				tess.startDrawingQuads();
+				tess.addVertexWithUV(.5, 0, .5, latex.getMinU(), latex.getMaxV());
+				tess.addVertexWithUV(1, 0, .5, latex.getMaxU(), latex.getMaxV());
+				tess.addVertexWithUV(1, 0, .9, latex.getMaxU(), latex.getMinV());
+				tess.addVertexWithUV(.5, 0, .9, latex.getMinU(), latex.getMinV());
+				
+				tess.draw();
 			}
 		}
 		

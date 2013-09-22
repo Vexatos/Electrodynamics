@@ -44,8 +44,9 @@ public class FeatureHandler {
 		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_CHALCOPYRITE, Ore.CHALCOPYRITE, 8, 6, 16, 64);
 		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_COBALTITE, Ore.COBALTITE, 8, 4, 32, 78);
 		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_GALENA, Ore.GALENA, 4, 2, 16, 32);
-		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_MAGNETITE, Ore.MAGNETITE, 12, 6, 16, 32);
+		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_MAGNETITE, Ore.MAGNETITE, 12, 3, 16, 32);
 		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_NICKEL, Ore.NICKEL, 8, 6, 16, 64);
+		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_GRAPHITE, Ore.GRAPHITE, 8, 4, 6, 32);
 		
 		// Gas
 		registerFeature(FeatureType.GAS_POCKET, new FeatureGasPocket());
@@ -80,7 +81,7 @@ public class FeatureHandler {
 		return featureEnabled.getBoolean(true);
 	}
 	
-	private Configuration getConfig() {
+	public static Configuration getConfig() {
 		Configuration config = new Configuration(new File(Electrodynamics.instance.configFolder, FEATURE_CONFIG_FOLDER));
 		config.load();
 		
@@ -104,6 +105,9 @@ public class FeatureHandler {
 		ORE_GALENA,
 		ORE_MAGNETITE,
 		ORE_NICKEL,
+		ORE_GRAPHITE,
+		ORE_WOLFRAMITE,
+		ORE_VOIDSTONE,
 		GAS_POCKET,
 		LIMESTONE
 	}

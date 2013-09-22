@@ -155,6 +155,13 @@ public class RecipeManagerSieve {
 				outputs.add(new WeightedRecipeOutput(Dust.TELLURIUM, 0.001F));
 			}
 		});
+		
+		registerRecipe(new RecipeSieve(Grinding.GRAPHITE.toItemStack()) {
+			@Override
+			public void setOutput(ArrayList<WeightedRecipeOutput> outputs) {
+				outputs.add(new WeightedRecipeOutput(Dust.GRAPHITE, 1F));
+			}
+		});
 	}
 	
 }

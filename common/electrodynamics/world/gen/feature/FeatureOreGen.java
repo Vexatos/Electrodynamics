@@ -22,7 +22,7 @@ public class FeatureOreGen extends FeatureBase {
 		FeatureHandler.getInstance().registerFeature(type, new FeatureOreGen("ORE_" + ore.toString(), new WorldGenOre(ore.toItemStack(), generationData[0]), generationData[1], generationData[2], generationData[3]));
 	}
 	
-	private static int[] getOreGenerationSettings(Configuration config, FeatureType type, Ore ore, int clusterSize, int count, int minY, int maxY) {
+	public static int[] getOreGenerationSettings(Configuration config, FeatureType type, Ore ore, int clusterSize, int count, int minY, int maxY) {
 		Property featureClusterSize = config.get(FeatureHandler.getFeatureCategory(type), ore.toString() + ".clusterSize", clusterSize);
 		Property featureGenCount = config.get(FeatureHandler.getFeatureCategory(type), ore.toString() + ".generationCount", count);
 		Property featureMinimumY = config.get(FeatureHandler.getFeatureCategory(type), ore.toString() + ".minimumY", minY);
