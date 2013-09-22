@@ -26,8 +26,6 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 	private ModelIngot modelIngot;
 	private ModelDust modelDust;
 	
-	private final boolean chickenEasterEgg = true;
-	
 	public RenderSinteringOven() {
 		this.modelSinteringOven = new ModelSinteringOven();
 		this.modelMetalTray = new ModelMetalTray();
@@ -64,7 +62,7 @@ public class RenderSinteringOven extends TileEntitySpecialRenderer {
 
 		Textures.SINTERING_OVEN.bind();
 		
-		modelSinteringOven.rotateDoor(((TileEntitySinteringOven)tile).doorAngle);
+		modelSinteringOven.rotateDoor(Math.toRadians(((TileEntitySinteringOven)tile).doorAngle));
 		modelSinteringOven.render(0.0625F);
 
 		if (((TileEntitySinteringOven)tile).trayInventory != null) {

@@ -28,7 +28,7 @@ import electrodynamics.util.ItemUtil;
 
 public class TileEntitySinteringOven extends TileEntityMachine implements IClientDisplay, IHeatable {
 
-	public final float ROTATIONAL_MAX = 1.5F;
+	public final int ROTATIONAL_MAX = 90;
 	
 	public final int MAX_HEAT = 4000;
 	
@@ -156,9 +156,9 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 	public void updateEntityClient()
 	{
 		if (open && doorAngle <= ROTATIONAL_MAX) {
-			doorAngle += 0.2F;
+			doorAngle += 5;
 		} else if (!open && doorAngle > 0) {
-			doorAngle -= 0.2F;
+			doorAngle -= 5;
 		}
 		
 		if (doorAngle < 0) {

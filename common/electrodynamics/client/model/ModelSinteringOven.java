@@ -134,12 +134,12 @@ public class ModelSinteringOven extends ModelBase {
 		ovenDoorGlass.render(f5);
 	}
 
-	public void rotateDoor(float angle) {
-		ovenDoorBottom.rotateAngleY = angle;
-		ovenDoorTop.rotateAngleY = angle;
-		ovenDoorLeft.rotateAngleY = angle;
-		ovenDoorRight.rotateAngleY = angle;
-		ovenDoorGlass.rotateAngleY = angle;
+	public void rotateDoor(double angle) {
+		ovenDoorBottom.rotateAngleY = (float)angle;
+		ovenDoorTop.rotateAngleY = (float)angle;
+		ovenDoorLeft.rotateAngleY = (float)angle;
+		ovenDoorRight.rotateAngleY = (float)angle;
+		ovenDoorGlass.rotateAngleY = (float)angle;
 	}
 	
 	private void setRotation(ModelRenderer model, float x, float y, float z) {
