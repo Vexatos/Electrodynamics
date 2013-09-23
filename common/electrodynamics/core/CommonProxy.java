@@ -8,6 +8,7 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import electrodynamics.Electrodynamics;
 import electrodynamics.addons.AddonManager;
+import electrodynamics.core.handler.ChunkHandler;
 import electrodynamics.core.handler.ConnectionHandler;
 import electrodynamics.core.handler.GuiHandler;
 import electrodynamics.core.handler.WorldTicker;
@@ -16,6 +17,7 @@ import electrodynamics.lib.client.FXType;
 import electrodynamics.module.ModuleManager;
 import electrodynamics.recipe.manager.CraftingManager;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy {
 
@@ -26,8 +28,6 @@ public class CommonProxy {
 		Electrodynamics.instance.craftingManager = new CraftingManager();
 		// Connection handler registration
 		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());
-		// World ticker
-		TickRegistry.registerTickHandler(new WorldTicker(), Side.SERVER);
 		
 		ModuleManager.preInit();
 	}

@@ -9,11 +9,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.lib.core.ModInfo;
-import electrodynamics.util.misc.BiomeHelper;
-import electrodynamics.world.gen.WorldGenRubberTree;
+import electrodynamics.world.gen.feature.FeatureHandler;
+import electrodynamics.world.gen.feature.FeatureRubberTree;
 
 public class BlockRubberSapling extends BlockSapling {
 
@@ -31,7 +30,7 @@ public class BlockRubberSapling extends BlockSapling {
 		if ((l & 8) == 0) {
 			world.setBlockMetadataWithNotify(x, y, z, l | 8, 4);
 		} else {
-			(new WorldGenRubberTree(10, BiomeHelper.getBiomesForTypes(Type.PLAINS, Type.SWAMP, Type.JUNGLE))).grow(world, x, y, z, new Random());
+			((FeatureRubberTree)FeatureHandler.getInstance().getFeatureForName("Rubber Tree")).grow(world, x, y, z, random);
 		}
 	}
 	

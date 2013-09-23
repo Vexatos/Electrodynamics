@@ -2,15 +2,13 @@ package electrodynamics.world.gen.feature;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-
+import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
+import cpw.mods.fml.common.registry.GameRegistry;
 import electrodynamics.Electrodynamics;
-import electrodynamics.core.EDLogger;
+import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Ore;
 import electrodynamics.world.gen.WorldGenFeature;
 
@@ -49,6 +47,46 @@ public class FeatureHandler {
 		// Limestone
 		registerFeature(new FeatureLimestone());
 		
+		// Wormwood
+		registerFeature(new FeatureWormwood());
+		
+		// Rubber Tree
+		registerFeature(new FeatureWormwood());
+		
+		// Chalcopyrite
+		registerFeature(new FeatureOreGen("Chalcopyrite", Ore.CHALCOPYRITE).setDefaults(8, 6, 16, 64));
+		
+		// Cobaltite
+		registerFeature(new FeatureOreGen("Cobaltite", Ore.COBALTITE).setDefaults(8, 4, 32, 78));
+		
+		// Galena
+		registerFeature(new FeatureOreGen("Galena", Ore.GALENA).setDefaults(4, 2, 16, 32));
+		
+		// Magnetite
+		registerFeature(new FeatureOreGen("Magnetite", Ore.MAGNETITE).setDefaults(12, 3, 16, 32));
+		
+		// Nickel
+		registerFeature(new FeatureOreGen("Nickel", Ore.NICKEL).setDefaults(8, 6, 16, 64));
+		
+		// Wolframite
+		registerFeature(new FeatureBlockNear("Wolframite", BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal()).setDefaults(4, 6, 16));
+		
+		// Voidstone
+		registerFeature(new FeatureBlock("Voidstone", BlockIDs.BLOCK_ORE_ID, Ore.VOIDSTONE.ordinal()) {
+			@Override
+			public void onGenned(World world, int x, int y, int z, Random random) {
+				for (int ix = x - 2; ix < x + 2; ix++) {
+					for (int iy = y - 2; iy < y + 2; iy++) {
+						for (int iz = z - 2; iz < z + 2; iz++) {
+							if (world.getBlockId(ix, iy, iz) != this.genID) {
+								world.setBlockToAir(ix, iy, iz);
+							}
+						}
+					}
+				}
+			}
+		}.setDefaults(1, 0, 10));
+		
 		if (this.config.hasChanged()) {
 			this.config.save();
 		}
@@ -70,6 +108,16 @@ public class FeatureHandler {
 		}
 		
 		return false;
+	}
+	
+	public FeatureBase getFeatureForName(String name) {
+		for (FeatureBase feature : this.loadedFeatures) {
+			if (feature.name.equalsIgnoreCase(name)) {
+				return feature;
+			}
+		}
+		
+		return null;
 	}
 	
 	public static Configuration getConfig() {

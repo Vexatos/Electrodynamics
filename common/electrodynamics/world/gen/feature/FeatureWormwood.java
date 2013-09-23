@@ -1,23 +1,29 @@
-package electrodynamics.world.gen;
+package electrodynamics.world.gen.feature;
 
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.chunk.IChunkProvider;
-import cpw.mods.fml.common.IWorldGenerator;
-import electrodynamics.block.EDBlocks;
+import net.minecraftforge.common.Configuration;
 import electrodynamics.block.BlockWormwood;
+import electrodynamics.block.EDBlocks;
 import electrodynamics.util.BlockUtil;
 
-public class WorldGenWormwood implements IWorldGenerator {
+public class FeatureWormwood extends FeatureBase {
 
-	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		handleWormwood( world, chunkX, chunkZ, random );
+	public int count;
+	
+	public FeatureWormwood() {
+		super("Wormwood");
 	}
 
+	public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
+		super.generateFeature(random, chunkX, chunkZ, world, retro);
+		
+		handleWormwood(world, chunkX, chunkZ, random);
+	}
+	
 	public void handleWormwood(World world, int chunkX, int chunkZ, Random random) {
 		BiomeGenBase biome = world.getBiomeGenForCoords( chunkX, chunkZ );
 		int type = BlockWormwood.getTypeForBiome( biome );
@@ -31,8 +37,6 @@ public class WorldGenWormwood implements IWorldGenerator {
 	}
 	
 	public void generateWormwood(World world, int chunkX, int chunkZ, int meta) {
-		final int COUNT = 8;
-		
 		Random random = new Random();
 		
 		//Generation starts in middle of selected chunk
@@ -40,7 +44,7 @@ public class WorldGenWormwood implements IWorldGenerator {
 		int z = (chunkZ * 16) + 8;
 		int y = BlockUtil.getFirstUncoveredYPos(world, chunkX, chunkZ);
 		
-		for (int i=0; i<COUNT; i++) {
+		for (int i=0; i<count; i++) {
 			//Generation spans from slightly off the middle to same point across
 			x = x + random.nextInt(8) - random.nextInt(4);
 			z = z + random.nextInt(8) - random.nextInt(4);
@@ -49,6 +53,12 @@ public class WorldGenWormwood implements IWorldGenerator {
 				world.setBlock(x, y, z, EDBlocks.blockWormwood.blockID, meta, 2);
 			}
 		}
+	}
+	
+	public void handleConfig(Configuration config) {
+		super.handleConfig(config);
+		
+		this.count = config.get(FeatureHandler.getFeatureCategory(this), "patchSize", 8).getInt(8);
 	}
 	
 }

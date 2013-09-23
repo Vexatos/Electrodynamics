@@ -3,7 +3,9 @@ package electrodynamics.world.gen.feature;
 import java.util.HashSet;
 import java.util.Random;
 
+import electrodynamics.addons.misc.EDAddonBOP;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.Configuration;
 
@@ -31,6 +33,14 @@ public class FeatureBase {
 	
 	public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
 		if (retro && !this.retro) { // Prevent retro gen if not enabled
+			return;
+		}
+		
+		if (world.getWorldInfo().getTerrainType() == WorldType.FLAT) { // Prevent gen on flat worlds
+			return;
+		}
+		
+		if (EDAddonBOP.bopLoaded && world.provider.dimensionId == EDAddonBOP.promisedLandDIMID) { // Prevent gen in BOP promised land
 			return;
 		}
 	}

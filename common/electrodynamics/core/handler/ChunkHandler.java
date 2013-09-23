@@ -14,8 +14,10 @@ public class ChunkHandler {
 
 	@ForgeSubscribe
 	public void onChunkLoad(ChunkDataEvent.Load e) {
-		// If chunk doesn't have an EDX tag OR chunk doesn't have a regen key OR chunk has a false regen key AND regen is required on at least one registered feature
-		if ((!e.getData().hasKey(ModInfo.GENERIC_MOD_ID) || !e.getData().getCompoundTag(ModInfo.GENERIC_MOD_ID).hasKey(ConfigurationSettings.REGEN_KEY) || !e.getData().getCompoundTag(ModInfo.GENERIC_MOD_ID).getBoolean(ConfigurationSettings.REGEN_KEY)) && FeatureHandler.getInstance().retroGenEnabled()) {
+		System.out.println("Loading chunk: " + e.getChunk().toString());
+		
+		// If chunk HAS already been populated (existing chunk) AND doesn't have an EDX tag OR chunk doesn't have a regen key OR chunk has a false regen key AND regen is required on at least one registered feature
+		if ((e.getChunk().isTerrainPopulated && (!e.getData().hasKey(ModInfo.GENERIC_MOD_ID) || !e.getData().getCompoundTag(ModInfo.GENERIC_MOD_ID).hasKey(ConfigurationSettings.REGEN_KEY) || !e.getData().getCompoundTag(ModInfo.GENERIC_MOD_ID).getBoolean(ConfigurationSettings.REGEN_KEY))) && FeatureHandler.getInstance().retroGenEnabled()) {
 			int dim = e.world.provider.dimensionId;
 			
 			ArrayList chunks = (ArrayList) WorldTicker.chunksToRegen.get(Integer.valueOf(dim));

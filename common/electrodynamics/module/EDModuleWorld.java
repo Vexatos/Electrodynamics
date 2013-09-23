@@ -5,7 +5,6 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -46,10 +45,7 @@ import electrodynamics.lib.core.Strings;
 import electrodynamics.lib.item.Component;
 import electrodynamics.lib.item.ItemIDs;
 import electrodynamics.tileentity.TileEntityTreetap;
-import electrodynamics.util.misc.BiomeHelper;
 import electrodynamics.world.gen.WorldGenClay;
-import electrodynamics.world.gen.WorldGenRubberTree;
-import electrodynamics.world.gen.WorldGenWormwood;
 import electrodynamics.world.gen.feature.FeatureHandler;
 import electrodynamics.world.handler.BonemealEventHandler;
 
@@ -118,9 +114,6 @@ public class EDModuleWorld extends EDModule {
 			FluidContainerRegistry.registerFluidContainer(latex, new ItemStack(EDItems.itemLatexBucket));
 		}
 		
-		// Wormwood
-		GameRegistry.registerWorldGenerator(new WorldGenWormwood());
-
 		MinecraftForge.addGrassSeed( new ItemStack(EDItems.itemWormSeed), 5 );
 		
 		GameRegistry.registerTileEntity(TileEntityTreetap.class, Strings.BLOCK_TREETAP);
@@ -150,30 +143,6 @@ public class EDModuleWorld extends EDModule {
 		
 		// Lithium
 		GameRegistry.registerWorldGenerator(new WorldGenClay(BlockIDs.BLOCK_LITHIUM_CLAY_ID, 4));
-
-		// Wolframite
-//		int[] wolframiteGen = FeatureOreGen.getOreGenerationSettings(FeatureHandler.getConfig(), FeatureType.ORE_WOLFRAMITE, Ore.WOLFRAMITE, 4, 4, 6, 16);
-//		GameRegistry.registerWorldGenerator(new WorldGenNear(BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), wolframiteGen[0], wolframiteGen[1]).setTarget(Block.lavaStill.blockID, 0).setYValues(wolframiteGen[2], wolframiteGen[3]));
-		
-		// Voidstone
-//		int[] voidstoneGen = FeatureOreGen.getOreGenerationSettings(FeatureHandler.getConfig(), FeatureType.ORE_VOIDSTONE, Ore.VOIDSTONE, 1, 10, 2, 6);
-//		GameRegistry.registerWorldGenerator(new WorldGenBlock(BlockIDs.BLOCK_ORE_ID, Ore.VOIDSTONE.ordinal(), 1, 10) {
-//			@Override
-//			public void onGenned(World world, int x, int y, int z, Random random) {
-//				for (int ix = x - 2; ix < x + 2; ix++) {
-//					for (int iy = y - 2; iy < y + 2; iy++) {
-//						for (int iz = z - 2; iz < z + 2; iz++) {
-//							if (world.getBlockId(ix, iy, iz) != blockID) {
-//								world.setBlockToAir(ix, iy, iz);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		});
-
-		// Rubber Trees
-		GameRegistry.registerWorldGenerator(new WorldGenRubberTree(10, BiomeHelper.getBiomesForTypes(Type.PLAINS, Type.SWAMP, Type.JUNGLE)));
 	}
 
 	@SideOnly(Side.CLIENT)

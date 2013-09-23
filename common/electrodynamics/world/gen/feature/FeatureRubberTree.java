@@ -1,35 +1,35 @@
-package electrodynamics.world.gen;
+package electrodynamics.world.gen.feature;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.BiomeDictionary.Type;
-import cpw.mods.fml.common.IWorldGenerator;
 import electrodynamics.block.EDBlocks;
 import electrodynamics.util.BlockUtil;
 
-public class WorldGenRubberTree implements IWorldGenerator {
+public class FeatureRubberTree extends FeatureBase {
 
-	public int maxTreeHeight;
-
-	public ArrayList<BiomeGenBase> validBiomes;
-
-	public WorldGenRubberTree(int height, ArrayList<BiomeGenBase> biomes) {
-		this.maxTreeHeight = height;
-		this.validBiomes = biomes;
+	public int maxHeight;
+	
+	public FeatureRubberTree() {
+		super("Rubber Tree");
 	}
 
-	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+	public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
+		super.generateFeature(random, chunkX, chunkZ, world, retro);
+		
+		generate(random, chunkX, chunkZ, world);
+	}
+	
+	public void generate(Random random, int chunkX, int chunkZ, World world) {
 		if (world.getWorldInfo().getTerrainType() == WorldType.FLAT) {
 			return;
 		}
@@ -49,9 +49,7 @@ public class WorldGenRubberTree implements IWorldGenerator {
 			int z = (chunkZ * 16) + random.nextInt(16);
 			int y = BlockUtil.getFirstUncoveredYPos(world, x, z);
 			
-			if (validBiomes.contains(world.getBiomeGenForCoords(x, z))) {
-				grow(world, x, y, z, random);
-			}
+			grow(world, x, y, z, random);
 		}
 	}
 
@@ -189,5 +187,12 @@ public class WorldGenRubberTree implements IWorldGenerator {
 		}
 		return height;
 	}
-
+	
+	@Override
+	public void handleConfig(Configuration config) {
+		super.handleConfig(config);
+		
+		this.maxHeight = config.get(FeatureHandler.getFeatureCategory(this), "maxHeight", 10).getInt(10);
+	}
+	
 }

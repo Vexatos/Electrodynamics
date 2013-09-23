@@ -27,28 +27,31 @@ public class WorldTicker implements ITickHandler {
 		WorldServer world = (WorldServer) tickData[0];
 		final int REGEN_PER_TICK = 10;
 		int dim = world.provider.dimensionId;
-//		int count = 0;
+		int count = 0;
 		ArrayList<ChunkLocation> chunks = (ArrayList)chunksToRegen.get(dim);
 		
 		if ((chunks != null) && (chunks.size() > 0)) {
 			for (int i=0; i<REGEN_PER_TICK; i++) {
-//				count++;
-				
-				ChunkLocation chunkLoc = chunks.get(i);
-				Random random = new Random();
-				long worldSeed = world.getSeed();
-				long xSeed = random.nextLong() >> 3;
-				long zSeed = random.nextLong() >> 3;
-				random.setSeed(xSeed * chunkLoc.x + zSeed * chunkLoc.z ^ worldSeed);
-				for (FeatureBase feature : FeatureHandler.getInstance().loadedFeatures) {
-					if (feature.enabled || feature.retro) {
-						feature.generateFeature(random, chunkLoc.x, chunkLoc.z, world, true);
+				try {
+					count++;
+					ChunkLocation chunkLoc = chunks.get(i);
+					Random random = new Random();
+					long worldSeed = world.getSeed();
+					long xSeed = random.nextLong() >> 3;
+					long zSeed = random.nextLong() >> 3;
+					random.setSeed(xSeed * chunkLoc.x + zSeed * chunkLoc.z ^ worldSeed);
+					for (FeatureBase feature : FeatureHandler.getInstance().loadedFeatures) {
+						if (feature.enabled || feature.retro) {
+							feature.generateFeature(random, chunkLoc.x, chunkLoc.z, world, true);
+						}
 					}
+					chunks.remove(0);
+				} catch (IndexOutOfBoundsException ex) {
+					break;
 				}
-				chunks.remove(0);
 			}
 			
-			EDLogger.info("Regenerated a batch of " + REGEN_PER_TICK + " chunks. We've got " + chunks.size() + " left to go.");
+			EDLogger.fine("Regenerated a batch of " + count + " chunks. We've got " + chunks.size() + " left to go.");
 		}
 		
 		chunksToRegen.put(dim, chunks);

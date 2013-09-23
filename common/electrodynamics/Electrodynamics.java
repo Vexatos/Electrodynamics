@@ -14,12 +14,16 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.CoreModManager;
+import cpw.mods.fml.relauncher.Side;
 import electrodynamics.api.IEDApi;
 import electrodynamics.api.crafting.ICraftingManager;
 import electrodynamics.configuration.ConfigurationHandler;
 import electrodynamics.configuration.ConfigurationSettings;
 import electrodynamics.core.CommonProxy;
+import electrodynamics.core.handler.ChunkHandler;
+import electrodynamics.core.handler.WorldTicker;
 import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.core.ModInfo;
@@ -60,6 +64,11 @@ public class Electrodynamics implements IEDApi {
 			e.printStackTrace();
 		}
 
+		// World ticker
+		TickRegistry.registerTickHandler(new WorldTicker(), Side.SERVER);
+		// Chunk data handler
+		MinecraftForge.EVENT_BUS.register(new ChunkHandler());
+		
 		proxy.preInit(event);
 	}
 
