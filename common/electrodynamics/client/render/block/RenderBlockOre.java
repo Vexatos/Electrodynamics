@@ -10,6 +10,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import electrodynamics.block.BlockOre;
 import electrodynamics.lib.block.Ore;
+import electrodynamics.util.render.GLColor;
 
 public class RenderBlockOre extends BlockRenderer implements ISimpleBlockRenderingHandler {
 
@@ -50,13 +51,15 @@ public class RenderBlockOre extends BlockRenderer implements ISimpleBlockRenderi
 		int bb = setBrightness(world, x, y, z, block);
 	    int metadata = world.getBlockMetadata(x, y, z);
 	    
-	    if ((metadata == Ore.VOIDSTONE.ordinal())) {
-	      Tessellator t = Tessellator.instance;
-	      t.setBrightness(320);
+		if ((metadata == Ore.VOIDSTONE.ordinal())) {
+			GLColor.WHITE.apply();
+			
+			Tessellator t = Tessellator.instance;
+			t.setBrightness(320);
 
-	      block.setBlockBounds(0.2F, 0.2F, 0.2F, 0.8F, 0.8F, 0.8F);
-	      renderAllSides(world, x, y, z, block, renderer, ((BlockOre)block).voidstoneTexture);
-	    }
+			block.setBlockBounds(0.2F, 0.2F, 0.2F, 0.8F, 0.8F, 0.8F);
+			renderAllSides(world, x, y, z, block, renderer, ((BlockOre) block).voidstoneTexture);
+		}
 
 	    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	    renderer.setRenderBoundsFromBlock(block);

@@ -125,6 +125,10 @@ public class EDModuleWorld extends EDModule {
 		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockDecorative, 4, 1), "XX", "XX", 'X', new ItemStack(EDBlocks.blockDecorative, 1, 0));
 		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockDecorative, 4, 2), "XX", "XX", 'X', new ItemStack(EDBlocks.blockDecorative, 1, 1));
 		 
+		// Tiled Limestone
+		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockDecorative, 4, Decorative.LIMESTONE_TILED.ordinal()), "XY", "YX", 'X', Decorative.LIMESTONE.toItemStack(), 'Y', Decorative.LIMESTONE_SCORCHED.toItemStack());
+		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockDecorative, 4, Decorative.LIMESTONE_TILED.ordinal()), "YX", "XY", 'X', Decorative.LIMESTONE.toItemStack(), 'Y', Decorative.LIMESTONE_SCORCHED.toItemStack());
+		
 		// Twine -> String
 		GameRegistry.addRecipe(new ItemStack(Item.silk), "TTT", 'T', Component.TWINE.toItemStack());
 		

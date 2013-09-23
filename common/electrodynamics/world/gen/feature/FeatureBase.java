@@ -36,7 +36,7 @@ public class FeatureBase {
 			return;
 		}
 		
-		if (world.getWorldInfo().getTerrainType() == WorldType.FLAT) { // Prevent gen on flat worlds
+		if (world.getWorldInfo().getTerrainType().getWorldTypeName().equalsIgnoreCase("flat")) { // Prevent gen on flat worlds
 			return;
 		}
 		
