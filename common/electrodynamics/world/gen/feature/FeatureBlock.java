@@ -39,7 +39,7 @@ public class FeatureBlock extends FeatureBase {
 		
 		for (int i=0; i<count; i++) {
 			int x = (chunkX * 16) + random.nextInt(16);
-			int y = random.nextInt(MathHelper.getRandomIntegerInRange(random, minY, maxY));
+			int y = random.nextInt(MathHelper.getRandomIntegerInRange(random, minY, maxY) + 1);
 			int z = (chunkZ * 16) + random.nextInt(16);
 			
 			world.setBlock(x, y, z, genID, genMeta, 7);
