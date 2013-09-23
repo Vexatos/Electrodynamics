@@ -1,5 +1,7 @@
 package electrodynamics.util.math;
 
+import net.minecraft.util.AxisAlignedBB;
+
 public class Cuboid {
 
 	public Vector3D pointA;
@@ -29,6 +31,10 @@ public class Cuboid {
 	
 	public boolean contains(Vector3D vec) {
 		return (vec.x >= pointA.x && vec.x <= pointB.x && vec.y >= pointA.y && vec.y <= pointB.y && vec.z >= pointA.z && vec.z <= pointB.z);
+	}
+	
+	public AxisAlignedBB toAABB() {
+		return AxisAlignedBB.getAABBPool().getAABB(pointA.x, pointA.y, pointA.z, pointB.x, pointB.y, pointB.z);
 	}
 	
 	public Cuboid copy() {

@@ -1,22 +1,20 @@
 package electrodynamics.world.gen.feature;
 
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.HashMap;
 import java.util.LinkedList;
-
-import electrodynamics.addons.misc.EDAddonBOP;
-import electrodynamics.lib.block.Decorative;
-import electrodynamics.lib.block.BlockIDs;
-import electrodynamics.world.gen.feature.FeatureHandler.FeatureType;
+import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
+import electrodynamics.addons.misc.EDAddonBOP;
+import electrodynamics.lib.block.BlockIDs;
+import electrodynamics.lib.block.Decorative;
 
 public class FeatureLimestone extends FeatureBase {
 
@@ -24,8 +22,8 @@ public class FeatureLimestone extends FeatureBase {
     private int maxDepth;
     private int maxSize;
 
-    public FeatureLimestone(String name) {
-        super(name);
+    public FeatureLimestone() {
+        super("Limestone");
     }
 
     public boolean exposed(World world, int x, int y, int z) {
@@ -41,8 +39,10 @@ public class FeatureLimestone extends FeatureBase {
     }
 
     @Override
-    public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean newGeneration) {
-        if (random.nextInt(frequency) != 1) return;
+    public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
+        super.generateFeature(random, chunkX, chunkZ, world, retro);
+    	
+    	if (random.nextInt(frequency) != 1) return;
         if (world.getWorldInfo().getTerrainType() == WorldType.FLAT) {
             return;
         }
@@ -120,10 +120,13 @@ public class FeatureLimestone extends FeatureBase {
 
     @Override
     public void handleConfig(Configuration config) {
-        //Todo: double defaults?
-        this.frequency = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "frequency", 5).getInt(5);
-        this.maxDepth = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "max_depth", 3).getInt(3) - 1;
-        this.maxSize = config.get(FeatureHandler.getFeatureCategory(FeatureType.LIMESTONE), "max_size", 4096).getInt(4096);
+    	super.handleConfig(config);
+    	
+    	final String CATEGORY = FeatureHandler.getFeatureCategory(this);
+    	
+    	this.frequency = config.get(CATEGORY, "frequency", 5).getInt(5);
+        this.maxDepth = config.get(CATEGORY, "max_depth", 3).getInt(3) - 1;
+        this.maxSize = config.get(CATEGORY, "max_size", 4096).getInt(4096);
     }
 
 }

@@ -16,14 +16,14 @@ import electrodynamics.world.gen.WorldGenFeature;
 
 public class FeatureHandler {
 
-	public static final String FEATURE_CONFIG_FOLDER = "EDFeatures.cfg";
-	public static final String CATEGORY_FEATURES = "modules";
-	
-	public Map<FeatureType, FeatureBase> features = new EnumMap<FeatureType, FeatureBase>(FeatureType.class);
+	public static final String FEATURE_CONFIG_FILE = "EDFeatures.cfg";
+	public static final String CATEGORY_FEATURES = "FEATURE";
+
+	private static FeatureHandler instance;
 	
 	public ArrayList<FeatureBase> loadedFeatures = new ArrayList<FeatureBase>();
 	
-	private static FeatureHandler instance;
+	public Configuration config;
 	
 	public static FeatureHandler getInstance() {
 		if (instance == null) {
@@ -33,56 +33,47 @@ public class FeatureHandler {
 		return instance;
 	}
 	
-	public void registerFeature(FeatureType type, FeatureBase feature) {
-		features.put(type, feature);
+	public FeatureHandler() {
+		this.config = getConfig();
+	}
+	
+	public void registerFeature(FeatureBase feature) {
+		feature.handleConfig(this.config);
+		this.loadedFeatures.add(feature);
 	}
 	
 	public void prepareFeatures() {
-		Configuration config = getConfig();
-		
-		// Ore //TODO Re-write
-		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_CHALCOPYRITE, Ore.CHALCOPYRITE, 8, 6, 16, 64);
-		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_COBALTITE, Ore.COBALTITE, 8, 4, 32, 78);
-		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_GALENA, Ore.GALENA, 4, 2, 16, 32);
-		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_MAGNETITE, Ore.MAGNETITE, 12, 3, 16, 32);
-		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_NICKEL, Ore.NICKEL, 8, 6, 16, 64);
-		FeatureOreGen.registerFeatureOreGen(config, FeatureType.ORE_GRAPHITE, Ore.GRAPHITE, 8, 4, 6, 32);
-		
 		// Gas
-		registerFeature(FeatureType.GAS_POCKET, new FeatureGasPocket());
+		registerFeature(new FeatureGasPocket());
 		
 		// Limestone
-		registerFeature(FeatureType.LIMESTONE, new FeatureLimestone("Limestone"));
+		registerFeature(new FeatureLimestone());
 		
-		for (FeatureType feature : FeatureType.values()) {
-			if (isEnabled(config, feature)) {
-				FeatureBase instance = features.get(feature);
-				
-				if (instance != null) {
-					loadedFeatures.add(instance);
-					instance.handleConfig(config);
-				} else {
-					EDLogger.warn("Feature " + feature.toString() + " is missing a mapping!");
-				}
-			}
+		if (this.config.hasChanged()) {
+			this.config.save();
 		}
-		
-		config.save();
 	}
 
 	public void insertFeatures() {
 		for (FeatureBase feature : loadedFeatures) {
-			GameRegistry.registerWorldGenerator(new WorldGenFeature(feature));
+			if (feature.enabled) {
+				GameRegistry.registerWorldGenerator(new WorldGenFeature(feature));
+			}
 		}
 	}
 	
-	private boolean isEnabled(Configuration config, FeatureType feature) {
-		Property featureEnabled = config.get(getFeatureCategory(feature), feature.toString() + ".enabled", true);
-		return featureEnabled.getBoolean(true);
+	public boolean retroGenEnabled() {
+		for (FeatureBase feature : loadedFeatures) {
+			if (feature.retro) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public static Configuration getConfig() {
-		Configuration config = new Configuration(new File(Electrodynamics.instance.configFolder, FEATURE_CONFIG_FOLDER));
+		Configuration config = new Configuration(new File(Electrodynamics.instance.configFolder, FEATURE_CONFIG_FILE));
 		config.load();
 		
 		config.addCustomCategoryComment(CATEGORY_FEATURES, "Enable/Disable features/generation specifics as you see fit.");
@@ -95,21 +86,8 @@ public class FeatureHandler {
 		return config;
 	}
 	
-	public static String getFeatureCategory(FeatureType type) {
-		return CATEGORY_FEATURES + "." + type.toString().toLowerCase();
-	}
-	
-	public enum FeatureType {
-		ORE_CHALCOPYRITE,
-		ORE_COBALTITE,
-		ORE_GALENA,
-		ORE_MAGNETITE,
-		ORE_NICKEL,
-		ORE_GRAPHITE,
-		ORE_WOLFRAMITE,
-		ORE_VOIDSTONE,
-		GAS_POCKET,
-		LIMESTONE
+	public static String getFeatureCategory(FeatureBase feature) {
+		return CATEGORY_FEATURES + "." + feature.name.toUpperCase().replace(" ", "_");
 	}
 	
 }

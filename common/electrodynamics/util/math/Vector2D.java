@@ -15,6 +15,11 @@ public class Vector2D {
 		this.y = vec.y;
 	}
 	
+	public void set(Vector2D vec) {
+		this.x = vec.x;
+		this.y = vec.y;
+	}
+	
 	public Vector2D move(int xAdjust, int yAdjust) {
 		this.x += xAdjust;
 		this.y += yAdjust;

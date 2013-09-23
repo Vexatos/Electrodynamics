@@ -4,10 +4,13 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 import electrodynamics.Electrodynamics;
 import electrodynamics.addons.AddonManager;
 import electrodynamics.core.handler.ConnectionHandler;
 import electrodynamics.core.handler.GuiHandler;
+import electrodynamics.core.handler.WorldTicker;
 import electrodynamics.core.lang.EDLanguage;
 import electrodynamics.lib.client.FXType;
 import electrodynamics.module.ModuleManager;
@@ -23,6 +26,8 @@ public class CommonProxy {
 		Electrodynamics.instance.craftingManager = new CraftingManager();
 		// Connection handler registration
 		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());
+		// World ticker
+		TickRegistry.registerTickHandler(new WorldTicker(), Side.SERVER);
 		
 		ModuleManager.preInit();
 	}

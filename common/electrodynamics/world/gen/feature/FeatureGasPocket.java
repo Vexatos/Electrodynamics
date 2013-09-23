@@ -17,7 +17,7 @@ public class FeatureGasPocket extends FeatureBase {
 	}
 
 	@Override
-	public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean newGeneration) {
+	public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
 		int x = (chunkX * 16) + random.nextInt(16);
 		int y = random.nextInt(64);
 		int z = (chunkZ * 16) + random.nextInt(16);
@@ -84,9 +84,4 @@ public class FeatureGasPocket extends FeatureBase {
 		z += side.offsetZ;
 	}
 
-	@Override
-	public void handleConfig(Configuration config) {
-		
-	}
-	
 }

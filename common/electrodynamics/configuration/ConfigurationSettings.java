@@ -29,6 +29,9 @@ public class ConfigurationSettings {
 	@EDXProperty(category = ConfigurationHandler.CATEGORY_SETTINGS)
 	public static boolean OLD_SHAKING_METHOD = false;
 	
+	@EDXProperty(category = ConfigurationHandler.CATEGORY_SETTINGS)
+	public static String REGEN_KEY = "DEFAULT";
+	
 	public static void sendSettings(EntityPlayer player) {
 		PacketPayload payload = new PacketPayload(PayloadType.CONFIG, 1, 0, 2, 0, 0);
 		payload.setByte(0, (byte) (OLD_SHAKING_METHOD == false ? 0 : 1));
