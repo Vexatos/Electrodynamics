@@ -9,10 +9,10 @@
 	
 	<property name="ccapi.version" value="1.56"/>
 
-    <property name="mcp.version" value="805"/>
+    <property name="mcp.version" value="811"/>
     <property name="minecraft.version" value="1.6.4"/>
-    <property name="forgemajor.version" value="9.10.1"/>
-    <property name="forgebuild" value="862"/>
+    <property name="forgemajor.version" value="9.11.0"/>
+    <property name="forgebuild" value="884"/>
 
     <property name="forge.version" value="${minecraft.version}-${forgemajor.version}.${forgebuild}"/>
     <property name="forgeant.version" value="${forgemajor.version}.${forgebuild}"/>
