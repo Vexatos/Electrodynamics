@@ -76,13 +76,13 @@
     <!-- Dependencies -->
     <target name="extract-apis" depends="setup-forge">
 		<get-api filename="ComputerCraft-api_${ccapi.version}.zip" into="${download.dir}"/>
-		<mkdir dir="${mcpsrc.dir}/dan200/turtle/api"/>
-		<mkdir dir="${mcpsrc.dir}/dan200/computer/api"/>
+		<mkdir dir="${mcpsrc.dir}/api/dan200/turtle/api"/>
+		<mkdir dir="${mcpsrc.dir}/api/dan200/computer/api"/>
 		<move todir="${mcpsrc.dir}/dan200/turtle/api/">
-			<fileset dir="${download.dir}/src/dan200/turtle/api/"/>
+			<fileset dir="${download.dir}/api/src/dan200/turtle/api/"/>
 		</move>
 		<move todir="${mcpsrc.dir}/dan200/computer/api/">
-			<fileset dir="${download.dir}/src/dan200/computer/api/"/>
+			<fileset dir="${download.dir}/api/src/dan200/computer/api/"/>
 		</move>
     </target>
 
@@ -112,8 +112,6 @@
             <filterset>
                 <filter token="MOD_VERSION" value="${fullversion}"/>
                 <filter token="MC_VERSION" value="${minecraft.version}"/>
-                <filter token="DEPENDENCIES"
-                        value="*/ dependencies = &quot;required-after:Forge@[${forgeant.version},);after:IC2&quot;, /*"/>
             </filterset>
         </copy>
     </target>
