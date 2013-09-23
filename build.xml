@@ -140,8 +140,8 @@
             <fileset dir="${mcp.dir}/reobf/minecraft"/>
         </copy>
         
-        <mkdir dir="${classes.dir}/resources/assets"/>
-        <copy todir="${classes.dir}/resources/assets/electrodynamics">
+        <mkdir dir="${classes.dir}/assets"/>
+        <copy todir="${classes.dir}/assets/electrodynamics">
             <fileset dir="${resources.dir}"/>
         </copy>
 
