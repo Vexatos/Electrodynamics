@@ -14,9 +14,8 @@ dist/
 # APIs #
 dan200/
 
-# Windows image cache #
+# Windows Stuff #
 Thumbs.db
-
 .DS_Store
 
 build.bat
