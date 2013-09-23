@@ -2,37 +2,43 @@ package electrodynamics.util.math;
 
 public class Cuboid {
 
-	public Vector3D pointA;
-	public Vector3D pointB;
+	public Vector3D min;
+	public Vector3D max;
 	
-	public Cuboid(Vector3D a, Vector3D b) {
-		this.pointA = a;
-		this.pointB = b;
+	/**
+	 * Corners must be element-wise sorted
+	 * 
+	 * @param min 
+	 * @param max
+	 */
+	public Cuboid(Vector3D min, Vector3D max) {
+		this.min = min;
+		this.max = max;
 	}
 
 	public Cuboid(int x1, int y1, int z1, int x2, int y2, int z2) {
-		this.pointA = new Vector3D(x1, y1, z1);
-		this.pointB = new Vector3D(x2, y2, z2);
+		this.min = new Vector3D(x1, y1, z1);
+		this.max = new Vector3D(x2, y2, z2);
 	}
 
-	public int getWidth() {
-		return pointB.x - pointA.x;
+	public float getWidth() {
+		return max.x - min.x;
 	}
 	
-	public int getHeight() {
-		return pointB.y - pointA.y;
+	public float getHeight() {
+		return max.y - min.y;
 	}
 	
-	public int getDepth() {
-		return pointB.z - pointA.z;
+	public float getDepth() {
+		return max.z - min.z;
 	}
 	
 	public boolean contains(Vector3D vec) {
-		return (vec.x >= pointA.x && vec.x <= pointB.x && vec.y >= pointA.y && vec.y <= pointB.y && vec.z >= pointA.z && vec.z <= pointB.z);
+		return (vec.x >= min.x && vec.x <= max.x && vec.y >= min.y && vec.y <= max.y && vec.z >= min.z && vec.z <= max.z);
 	}
 	
 	public Cuboid copy() {
-		return new Cuboid(pointA.copy(), pointB.copy());
+		return new Cuboid(new Vector3D(min), new Vector3D(max));
 	}
 	
 }
