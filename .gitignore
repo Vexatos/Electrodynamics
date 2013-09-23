@@ -8,9 +8,8 @@
 # To ignore dev files #
 build.properties
 build/
-download/
-unpack/
-.gradle/
+downloads/
+dist/
 
 # APIs #
 dan200/
