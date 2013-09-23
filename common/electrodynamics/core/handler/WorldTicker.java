@@ -41,7 +41,7 @@ public class WorldTicker implements ITickHandler {
 					long zSeed = random.nextLong() >> 3;
 					random.setSeed(xSeed * chunkLoc.x + zSeed * chunkLoc.z ^ worldSeed);
 					for (FeatureBase feature : FeatureHandler.getInstance().loadedFeatures) {
-						if (feature.enabled || feature.retro) {
+						if (feature.enabled && feature.retro) {
 							feature.generateFeature(random, chunkLoc.x, chunkLoc.z, world, true);
 						}
 					}
