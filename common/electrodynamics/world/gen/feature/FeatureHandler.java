@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -51,7 +52,7 @@ public class FeatureHandler {
 		registerFeature(new FeatureWormwood());
 		
 		// Rubber Tree
-		registerFeature(new FeatureWormwood());
+		registerFeature(new FeatureRubberTree());
 		
 		// Chalcopyrite
 		registerFeature(new FeatureOreGen("Chalcopyrite", Ore.CHALCOPYRITE).setDefaults(8, 6, 16, 64));
@@ -78,7 +79,8 @@ public class FeatureHandler {
 				for (int ix = x - 2; ix < x + 2; ix++) {
 					for (int iy = y - 2; iy < y + 2; iy++) {
 						for (int iz = z - 2; iz < z + 2; iz++) {
-							if (world.getBlockId(ix, iy, iz) != this.genID) {
+							Block block = Block.blocksList[world.getBlockId(ix, iy, iz)];
+							if (block != null && block == Block.bedrock) {
 								world.setBlockToAir(ix, iy, iz);
 							}
 						}
@@ -95,6 +97,7 @@ public class FeatureHandler {
 	public void insertFeatures() {
 		for (FeatureBase feature : loadedFeatures) {
 			if (feature.enabled) {
+				System.out.println("Loaded feature: " + feature.name);
 				GameRegistry.registerWorldGenerator(new WorldGenFeature(feature));
 			}
 		}

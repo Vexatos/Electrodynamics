@@ -17,7 +17,7 @@ public class BonemealEventHandler {
 	public void onUseBonemeal(BonemealEvent e) {
 		if (!e.world.isRemote) {
 			if (e.ID == BlockIDs.BLOCK_RUBBER_SAPLING_ID) {
-				((FeatureRubberTree)FeatureHandler.getInstance().getFeatureForName("Rubber Wood")).grow(e.world, e.X, e.Y, e.Z, new Random());
+				((FeatureRubberTree)FeatureHandler.getInstance().getFeatureForName("Rubber Tree")).grow(e.world, e.X, e.Y, e.Z, new Random());
 				e.setResult(Result.ALLOW);
 			} else if(e.ID == BlockIDs.BLOCK_WORMWOOD_ID){
 				if (!BlockWormwood.isFullyGrown(e.world.getBlockMetadata(e.X, e.Y, e.Z))) {

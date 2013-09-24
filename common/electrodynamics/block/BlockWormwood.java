@@ -20,6 +20,7 @@ import electrodynamics.item.EDItems;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.lib.item.Component;
 import electrodynamics.lib.item.ItemIDs;
+import electrodynamics.util.ItemUtil;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.EnumPlantType;
@@ -55,9 +56,8 @@ public class BlockWormwood extends BlockFlower implements IPlantable {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random random) {
-		final int growthRate = 100;
         if (world.getBlockLightValue(x, y, z) >= 9) {
-            if (random.nextInt((int)(growthRate / 25F)) + 1 == 0){
+            if (random.nextInt(4) == 0){
                 fertilize(world, x, y, z);
             }
         }
@@ -93,16 +93,20 @@ public class BlockWormwood extends BlockFlower implements IPlantable {
 		int type = getTypeForBiome( world.getBiomeGenForCoords( x, z ) );
 		Random random = new Random();
 
-		if( type == 1 & isFullyGrown( metadata ) ) { // sap, only when fully grown.
-			ret.add(new ItemStack(EDItems.itemComponent, 1, Component.SAP.ordinal()));
+		if (type == 1 & isFullyGrown(metadata)) { // sap, only when fully grown.
+			ret.add(ItemUtil.getAndResize(Component.SAP.toItemStack(), random.nextInt(1)));
+		} 
+		
+		if(metadata > 3) { // leaves
+			ret.add(ItemUtil.getAndResize(Component.WORMWOOD_LEAF.toItemStack(), random.nextInt(4) == 0 ? 1 : 0));
+		} 
+		
+		if(metadata > 6) { // twine
+			ret.add(ItemUtil.getAndResize(Component.TWINE.toItemStack(), random.nextInt(1)));
 		}
-		if( metadata > 3 ) { // leaves
-			ret.add(new ItemStack(EDItems.itemComponent, MathHelper.getRandomIntegerInRange(random, 0, 1), Component.WORMWOOD_LEAF.ordinal()));
-		}
-		if( metadata > 6 ) { // twine
-			ret.add(new ItemStack(EDItems.itemComponent, MathHelper.getRandomIntegerInRange(random, 0, 3), Component.TWINE.ordinal()));
-		}
-		ret.add(new ItemStack(EDItems.itemWormSeed, isFullyGrown(metadata) ? MathHelper.getRandomIntegerInRange( random, 1, 2 ) : MathHelper.getRandomIntegerInRange( random, 0, 1 )));
+		
+		ret.add(ItemUtil.getAndResize(new ItemStack(EDItems.itemWormSeed), 1));
+		
 		return ret;
 	}
 
@@ -126,8 +130,8 @@ public class BlockWormwood extends BlockFlower implements IPlantable {
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void getSubBlocks(int id, CreativeTabs tab, List list) {
-		list.add( new ItemStack( id, 1, GROWN_NORMAL ) );
-		list.add( new ItemStack( id, 1, GROWN_DRIED ) );
+		list.add(new ItemStack(id, 1, GROWN_NORMAL));
+		list.add(new ItemStack(id, 1, GROWN_DRIED));
 	}
 
 	@Override
@@ -148,14 +152,14 @@ public class BlockWormwood extends BlockFlower implements IPlantable {
 	}
 	
 	public static int getTypeForBiome(BiomeGenBase biome) {
-		List<BiomeDictionary.Type> biomeTypes = Arrays.asList( BiomeDictionary.getTypesForBiome( biome ) );
-		for( BiomeDictionary.Type type : WORMWOOD_VALID_BIOMES ) {
-			if( biomeTypes.contains( type ) ) {
+		List<BiomeDictionary.Type> biomeTypes = Arrays.asList(BiomeDictionary.getTypesForBiome(biome));
+		for (BiomeDictionary.Type type : WORMWOOD_VALID_BIOMES) {
+			if (biomeTypes.contains(type)) {
 				return 0;
 			}
 		}
-		for( BiomeDictionary.Type type : DRY_WORMWOOD_VALID_BIOMES ) {
-			if( biomeTypes.contains( type ) ) {
+		for (BiomeDictionary.Type type : DRY_WORMWOOD_VALID_BIOMES) {
+			if (biomeTypes.contains(type)) {
 				return 1;
 			}
 		}
@@ -167,10 +171,10 @@ public class BlockWormwood extends BlockFlower implements IPlantable {
 	}
 
 	public static int getNextGrowthStage(int type, int currentStage) {
-		if( isFullyGrown( currentStage ) )
+		if (isFullyGrown(currentStage))
 			return currentStage;
 		int max = type == 0 ? GROWN_NORMAL : GROWN_DRIED;
-		if( currentStage >= max -1 ) {
+		if (currentStage >= max - 1) {
 			return max + optAdd;
 		}
 		return currentStage + 1;
