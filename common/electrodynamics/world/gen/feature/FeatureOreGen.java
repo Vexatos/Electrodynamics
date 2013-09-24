@@ -2,8 +2,11 @@ package electrodynamics.world.gen.feature;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.Configuration;
+import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Ore;
 import electrodynamics.world.gen.WorldGenOre;
 
@@ -42,16 +45,11 @@ public class FeatureOreGen extends FeatureBase {
 		int blockX = chunkX * 16;
 		int blockZ = chunkZ * 16;
 		
-		String biomeName = world.getBiomeGenForCoords(chunkX, chunkZ).biomeName.toLowerCase();
-		boolean onList = validBiomes.contains(biomeName);
-		
-		if (onList) {
-			for (int i=0; i<count; i++) {
-				int x = blockX + random.nextInt(16);
-				int y = minY + random.nextInt(maxY - minY);
-				int z = blockZ + random.nextInt(16);
-				(new WorldGenOre(ore.toItemStack(), clusterSize, ore.toItemStack().itemID)).generate(world, random, x, y, z);
-			}
+		for (int i=0; i<count; i++) {
+			int x = blockX + random.nextInt(16);
+			int y = minY + random.nextInt(maxY - minY);
+			int z = blockZ + random.nextInt(16);
+			(new WorldGenMinable(BlockIDs.BLOCK_ORE_ID, this.ore.ordinal(), this.count, Block.stone.blockID)).generate(world, random, x, y, z);
 		}
 		
 		return;

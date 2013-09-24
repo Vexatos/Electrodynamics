@@ -13,8 +13,6 @@ public class FeatureBase {
 
 	public final String name;
 
-	public final HashSet<String> validBiomes = new HashSet<String>();
-	
 	public boolean retro;
 	public boolean enabled;
 	
