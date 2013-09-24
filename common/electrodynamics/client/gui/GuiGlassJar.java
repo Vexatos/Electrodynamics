@@ -101,7 +101,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 				GLColor average = new GLColor(colors);
 				Rectangle rect = getMixedDustDimensions();
 
-				this.drawRect(k + rect.pointA.x, l + rect.pointA.y + GUI_JAR_DIMENSIONS.getHeight() - rect.getHeight(), k + rect.pointB.x, l + rect.pointB.y - 1 + GUI_JAR_DIMENSIONS.getHeight() - rect.getHeight(), average.toInt());
+				this.drawRect(k + rect.pointA.x, l + rect.pointA.y, k + rect.pointB.x, l + rect.pointB.y - 1, average.toInt());
 			}
 		}
 	}
@@ -206,7 +206,7 @@ public class GuiGlassJar extends GuiElectrodynamics implements IHotspotCallback,
 				}
 			} else {
 				Rectangle dim = getMixedDustDimensions();
-				GuiModule module = new GuiModule("mixed", dim.pointA.x, dim.pointA.y + GUI_JAR_DIMENSIONS.getHeight() - dim.getHeight(), dim.getWidth(), dim.getHeight()) {
+				GuiModule module = new GuiModule("mixed", dim.pointA.x, dim.pointA.y, dim.getWidth(), dim.getHeight()) {
 					@Override
 					public String[] getTooltip() {
 						AlloyFactory factory = AlloyFactory.fromArray(storedDusts);

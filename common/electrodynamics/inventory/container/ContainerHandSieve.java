@@ -57,38 +57,41 @@ public class ContainerHandSieve extends Container implements IHotspotCallback, I
 	public void onClicked(EntityPlayer player, String uuid, MouseState state, ItemStack stack) {
 		if (uuid.equalsIgnoreCase("sieveClick")) {
 			if (stack != null) {
-				if (CraftingManager.getInstance().sieveManager.getRecipe(stack) != null) {
-					switch(state) {
-					case MOUSE_LEFT: {
-						int max = GuiHandSieve.MAX_DUST_AMOUNT - ItemGlassJar.getStoredDusts(sieve).length;
-						if (stack.stackSize >= max) {
-							stack.stackSize -= max;
+				if (ItemGlassJar.getStoredDusts(sieve).length < GuiHandSieve.MAX_DUST_AMOUNT) {
+					if (CraftingManager.getInstance().sieveManager.getRecipe(stack) != null) {
+						switch(state) {
+						case MOUSE_LEFT: {
+							int max = GuiHandSieve.MAX_DUST_AMOUNT - ItemGlassJar.getStoredDusts(sieve).length;
+							if (stack.stackSize >= max) {
+								stack.stackSize -= max;
+								ItemStack grind = stack.copy();
+								grind.stackSize = 1;
+								for (int i=0; i<max; i++) {
+									ItemGlassJar.addDusts(this.sieve, new ItemStack[] {grind.copy()});
+								}
+								break;
+							} else {
+								ItemGlassJar.addDusts(this.sieve, new ItemStack[] {stack.copy()});
+								stack.stackSize = 0;
+								break;
+							}
+						}
+						case MOUSE_RIGHT: {
+							--stack.stackSize;
 							ItemStack grind = stack.copy();
 							grind.stackSize = 1;
-							for (int i=0; i<max; i++) {
-								ItemGlassJar.addDusts(this.sieve, new ItemStack[] {grind.copy()});
-							}
-							break;
-						} else {
-							ItemGlassJar.addDusts(this.sieve, new ItemStack[] {stack.copy()});
-							stack.stackSize = 0;
+							ItemGlassJar.addDusts(this.sieve, new ItemStack[] {grind});
 							break;
 						}
-					}
-					case MOUSE_RIGHT: {
-						--stack.stackSize;
-						ItemStack grind = stack.copy();
-						grind.stackSize = 1;
-						ItemGlassJar.addDusts(this.sieve, new ItemStack[] {grind});
-					}
-					default: break;
-					
-					}
-					if (stack.stackSize == 0) {
-						stack = null;
-					}
+						default: break;
 						
-					this.player.inventory.setItemStack(stack);
+						}
+						if (stack.stackSize == 0) {
+							stack = null;
+						}
+							
+						this.player.inventory.setItemStack(stack);
+					}
 				}
 			}
 		}
