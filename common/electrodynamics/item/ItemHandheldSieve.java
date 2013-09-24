@@ -6,6 +6,7 @@ import java.util.Map;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -84,7 +85,8 @@ public class ItemHandheldSieve extends Item implements ICustomRender {
 							}
 						}
 						
-						player.dropPlayerItem(recipe.itemOutputs.get(index).output.copy());
+						EntityItem itemEntity = new EntityItem(player.worldObj, player.posX, player.posY, player.posZ, recipe.itemOutputs.get(index).output.copy());
+						player.worldObj.spawnEntityInWorld(itemEntity);
 						ItemGlassJar.removeDust(stack, dust);
 					}
 				}
