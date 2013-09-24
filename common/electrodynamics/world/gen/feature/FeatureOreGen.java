@@ -48,7 +48,7 @@ public class FeatureOreGen extends FeatureBase {
 			int x = blockX + random.nextInt(16);
 			int y = minY + random.nextInt(maxY - minY);
 			int z = blockZ + random.nextInt(16);
-			(new WorldGenMinable(BlockIDs.BLOCK_ORE_ID, this.ore.ordinal(), this.count, Block.stone.blockID)).generate(world, random, x, y, z);
+			(new WorldGenMinable(BlockIDs.BLOCK_ORE_ID, this.ore.ordinal(), this.clusterSize, Block.stone.blockID)).generate(world, random, x, y, z);
 		}
 		
 		return;
