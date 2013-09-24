@@ -16,7 +16,7 @@ import electrodynamics.util.math.Rectangle;
 
 public class GuiHandSieve extends GuiElectrodynamics implements IHotspotCallback {
 
-	public static final Rectangle HOTSPOT_DIMENSIONS = new Rectangle(64, 25, 47, 33);
+	public static final Rectangle HOTSPOT_DIMENSIONS = new Rectangle(64, 25, 111, 58);
 	
 	public static final int MAX_DUST_AMOUNT = 16;
 	

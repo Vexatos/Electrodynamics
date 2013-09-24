@@ -98,7 +98,7 @@ public class ItemAlloy extends Item {
     	}
     	
     	AlloyStack alloy = new AlloyStack(stack);
-		if (alloy.getMetals().length > 0) {
+		if (alloy.getMetals() != null && alloy.getMetals().length > 0) {
 			List<GLColor> colors = new ArrayList<GLColor>();
 			
 			for (int i=0; i<alloy.getMetals().length; i++) {

@@ -369,7 +369,7 @@ public class TileEntitySinteringOven extends TileEntityMachine implements IClien
 					}
 				}
 				
-				return stack.copy();
+				return stack != null ? stack.copy() : null;
 			}
 			
 			return null;
