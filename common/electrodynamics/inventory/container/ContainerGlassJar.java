@@ -67,12 +67,6 @@ public class ContainerGlassJar extends Container implements IHotspotCallback, IP
 		// Replicated here to ensure everything is kept in sync
 		// Main code is run in GuiGlassJar
 		if (!ItemGlassJar.isMixed(this.glassJar)) {
-			if (player.capabilities.isCreativeMode) {
-				if (state == MouseState.MOUSE_RIGHT) {
-					ItemGlassJar.setMixed(this.glassJar, true);
-				}
-			}
-			
 			if (ItemDust.isDust(stack)) {
 				if (ItemGlassJar.getStoredDusts(this.glassJar).length < GuiGlassJar.DUST_MAX) {
 					if (state == MOUSE_LEFT) {
@@ -102,7 +96,6 @@ public class ContainerGlassJar extends Container implements IHotspotCallback, IP
 					player.inventory.addItemStackToInventory(stackDust);
 				} else {
 					factory = AlloyFactory.fromArray(dusts);
-					factory.addMetal(stackDust.copy());
 				}
 			}
 			
