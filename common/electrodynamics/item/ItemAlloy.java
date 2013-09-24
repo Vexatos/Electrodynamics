@@ -37,7 +37,6 @@ public class ItemAlloy extends Item {
 	public ItemAlloy(int id) {
 		super(id);
 		setHasSubtypes(true);
-		setCreativeTab(CreativeTabED.resource);
 	}
 	
 	@Override
@@ -67,12 +66,6 @@ public class ItemAlloy extends Item {
     	this.dustIcon = register.registerIcon(ModInfo.GENERIC_MOD_ID.toLowerCase() + ":dust/dustAlloy");
     	this.ingotIcon = register.registerIcon(ModInfo.GENERIC_MOD_ID.toLowerCase() + ":ingot/ingotAlloy");
     	this.mangledIngotIcon = register.registerIcon(ModInfo.GENERIC_MOD_ID.toLowerCase() + ":ingot/ingotAlloyMangled");
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void getSubItems(int id, CreativeTabs tab, List list) {
-
     }
     
     @Override
