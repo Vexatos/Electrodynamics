@@ -260,6 +260,10 @@ public class EDModuleMachine extends EDModule {
 		GameRegistry.addRecipe(Machine.SINTERING_FURNACE.toItemStack(), "WWW", "WBW", "III", 'W', Component.OVEN_WALL.toItemStack(), 'B', Block.fenceIron, 'I', Item.ingotIron);
 		// Oven Tray
 		GameRegistry.addRecipe(new ItemStack(EDItems.itemTray), new Object[] {"RIR", 'R', Component.METAL_BAR.toItemStack(), 'I', Item.ingotIron});
+		// Basic Kiln
+		GameRegistry.addRecipe(Machine.BASIC_KILN.toItemStack(), "OOM", "O I", "OOM", 'O', Component.OVEN_WALL.toItemStack(), 'I', Item.ingotIron, 'M', Component.METAL_BAR.toItemStack());
+		// Thermometer
+		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockThermometer), "C", "M", 'C', Item.compass, 'M', Component.METAL_BAR.toItemStack());
 		
 //		GameRegistry.addRecipe(new IRecipeAlloyPickaxe());
 		
