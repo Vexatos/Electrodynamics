@@ -63,6 +63,9 @@ public class FeatureHandler {
 		// Galena
 		registerFeature(new FeatureOreGen("Galena", Ore.GALENA).setDefaults(4, 2, 16, 32));
 		
+		// Graphite
+		registerFeature(new FeatureOreGen("Graphite", Ore.GRAPHITE).setDefaults(12, 4, 6, 32));
+		
 		// Magnetite
 		registerFeature(new FeatureOreGen("Magnetite", Ore.MAGNETITE).setDefaults(12, 3, 16, 32));
 		
