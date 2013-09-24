@@ -100,7 +100,6 @@ public class FeatureHandler {
 	public void insertFeatures() {
 		for (FeatureBase feature : loadedFeatures) {
 			if (feature.enabled) {
-				System.out.println("Loaded feature: " + feature.name);
 				GameRegistry.registerWorldGenerator(new WorldGenFeature(feature));
 			}
 		}

@@ -13,11 +13,13 @@ public class FeatureOreGen extends FeatureBase {
 
 	public Ore ore;
 	
+	// d_ MEANS DEFAULT! THESE VALUES ARE NOT SENT TO GENERATION METHOD
 	public int d_clusterSize;
 	public int d_count;
 	public int d_minY;
 	public int d_maxY;
 	
+	// THESE ONES ARE SET VIA THE CONFIG! THESE ONES ARE SENT TO THE GENERATION METHOD
 	public int clusterSize;
 	public int count;
 	public int minY;
@@ -48,6 +50,7 @@ public class FeatureOreGen extends FeatureBase {
 			int x = blockX + random.nextInt(16);
 			int y = minY + random.nextInt(maxY - minY);
 			int z = blockZ + random.nextInt(16);
+			
 			(new WorldGenMinable(BlockIDs.BLOCK_ORE_ID, this.ore.ordinal(), this.clusterSize, Block.stone.blockID)).generate(world, random, x, y, z);
 		}
 		
