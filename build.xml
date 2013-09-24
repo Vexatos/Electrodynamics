@@ -4,8 +4,11 @@
 
 
     <!-- Versions -->
-    <property name="build.ver" value="0.1.5"/>
-    <property name="fullversion" value="${build.ver}-${env.BUILD_NUMBER}"/>
+	<property name="major.ver" value="0"/>
+	<property name="minor.ver" value="1"/>
+	<property name="revis.ver" value="5"/>
+    <property name="build.ver" value="${major.ver}.${minor.ver}.${revis.ver}"/>
+    <property name="fullversion" value="${build.ver}.${env.BUILD_NUMBER}"/>
 	
 	<property name="ccapi.version" value="1.56"/>
 
@@ -23,7 +26,6 @@
     <property name="src.dir" value="common"/>
     <property name="build.dir" value="build/${minecraft.version}"/>
     <property name="classes.dir" value="${build.dir}/packaging"/>
-    <property name="devclasses.dir" value="${build.dir}/packaging-dev"/>
     <property name="forge.dir" value="${build.dir}/forge"/>
     <property name="dist.dir" value="dist"/>
     <property name="mcp.dir" value="${forge.dir}/mcp"/>
@@ -89,14 +91,12 @@
     <target name="install" depends="build">
         <delete>
             <fileset dir="${dist.dir}">
-                <include name="Electrodynamics-${minecraft.version}-*"/>
+                <include name="Electrodynamics_*"/>
             </fileset>
         </delete>
 		
-        <jar destfile="${dist.dir}/Electrodynamics-${minecraft.version}-${fullversion}.jar" basedir="${classes.dir}"/>
+        <jar destfile="${dist.dir}/Electrodynamics_${fullversion}.jar" basedir="${classes.dir}"/>
         <delete dir="${classes.dir}"/>
-        <jar destfile="${dist.dir}/Electrodynamics-dev-${fullversion}.jar" basedir="${devclasses.dir}"/>
-        <delete dir="${devclasses.dir}"/>
     </target>
 
     <target name="rebuild" depends="clean,install">
@@ -110,8 +110,10 @@
         <copy todir="${mcpsrc.dir}/electrodynamics">
             <fileset dir="${src.dir}/electrodynamics"/>
             <filterset>
-                <filter token="MOD_VERSION" value="${fullversion}"/>
-                <filter token="MC_VERSION" value="${minecraft.version}"/>
+				<filter token="MAJOR_VERSION" value="${major.ver}"/>
+				<filter token="MINOR_VERSION" value="${minor.ver}"/>
+				<filter token="REVISION_VERSION" value="${revis.ver}"/>
+				<filter token="BUILD" value="${env.BUILD_NUMBER}"/>
             </filterset>
         </copy>
     </target>
@@ -145,22 +147,18 @@
             <fileset dir="${resources.dir}"/>
         </copy>
 
-        <mkdir dir="${devclasses.dir}/electrodynamics"/>
-        <copy todir="${devclasses.dir}/electrodynamics">
-            <fileset dir="${mcp.dir}/bin/minecraft/electrodynamics/"/>
-        </copy>
-
         <copy todir="${classes.dir}" file="pack.mcmeta">
             <filterset>
-                <filter token="MC_VERSION" value="${minecraft.version}"/>
-                <filter token="MOD_VERSION" value="${fullversion}"/>
+                <filter token="MAJOR_VERSION" value="${major.ver}"/>
+				<filter token="MINOR_VERSION" value="${minor.ver}"/>
+				<filter token="REVISION_VERSION" value="${revis.ver}"/>
+				<filter token="BUILD" value="${env.BUILD_NUMBER}"/>
             </filterset>
         </copy>
 
         <copy todir="${classes.dir}" file="mcmod.info">
             <filterset>
-                <filter token="MC_VERSION" value="${minecraft.version}"/>
-                <filter token="MOD_VERSION" value="${fullversion}"/>
+                <filter token="VERSION" value="${fullversion}"/>
             </filterset>
         </copy>
     </target>
