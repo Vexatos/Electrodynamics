@@ -8,7 +8,6 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.Configuration;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Ore;
-import electrodynamics.world.gen.WorldGenOre;
 
 public class FeatureOreGen extends FeatureBase {
 
