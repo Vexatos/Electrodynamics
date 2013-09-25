@@ -17,7 +17,7 @@ public class FeatureGasPocket extends FeatureBase {
 	}
 
 	@Override
-	public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
+	public void generate(World world, int chunkX, int chunkZ, Random random) {
 		int x = (chunkX * 16) + random.nextInt(16);
 		int y = random.nextInt(64);
 		int z = (chunkZ * 16) + random.nextInt(16);
@@ -30,10 +30,8 @@ public class FeatureGasPocket extends FeatureBase {
 				break;
 			}
 		}
-		
-		return;
 	}
-
+	
 	private boolean generateGasPod(World world, int x, int y, int z) {
 		if (canBeReplaced(world, x, y, z) && isIncased(world, x, y, z)) {
 			world.setBlock(x, y, z, EDBlocks.blockGas.blockID);

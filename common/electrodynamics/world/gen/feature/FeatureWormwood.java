@@ -18,9 +18,8 @@ public class FeatureWormwood extends FeatureBase {
 		super("Wormwood");
 	}
 
-	public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
-		super.generateFeature(random, chunkX, chunkZ, world, retro);
-		
+	@Override
+	public void generate(World world, int chunkX, int chunkZ, Random random) {
 		handleWormwood(world, chunkX, chunkZ, random);
 	}
 	

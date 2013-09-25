@@ -7,6 +7,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.common.registry.GameRegistry;
 import electrodynamics.Electrodynamics;
 import electrodynamics.lib.block.BlockIDs;
@@ -73,24 +74,36 @@ public class FeatureHandler {
 		registerFeature(new FeatureOreGen("Nickel", Ore.NICKEL).setDefaults(8, 6, 16, 64));
 		
 		// Wolframite
-		registerFeature(new FeatureBlockNear("Wolframite", BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal()).setDefaults(4, 6, 16));
+//		registerFeature(new FeatureBlockNear("Wolframite", BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal()).setDefaults(4, 6, 16));
 		
 		// Voidstone
 		registerFeature(new FeatureBlock("Voidstone", BlockIDs.BLOCK_ORE_ID, Ore.VOIDSTONE.ordinal()) {
 			@Override
 			public void onGenned(World world, int x, int y, int z, Random random) {
-				for (int ix = x - 2; ix < x + 2; ix++) {
-					for (int iy = y - 2; iy < y + 2; iy++) {
-						for (int iz = z - 2; iz < z + 2; iz++) {
-							Block block = Block.blocksList[world.getBlockId(ix, iy, iz)];
-							if (block != null && block == Block.bedrock) {
-								world.setBlockToAir(ix, iy, iz);
+				for (int ix = x - 2; ix <= x + 2; ix++) {
+					for (int iy = 0; iy <= y + 2; iy++) {
+						for (int iz = z - 2; iz <= z + 2; iz++) {
+							if (world.getBlockId(ix, iy, iz) > 0 && (world.getBlockId(ix, iy, iz) != BlockIDs.BLOCK_ORE_ID && world.getBlockMetadata(ix, iy, iz) != Ore.VOIDSTONE.ordinal())) {
+								if (world.setBlockToAir(ix, iy, iz)) {
+									for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+										int id = 0;
+										int sX = ix + dir.offsetX;
+										int sY = iy + dir.offsetY;
+										int sZ = iz + dir.offsetZ;
+										
+										id = world.getBlockId(sX, sY, sZ);
+										
+										if (id == Block.lavaMoving.blockID || id == Block.lavaStill.blockID) {
+											world.setBlock(sX, sY, sZ, Block.cobblestone.blockID);
+										}
+									}
+								}
 							}
 						}
 					}
 				}
 			}
-		}.setDefaults(1, 0, 10));
+		}.setDefaults(1, 0, 6).forceRarity(10));
 		
 		if (this.config.hasChanged()) {
 			this.config.save();

@@ -41,9 +41,7 @@ public class FeatureOreGen extends FeatureBase {
 	}
 	
 	@Override
-	public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
-		super.generateFeature(random, chunkX, chunkZ, world, retro);
-		
+	public void generate(World world, int chunkX, int chunkZ, Random random) {
 		chunkX = chunkX >> 4;
 		chunkZ = chunkZ >> 4;		
 		
@@ -55,7 +53,7 @@ public class FeatureOreGen extends FeatureBase {
 			this.generateReplace(world, random, x, y, z);
 		}
 	}
-
+	
 	public boolean generateReplace(World par1World, Random par2Random, int par3, int par4, int par5) {
 		float var6 = par2Random.nextFloat() * (float) Math.PI;
 		double var7 = par3 + 8 + MathHelper.sin(var6) * this.clusterSize / 8.0F;

@@ -24,6 +24,9 @@ public class FeatureBlock extends FeatureBase {
 
 	public FeatureBlock(String name, int blockID, int blockMeta) {
 		super(name);
+		
+		this.genID = blockID;
+		this.genMeta = blockMeta;
 	}
 
 	public FeatureBlock setDefaults(int count, int minY, int maxY) {
@@ -34,15 +37,13 @@ public class FeatureBlock extends FeatureBase {
 	}
 	
 	@Override
-	public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
-		super.generateFeature(random, chunkX, chunkZ, world, retro);
-		
+	public void generate(World world, int chunkX, int chunkZ, Random random) {
 		for (int i=0; i<count; i++) {
 			int x = (chunkX * 16) + random.nextInt(16);
 			int y = random.nextInt(MathHelper.getRandomIntegerInRange(random, minY, maxY) + 1);
 			int z = (chunkZ * 16) + random.nextInt(16);
 			
-			if (world.setBlock(x, y, z, genID, genMeta, 7)) {
+			if (world.setBlock(x, y, z, genID, genMeta, 2)) {
 				onGenned(world, x, y, z, random);
 			}
 		}

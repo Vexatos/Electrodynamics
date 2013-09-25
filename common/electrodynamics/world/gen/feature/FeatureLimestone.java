@@ -39,17 +39,8 @@ public class FeatureLimestone extends FeatureBase {
     }
 
     @Override
-    public void generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
-        super.generateFeature(random, chunkX, chunkZ, world, retro);
-    	
+    public void generate(World world, int chunkX, int chunkZ, Random random) {
     	if (random.nextInt(frequency) != 1) return;
-        if (world.getWorldInfo().getTerrainType() == WorldType.FLAT) {
-            return;
-        }
-
-        if (EDAddonBOP.bopLoaded && world.provider.dimensionId == EDAddonBOP.promisedLandDIMID) {
-            return;
-        }
 
         // Find exposed stone
         int y;
@@ -117,7 +108,7 @@ public class FeatureLimestone extends FeatureBase {
             }
         }
     }
-
+    
     @Override
     public void handleConfig(Configuration config) {
     	super.handleConfig(config);

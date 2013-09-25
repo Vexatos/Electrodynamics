@@ -17,7 +17,7 @@ public class WorldGenFeature implements IWorldGenerator {
 	
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-		feature.generateFeature(random, chunkX, chunkZ, world, true);
+		feature.generateFeature(random, chunkX, chunkZ, world, false);
 	}
 
 }
