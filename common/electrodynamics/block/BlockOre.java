@@ -17,6 +17,7 @@ import electrodynamics.configuration.ConfigurationSettings;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Ore;
+import electrodynamics.lib.client.Sound;
 import electrodynamics.lib.core.ModInfo;
 
 public class BlockOre extends Block {
@@ -106,7 +107,7 @@ public class BlockOre extends Block {
 				if (distanceToPlayer <= DISTANCE_LIMIT) {
 					if (this.soundDelay < System.currentTimeMillis()) {
 						this.soundDelay = (System.currentTimeMillis() + 5000 + (rand.nextInt(10)) * 1000);
-						world.playSound(x, y, z, "electrodynamics.block.voidstoneAmbient", 0.75F, 1.1F, false);
+						world.playSound(x, y, z, Sound.VOIDSTONE_AMBIENT.getTag(), 0.75F, 1.1F, false);
 					}
 				}
 			}
