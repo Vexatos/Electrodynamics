@@ -84,12 +84,12 @@ public abstract class FeatureBase {
 	private boolean canGenerate(ChunkCoordIntPair coord) {
 		if (prevGens != null && prevGens.size() > 0) {
 			for (ChunkCoordIntPair coord2 : prevGens) {
-				if (getDistanceBetweenChunks(coord, coord2)[0] > this.rarityDistance || getDistanceBetweenChunks(coord, coord2)[1] > this.rarityDistance) {
-					return true;
+				if (!(getDistanceBetweenChunks(coord, coord2)[0] > this.rarityDistance) || !(getDistanceBetweenChunks(coord, coord2)[1] > this.rarityDistance)) {
+					return false;
 				}
 			}
 			
-			return false;
+			return true;
 		}
 		
 		return true;
