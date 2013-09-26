@@ -2,6 +2,7 @@ package electrodynamics.world.gen.feature;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -80,30 +81,70 @@ public class FeatureHandler {
 		registerFeature(new FeatureBlock("Voidstone", BlockIDs.BLOCK_ORE_ID, Ore.VOIDSTONE.ordinal()) {
 			@Override
 			public void onGenned(World world, int x, int y, int z, Random random) {
-				for (int ix = x - 2; ix <= x + 2; ix++) {
-					for (int iy = 0; iy <= y + 2; iy++) {
-						for (int iz = z - 2; iz <= z + 2; iz++) {
-							if (world.getBlockId(ix, iy, iz) > 0 && (world.getBlockId(ix, iy, iz) != BlockIDs.BLOCK_ORE_ID && world.getBlockMetadata(ix, iy, iz) != Ore.VOIDSTONE.ordinal())) {
-								if (world.setBlockToAir(ix, iy, iz)) {
-									for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-										int id = 0;
-										int sX = ix + dir.offsetX;
-										int sY = iy + dir.offsetY;
-										int sZ = iz + dir.offsetZ;
-										
-										id = world.getBlockId(sX, sY, sZ);
-										
-										if (id == Block.lavaMoving.blockID || id == Block.lavaStill.blockID) {
-											world.setBlock(sX, sY, sZ, Block.cobblestone.blockID);
-										}
-									}
-								}
+				// Clears out a 5x5x5 cube with the voidstone in the center
+				for (int ix = x - 1; ix <= x + 1; ix++) {
+					for (int iy = y - 1; iy <= y + 1; iy++) {
+						for (int iz = z - 1; iz <= z + 1; iz++) {
+							if (world.getBlockId(ix, iy, iz) != BlockIDs.BLOCK_ORE_ID && world.getBlockMetadata(ix, iy, iz) != Ore.VOIDSTONE.ordinal()) {
+								world.setBlockToAir(ix, iy, iz);
 							}
 						}
 					}
 				}
+				
+				// Top 3x3x1 clear
+				for (int ix = x - 1; ix <= x + 1; ix++) {
+					for (int iz = z - 1; iz <= z + 1; iz++) {
+						world.setBlockToAir(ix, y + 2, iz);
+					}
+				}
+				
+				// Bottom 3x3x1 clear
+				for (int ix = x - 1; ix <= x + 1; ix++) {
+					for (int iz = z - 1; iz <= z + 1; iz++) {
+						world.setBlockToAir(ix, y - 2, iz);
+						
+						if (ix != x && iz != z) {
+							world.setBlock(ix, y - 3, iz, Block.bedrock.blockID);
+						}
+					}
+				}
+				
+				// Left 3x3x1 clear
+				for (int ix = x - 1; ix <= x + 1; ix++) {
+					for (int iy = y - 1; iy <= y + 1; iy++) {
+						world.setBlockToAir(ix, iy, z - 2);
+					}
+				}
+				
+				// Right 3x3x1 clear
+				for (int ix = x - 1; ix <= x + 1; ix++) {
+					for (int iy = y - 1; iy <= y + 1; iy++) {
+						world.setBlockToAir(ix, iy, z + 2);
+					}
+				}
+				
+				// Forward 3x3x1 clear
+				for (int iz = z - 1; iz <= z + 1; iz++) {
+					for (int iy = y - 1; iy <= y + 1; iy++) {
+						world.setBlockToAir(x - 2, iy, iz);
+					}
+				}
+				
+				// Forward 3x3x1 clear
+				for (int iz = z - 1; iz <= z + 1; iz++) {
+					for (int iy = y - 1; iy <= y + 1; iy++) {
+						world.setBlockToAir(x + 2, iy, iz);
+					}
+				}
+				
+				// Bedrock underneath voidstone gen
+				for (int iy = y - 1; iy >= 0; iy--) {
+					world.setBlockToAir(x, iy, z);
+				}
+				world.setBlock(x, y - 1, z, Block.bedrock.blockID);
 			}
-		}.setDefaults(1, 0, 6).forceRarity(10));
+		}.setDefaults(1, 4, 0).forceRarity(10));
 		
 		if (this.config.hasChanged()) {
 			this.config.save();

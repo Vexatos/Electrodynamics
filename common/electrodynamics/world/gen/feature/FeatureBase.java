@@ -39,6 +39,10 @@ public abstract class FeatureBase {
 	public void handleConfig(Configuration config) {
 		this.retro = config.get(FeatureHandler.getFeatureCategory(this), "A_enableRetroGen", false).getBoolean(false);
 		this.enabled = config.get(FeatureHandler.getFeatureCategory(this), "A_featureEnabled", true).getBoolean(true);
+
+		if (this.rarityDistance > 0) {
+			this.rarityDistance = config.get(FeatureHandler.getFeatureCategory(this), "A_rarityDistance", this.rarityDistance).getInt(rarityDistance);
+		}
 	}
 	
 	public boolean generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {

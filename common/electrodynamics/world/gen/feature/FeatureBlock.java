@@ -40,7 +40,7 @@ public class FeatureBlock extends FeatureBase {
 	public void generate(World world, int chunkX, int chunkZ, Random random) {
 		for (int i=0; i<count; i++) {
 			int x = (chunkX * 16) + random.nextInt(16);
-			int y = random.nextInt(MathHelper.getRandomIntegerInRange(random, minY, maxY) + 1);
+			int y = this.maxY > 0 ? random.nextInt(MathHelper.getRandomIntegerInRange(random, minY, maxY) + 1) : this.minY;
 			int z = (chunkZ * 16) + random.nextInt(16);
 			
 			if (world.setBlock(x, y, z, genID, genMeta, 2)) {
