@@ -1,11 +1,13 @@
 package electrodynamics.client.render.block;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
+
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import electrodynamics.block.BlockOre;
@@ -54,20 +56,28 @@ public class RenderBlockOre extends BlockRenderer implements ISimpleBlockRenderi
 		if ((metadata == Ore.VOIDSTONE.ordinal())) {
 			GLColor.WHITE.apply();
 			
+			for (float i=0F; i<0.02; i += 0.001) {
+				block.setBlockBounds(0F + i, 0F + i, 0F + i, 1F - i, 1F - i, 1F - i);
+				renderer.setRenderBoundsFromBlock(block);
+				Icon toRender = i == 0 ? ((BlockOre)block).oreTransparency : ((BlockOre)block).darkOre;
+				renderAllSides(world, x, y, z, block, renderer, toRender);
+			}
+
 			Tessellator t = Tessellator.instance;
 			t.setBrightness(320);
-
-			block.setBlockBounds(0.01F, 0.01F, 0.01F, 0.99F, 0.99F, 0.99F);
+			
+			block.setBlockBounds(0.02F, 0.02F, 0.02F, 0.98F, 0.98F, 0.98F);
 			renderer.setRenderBoundsFromBlock(block);
 			renderAllSides(world, x, y, z, block, renderer, ((BlockOre) block).voidstoneTexture);
+		} else {
+		    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		    renderer.setRenderBoundsFromBlock(block);
+		    renderer.renderStandardBlock(block, x, y, z);
+		    renderer.clearOverrideBlockTexture();
+		    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		    renderer.setRenderBoundsFromBlock(block);
 		}
 
-	    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-	    renderer.setRenderBoundsFromBlock(block);
-	    renderer.renderStandardBlock(block, x, y, z);
-	    renderer.clearOverrideBlockTexture();
-	    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-	    renderer.setRenderBoundsFromBlock(block);
 	    return true;
 	}
 

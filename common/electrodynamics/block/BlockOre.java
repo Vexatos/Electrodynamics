@@ -32,6 +32,8 @@ public class BlockOre extends Block {
 
 	public Icon oreTransparency;
 	
+	public Icon darkOre;
+	
 	@SideOnly(Side.CLIENT)
 	public long soundDelay;
 	
@@ -98,8 +100,8 @@ public class BlockOre extends Block {
 		
 		//TODO Fix this!
 		voidstoneTexture = registry.registerIcon(Ore.VOIDSTONE.getTextureFile() + "Effect");
-		
 		oreTransparency = registry.registerIcon(ModInfo.ICON_PREFIX + "world/ore/oreTransparent");
+		darkOre = registry.registerIcon(ModInfo.ICON_PREFIX + "world/ore/darkStoneOre");
 	}
 
 	@SideOnly(Side.CLIENT)
