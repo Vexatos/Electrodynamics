@@ -104,10 +104,7 @@ public class FeatureHandler {
 				for (int ix = x - 1; ix <= x + 1; ix++) {
 					for (int iz = z - 1; iz <= z + 1; iz++) {
 						world.setBlockToAir(ix, y - 2, iz);
-						
-						if (ix != x && iz != z) {
-							world.setBlock(ix, y - 3, iz, Block.bedrock.blockID);
-						}
+						world.setBlock(ix, y - 3, iz, Block.bedrock.blockID);
 					}
 				}
 				
