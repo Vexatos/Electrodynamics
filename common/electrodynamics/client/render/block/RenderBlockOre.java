@@ -57,7 +57,8 @@ public class RenderBlockOre extends BlockRenderer implements ISimpleBlockRenderi
 			Tessellator t = Tessellator.instance;
 			t.setBrightness(320);
 
-			block.setBlockBounds(0.2F, 0.2F, 0.2F, 0.8F, 0.8F, 0.8F);
+			block.setBlockBounds(0.01F, 0.01F, 0.01F, 0.99F, 0.99F, 0.99F);
+			renderer.setRenderBoundsFromBlock(block);
 			renderAllSides(world, x, y, z, block, renderer, ((BlockOre) block).voidstoneTexture);
 		}
 
