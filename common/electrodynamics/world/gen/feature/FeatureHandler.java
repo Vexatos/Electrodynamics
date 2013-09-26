@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeDirection;
@@ -19,7 +20,7 @@ public class FeatureHandler {
 
 	public static final String FEATURE_CONFIG_FILE = "EDFeatures.cfg";
 	public static final String CATEGORY_FEATURES = "FEATURE";
-
+	
 	private static FeatureHandler instance;
 	
 	public ArrayList<FeatureBase> loadedFeatures = new ArrayList<FeatureBase>();

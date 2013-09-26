@@ -1,6 +1,8 @@
 package electrodynamics.world.gen.feature;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 import electrodynamics.addons.misc.EDAddonBOP;
@@ -14,9 +16,11 @@ import net.minecraftforge.common.Configuration;
 
 public abstract class FeatureBase {
 
+	public static final int MAX_PREVIOUS_GEN_STORAGE = 10;
+	
 	public final String name;
 
-	public ChunkCoordIntPair lastGen = null;
+	public List<ChunkCoordIntPair> prevGens = new ArrayList<ChunkCoordIntPair>();
 	
 	public boolean retro;
 	public boolean enabled;
@@ -46,23 +50,13 @@ public abstract class FeatureBase {
 	}
 	
 	public boolean generateFeature(Random random, int chunkX, int chunkZ, World world, boolean retro) {
-		if (this.lastGen == null && this.rarityDistance > 0) {
-			this.lastGen = new ChunkCoordIntPair(chunkX, chunkZ);
+		ChunkCoordIntPair currentCoord = new ChunkCoordIntPair(chunkX, chunkZ);
+		
+		if (!canGenerate(currentCoord)) {
+			return false;
 		}
 		
-		if (this.rarityDistance > 0) {
-			int[] distance = (getDistanceBetweenChunks(new ChunkCoordIntPair(chunkX, chunkZ), this.lastGen));
-		
-			System.out.println(distance[0] + " : " + distance[1]);
-			
-			if (distance[0] >= this.rarityDistance || distance[1] >= this.rarityDistance) {
-				this.lastGen = new ChunkCoordIntPair(chunkX, chunkZ);
-			} else {
-				return false;
-			}
-		}
-		
-		this.lastGen = new ChunkCoordIntPair(chunkX, chunkZ);
+		storeGeneration(currentCoord);
 		
 		if (retro && !this.retro) { // Prevent retro gen if not enabled
 			return false;
@@ -85,6 +79,29 @@ public abstract class FeatureBase {
 	
 	private int[] getDistanceBetweenChunks(ChunkCoordIntPair chunk1, ChunkCoordIntPair chunk2) {
         return new int[] {Math.abs(chunk2.chunkXPos - chunk1.chunkXPos), Math.abs(chunk2.chunkZPos - chunk1.chunkZPos)};
+	}
+	
+	private boolean canGenerate(ChunkCoordIntPair coord) {
+		if (prevGens != null && prevGens.size() > 0) {
+			for (ChunkCoordIntPair coord2 : prevGens) {
+				if (getDistanceBetweenChunks(coord, coord2)[0] > this.rarityDistance || getDistanceBetweenChunks(coord, coord2)[1] > this.rarityDistance) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private void storeGeneration(ChunkCoordIntPair coord) {
+		prevGens.add(coord);
+		while (prevGens.size() >= MAX_PREVIOUS_GEN_STORAGE) {
+			if (prevGens.size() >= MAX_PREVIOUS_GEN_STORAGE) {
+				prevGens.remove(0);
+			}
+		}
 	}
 	
 }
