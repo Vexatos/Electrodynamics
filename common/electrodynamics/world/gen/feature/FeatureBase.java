@@ -24,6 +24,7 @@ public abstract class FeatureBase {
 	
 	public boolean retro;
 	public boolean enabled;
+	public boolean inject;
 	
 	public int rarityDistance = 0;
 	

@@ -29,10 +29,6 @@ public class FeatureRubberTree extends FeatureBase {
 	}
 	
 	public void generate(Random random, int chunkX, int chunkZ, World world) {
-		if (world.getWorldInfo().getTerrainType() == WorldType.FLAT) {
-			return;
-		}
-		
 		int count = 0;
 		
 		if (Arrays.asList(BiomeDictionary.getBiomesForType(Type.PLAINS)).contains(world.getBiomeGenForCoords(chunkX * 16, chunkZ * 16))) {

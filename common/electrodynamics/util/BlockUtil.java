@@ -20,6 +20,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Random;
 
@@ -256,6 +257,18 @@ public class BlockUtil {
 		}
 	}
 
+	public static int getFirstInstanceOfBlock(World world, int x, int z, int id, int meta) {
+		int y = -1;
+		
+		for (y = 0; y<255; y++) {
+			if (id == world.getBlockId(x, y, z) && (meta == world.getBlockMetadata(x, y, z) || meta == OreDictionary.WILDCARD_VALUE)) {
+				break;
+			}
+		}
+		
+		return y;
+	}
+	
 	public static int getFirstUncoveredYPos(World world, int x, int z) {
 		int y;
 		
@@ -264,6 +277,10 @@ public class BlockUtil {
 		}
 
 		return y;
+	}
+	
+	public static boolean matches(World world, int x, int y, int z, int id, int meta) {
+		return (id == world.getBlockId(x, y, z) && (meta == world.getBlockMetadata(x, y, z) || meta == OreDictionary.WILDCARD_VALUE));
 	}
 	
 }

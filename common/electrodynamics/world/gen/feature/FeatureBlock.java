@@ -11,6 +11,8 @@ import net.minecraftforge.common.Configuration;
 
 public class FeatureBlock extends FeatureBase {
 
+	public IGenCallback callback;
+	
 	public int genID;
 	public int genMeta;
 	
@@ -33,6 +35,11 @@ public class FeatureBlock extends FeatureBase {
 		this.d_count = count;
 		this.d_minY = minY;
 		this.d_maxY = maxY;
+		return this;
+	}
+	
+	public FeatureBlock registerCallback(IGenCallback callback) {
+		this.callback = callback;
 		return this;
 	}
 	
@@ -60,6 +67,14 @@ public class FeatureBlock extends FeatureBase {
 		this.maxY = config.get(CATEGORY, "maxY", d_maxY).getInt(d_maxY);
 	}
 	
-	public void onGenned(World world, int x, int y, int z, Random random) {}
+	public void onGenned(World world, int x, int y, int z, Random random) {
+		if (this.callback != null) {
+			callback.onGenned(world, x, y, z, random);
+		}
+	}
+	
+	public interface IGenCallback {
+		public void onGenned(World world, int x, int y, int z, Random random);
+	}
 	
 }

@@ -54,10 +54,6 @@ public class RenderBlockOre extends BlockRenderer implements ISimpleBlockRenderi
 		int metadata = world.getBlockMetadata(x, y, z);
 	    
 		if ((metadata == Ore.VOIDSTONE.ordinal())) {
-			Tessellator t = Tessellator.instance;
-			
-			t.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
-			
 			for (int i=1; i<=20; i++) {
 				final float adjustConstant = 0.001F;
 				block.setBlockBounds(0F + (i * adjustConstant), 0F + (i * adjustConstant), 0F + (i * adjustConstant), 1F - (i * adjustConstant), 1F - (i * adjustConstant), 1F - (i * adjustConstant));
@@ -65,7 +61,9 @@ public class RenderBlockOre extends BlockRenderer implements ISimpleBlockRenderi
 				renderAllSides(world, x, y, z, block, renderer, ((BlockOre)block).darkOre);
 			}
 
+			Tessellator t = Tessellator.instance;
 			t.setBrightness(320);
+			
 			block.setBlockBounds(0.02F, 0.02F, 0.02F, 0.98F, 0.98F, 0.98F);
 			renderer.setRenderBoundsFromBlock(block);
 			renderAllSides(world, x, y, z, block, renderer, ((BlockOre) block).voidstoneTexture);
