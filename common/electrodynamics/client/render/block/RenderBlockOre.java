@@ -50,34 +50,34 @@ public class RenderBlockOre extends BlockRenderer implements ISimpleBlockRenderi
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-		int bb = setBrightness(world, x, y, z, block);
-	    int metadata = world.getBlockMetadata(x, y, z);
+		setBrightness(world, x, y, z, block);
+		int metadata = world.getBlockMetadata(x, y, z);
 	    
 		if ((metadata == Ore.VOIDSTONE.ordinal())) {
-			GLColor.WHITE.apply();
+			Tessellator t = Tessellator.instance;
 			
-			for (float i=0F; i<0.02; i += 0.001) {
-				block.setBlockBounds(0F + i, 0F + i, 0F + i, 1F - i, 1F - i, 1F - i);
+			t.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
+			
+			for (int i=1; i<=20; i++) {
+				final float adjustConstant = 0.001F;
+				block.setBlockBounds(0F + (i * adjustConstant), 0F + (i * adjustConstant), 0F + (i * adjustConstant), 1F - (i * adjustConstant), 1F - (i * adjustConstant), 1F - (i * adjustConstant));
 				renderer.setRenderBoundsFromBlock(block);
-				Icon toRender = i == 0 ? ((BlockOre)block).oreTransparency : ((BlockOre)block).darkOre;
-				renderAllSides(world, x, y, z, block, renderer, toRender);
+				renderAllSides(world, x, y, z, block, renderer, ((BlockOre)block).darkOre);
 			}
 
-			Tessellator t = Tessellator.instance;
 			t.setBrightness(320);
-			
 			block.setBlockBounds(0.02F, 0.02F, 0.02F, 0.98F, 0.98F, 0.98F);
 			renderer.setRenderBoundsFromBlock(block);
 			renderAllSides(world, x, y, z, block, renderer, ((BlockOre) block).voidstoneTexture);
-		} else {
-		    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-		    renderer.setRenderBoundsFromBlock(block);
-		    renderer.renderStandardBlock(block, x, y, z);
-		    renderer.clearOverrideBlockTexture();
-		    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-		    renderer.setRenderBoundsFromBlock(block);
 		}
 
+	    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	    renderer.setRenderBoundsFromBlock(block);
+	    renderer.renderStandardBlock(block, x, y, z);
+	    renderer.clearOverrideBlockTexture();
+	    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	    renderer.setRenderBoundsFromBlock(block);
+		
 	    return true;
 	}
 

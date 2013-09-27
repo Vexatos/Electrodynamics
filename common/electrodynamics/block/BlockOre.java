@@ -41,6 +41,7 @@ public class BlockOre extends Block {
 		super(i, Material.rock);
 		setHardness(DEFAULT_HARDNESS);
 		setResistance(DEFAULT_RESISTANCE);
+		setLightOpacity(255);
 		setCreativeTab(CreativeTabED.resource);
 	}
 
@@ -48,12 +49,6 @@ public class BlockOre extends Block {
 	public float getBlockHardness(World world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		return Ore.get(meta).blockHardness;
-	}
-	
-	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z) {
-		int meta = world.getBlockMetadata(x, y, z);
-		return meta == Ore.VOIDSTONE.ordinal() ? 3 : 0;
 	}
 	
 	@Override
