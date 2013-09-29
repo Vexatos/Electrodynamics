@@ -78,11 +78,6 @@ public class BlockWormwood extends BlockFlower implements IPlantable {
 	}
 	
 	@Override
-	public int idDropped(int par1, Random par2Random, int par3) {
-		return ItemIDs.ITEM_COMPONENT_ID;
-	}
-
-	@Override
 	public void breakBlock(World world, int x, int y, int z, int id, int meta) {
 		dropBlockAsItem(world, x, y, z, id, meta);
 	}
