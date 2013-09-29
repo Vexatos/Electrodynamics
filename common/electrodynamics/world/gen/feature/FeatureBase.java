@@ -73,6 +73,10 @@ public abstract class FeatureBase {
 			return false;
 		}
 		
+		long worldSeed = world.getSeed();
+		long xSeed = random.nextLong() >> 3;
+		long zSeed = random.nextLong() >> 3;
+		random.setSeed(xSeed * chunkX + zSeed * chunkZ ^ worldSeed);
 		generate(world, chunkX, chunkZ, random);
 		
 		return true;
