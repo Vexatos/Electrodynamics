@@ -51,7 +51,11 @@ public class FeatureWolframite extends FeatureBase {
 					}
 				}
 				
-				world.setBlock(x, y - 1, z, BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), 2);
+				world.setBlock(x,     y - 1, z,     BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), 2);
+				world.setBlock(x + 1, y - 1, z,     BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), 2);
+				world.setBlock(x - 1, y - 1, z,     BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), 2);
+				world.setBlock(x,     y - 1, z + 1, BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), 2);
+				world.setBlock(x,     y - 1, z - 1, BlockIDs.BLOCK_ORE_ID, Ore.WOLFRAMITE.ordinal(), 2);
 			}
 		}
 	}
