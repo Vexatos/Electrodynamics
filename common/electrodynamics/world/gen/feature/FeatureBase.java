@@ -26,7 +26,7 @@ public abstract class FeatureBase {
 	public boolean enabled;
 	public boolean inject;
 	
-	public int rarityDistance = 0;
+	public int rarityDistance = -1;
 	
 	public FeatureBase(String name) {
 		this.name = name;
@@ -55,9 +55,9 @@ public abstract class FeatureBase {
 		
 		if (!canGenerate(currentCoord)) {
 			return false;
+		} else {
+			storeGeneration(currentCoord);
 		}
-		
-		storeGeneration(currentCoord);
 		
 		if (retro && !this.retro) { // Prevent retro gen if not enabled
 			return false;
@@ -83,6 +83,10 @@ public abstract class FeatureBase {
 	}
 	
 	private boolean canGenerate(ChunkCoordIntPair coord) {
+		if (this.rarityDistance == -1) {
+			return true;
+		}
+		
 		if (prevGens != null && prevGens.size() > 0) {
 			for (ChunkCoordIntPair coord2 : prevGens) {
 				if (!(getDistanceBetweenChunks(coord, coord2)[0] > this.rarityDistance) || !(getDistanceBetweenChunks(coord, coord2)[1] > this.rarityDistance)) {
