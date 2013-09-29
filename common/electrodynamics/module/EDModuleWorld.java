@@ -45,8 +45,8 @@ import electrodynamics.lib.core.Strings;
 import electrodynamics.lib.item.Component;
 import electrodynamics.lib.item.ItemIDs;
 import electrodynamics.tileentity.TileEntityTreetap;
-import electrodynamics.world.gen.WorldGenClay;
 import electrodynamics.world.gen.feature.FeatureHandler;
+import electrodynamics.world.gen.vanilla.WorldGenClay;
 import electrodynamics.world.handler.BonemealEventHandler;
 
 public class EDModuleWorld extends EDModule {
@@ -107,6 +107,7 @@ public class EDModuleWorld extends EDModule {
 	@Override
 	public void init() {
 		MinecraftForge.EVENT_BUS.register(new BonemealEventHandler());
+		MinecraftForge.TERRAIN_GEN_BUS.register(new WorldGenClay());
 
 		Fluid latex = new Fluid("Latex").setIcons(IconHandler.getInstance().registeredIcons.get("misc.liquidLatex"));
 		
@@ -141,12 +142,7 @@ public class EDModuleWorld extends EDModule {
 		// Treetap
 		GameRegistry.addRecipe(new ItemStack(EDBlocks.blockTreetap), " I", "M ", 'I', Item.ingotIron, 'M', Component.METAL_BAR.toItemStack());
 		
-		FeatureHandler featureHandler = FeatureHandler.getInstance();
-		featureHandler.prepareFeatures();
-		featureHandler.insertFeatures();
-		
-		// Lithium
-		GameRegistry.registerWorldGenerator(new WorldGenClay(BlockIDs.BLOCK_LITHIUM_CLAY_ID, 4));
+		FeatureHandler.getInstance().registerFeatures();
 	}
 
 	@SideOnly(Side.CLIENT)

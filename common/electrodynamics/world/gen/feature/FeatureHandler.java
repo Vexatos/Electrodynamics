@@ -44,7 +44,7 @@ public class FeatureHandler {
 		this.loadedFeatures.add(feature);
 	}
 	
-	public void prepareFeatures() {
+	public void registerFeatures() {
 		// Gas
 		registerFeature(new FeatureGasPocket());
 		
@@ -81,19 +81,17 @@ public class FeatureHandler {
 		// Voidstone
 		registerFeature(new FeatureBlock("Voidstone", BlockIDs.BLOCK_ORE_ID, Ore.VOIDSTONE.ordinal()).registerCallback(new IGenCallbackVoidstone()).setDefaults(1, 4, 0).forceRarity(10));
 		
-		if (this.config.hasChanged()) {
-			this.config.save();
-		}
-	}
-
-	public void insertFeatures() {
 		for (FeatureBase feature : loadedFeatures) {
 			if (feature.enabled) {
 				GameRegistry.registerWorldGenerator(new WorldGenFeature(feature));
 			}
 		}
+		
+		if (this.config.hasChanged()) {
+			this.config.save();
+		}
 	}
-	
+
 	public boolean retroGenEnabled() {
 		for (FeatureBase feature : loadedFeatures) {
 			if (feature.retro) {
