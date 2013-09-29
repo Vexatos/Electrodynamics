@@ -5,6 +5,7 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.world.gen.feature.WorldGenClay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -46,7 +47,6 @@ import electrodynamics.lib.item.Component;
 import electrodynamics.lib.item.ItemIDs;
 import electrodynamics.tileentity.TileEntityTreetap;
 import electrodynamics.world.gen.feature.FeatureHandler;
-import electrodynamics.world.gen.vanilla.WorldGenClay;
 import electrodynamics.world.handler.BonemealEventHandler;
 
 public class EDModuleWorld extends EDModule {
@@ -107,7 +107,6 @@ public class EDModuleWorld extends EDModule {
 	@Override
 	public void init() {
 		MinecraftForge.EVENT_BUS.register(new BonemealEventHandler());
-		MinecraftForge.TERRAIN_GEN_BUS.register(new WorldGenClay());
 
 		Fluid latex = new Fluid("Latex").setIcons(IconHandler.getInstance().registeredIcons.get("misc.liquidLatex"));
 		

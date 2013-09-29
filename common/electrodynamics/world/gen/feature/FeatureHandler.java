@@ -58,7 +58,7 @@ public class FeatureHandler {
 		registerFeature(new FeatureRubberTree());
 		
 		// Chalcopyrite
-		registerFeature(new FeatureOreGen("Chalcopyrite", Ore.CHALCOPYRITE).setDefaults(8, 6, 16, 64));
+		registerFeature(new FeatureOreGen("Chalcopyrite", Ore.CHALCOPYRITE).setDefaults(12, 8, 16, 64));
 		
 		// Cobaltite
 		registerFeature(new FeatureOreGen("Cobaltite", Ore.COBALTITE).setDefaults(8, 4, 32, 78));
@@ -79,11 +79,14 @@ public class FeatureHandler {
 		registerFeature(new FeatureWolframite().setDefaults(5));
 		
 		// Voidstone
-		registerFeature(new FeatureBlock("Voidstone", BlockIDs.BLOCK_ORE_ID, Ore.VOIDSTONE.ordinal()).registerCallback(new IGenCallbackVoidstone()).setDefaults(1, 4, 0).forceRarity(10));
+		registerFeature(new FeatureBlock("Voidstone", BlockIDs.BLOCK_ORE_ID, Ore.VOIDSTONE.ordinal()).registerCallback(new IGenCallbackVoidstone()).setDefaults(1, 4, 0).forceRarity(6));
+		
+		// Lithium Clay
+		registerFeature(new FeatureLithiumClay().setDefaults(8, 0, 64));
 		
 		for (FeatureBase feature : loadedFeatures) {
 			if (feature.enabled) {
-				GameRegistry.registerWorldGenerator(new WorldGenFeature(feature));
+				feature.onLoad();
 			}
 		}
 		

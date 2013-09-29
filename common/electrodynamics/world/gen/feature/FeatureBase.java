@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import electrodynamics.addons.misc.EDAddonBOP;
 import electrodynamics.util.math.BlockCoord;
+import electrodynamics.world.gen.WorldGenFeature;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -74,6 +76,10 @@ public abstract class FeatureBase {
 		generate(world, chunkX, chunkZ, random);
 		
 		return true;
+	}
+	
+	public void onLoad() {
+		GameRegistry.registerWorldGenerator(new WorldGenFeature(this));
 	}
 	
 	public abstract void generate(World world, int chunkX, int chunkZ, Random random);
