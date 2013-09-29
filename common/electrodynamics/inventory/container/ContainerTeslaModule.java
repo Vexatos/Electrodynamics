@@ -28,7 +28,12 @@ public class ContainerTeslaModule extends ContainerInventory {
 		}
 
 		for (int i = 0; i < 9; ++i) {
-			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 58 + 51));
+			this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 58 + 51) {
+				@Override
+				public boolean isItemValid(ItemStack stack) {
+			        return stack.getItem() instanceof IArmorModule;
+			    }
+			});
 		}
 	}
 	
