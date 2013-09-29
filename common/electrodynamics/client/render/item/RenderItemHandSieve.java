@@ -1,23 +1,29 @@
 package electrodynamics.client.render.item;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Timer;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.relauncher.ReflectionHelper;
 import electrodynamics.client.model.ModelHandSieve;
 import electrodynamics.item.EDItems;
 import electrodynamics.lib.client.Textures;
 
 public class RenderItemHandSieve implements IItemRenderer {
 
+	private static final int TIMER_FIELD_INDEX = 15;
+	
 	private static final int SHAKE_MAX = 10;
 	private static final int SHAKE_MIN = -SHAKE_MAX;
 	
 	private ModelHandSieve model; //TEMP
 	
-	private int shakeProgress = 0;
+	private float shakeProgress = 0;
 	
 	private boolean increase = true;
 	
@@ -83,17 +89,19 @@ public class RenderItemHandSieve implements IItemRenderer {
 		GL11.glTranslatef(x, y, z);
 		GL11.glRotatef(180, 1, 0, 0);
 		
+		float partialTicks = ((Timer)ReflectionHelper.getPrivateValue(Minecraft.class, FMLClientHandler.instance().getClient(), TIMER_FIELD_INDEX)).renderPartialTicks;
+	
 		if (animate) {
 			if (player != null) {
 				if (player.getItemInUse() != null && player.getItemInUse().getItem() == EDItems.itemHandheldSieve) {
 					if (increase) {
-						shakeProgress += 4;
+						shakeProgress += 4 * partialTicks;
 						
 						if (shakeProgress >= SHAKE_MAX) {
 							increase = false;
 						}
 					} else if (!increase) {
-						shakeProgress -= 4;
+						shakeProgress -= 4* partialTicks;
 						
 						if (shakeProgress <= SHAKE_MIN) {
 							increase = true;
