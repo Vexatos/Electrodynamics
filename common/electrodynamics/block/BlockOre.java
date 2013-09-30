@@ -31,7 +31,7 @@ import electrodynamics.util.math.BlockCoord;
 public class BlockOre extends Block {
 
 	@SideOnly(Side.CLIENT)
-	public static Map<String, int[]> mimicCache = new HashMap<String, int[]>();
+	public static Map<String, Icon[]> mimicCache = new HashMap<String, Icon[]>();
 	
 	public static Set<Integer> mimicBlacklist = new HashSet<Integer>();
 	
@@ -131,24 +131,36 @@ public class BlockOre extends Block {
 		int meta = world.getBlockMetadata(x, y, z);
 		boolean cache = false;
 		int[] blockInfo = null;
+		Icon[] blockIcons = null;
 		String coords = x + "_" + y + "_" + z + "_" + FMLClientHandler.instance().getClient().theWorld.provider.dimensionId;
 		
 		if (mimicCache.containsKey(coords)) {
-			blockInfo = mimicCache.get(coords);
+			blockIcons = mimicCache.get(coords);
 		} else {
 			blockInfo = BlockUtil.getRandomBlockOnSide(world, x, y, z, BlockIDs.BLOCK_ORE_ID, true, Material.rock, mimicBlacklist.toArray(new Integer[mimicBlacklist.size()]));
 			cache = true;
 		}
 		
-		if (blockInfo.length == 2 && meta != Ore.VOIDSTONE.ordinal()) {
-			Block block = Block.blocksList[blockInfo[0]];
-			if (cache) {
-				mimicCache.put(coords, blockInfo);
+		if (meta != Ore.VOIDSTONE.ordinal()) {
+			if (blockInfo != null) {
+				if (blockInfo.length == 2) {
+					Block block = Block.blocksList[blockInfo[0]];
+					if (cache) {
+						blockIcons = new Icon[ForgeDirection.VALID_DIRECTIONS.length];
+						for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+							blockIcons[dir.ordinal()] = block.getIcon(dir.ordinal(), blockInfo[1]);
+						}
+					}
+					return block.getIcon(side, blockInfo[1]);
+				}
+			} else if (blockIcons != null) {
+				if (blockIcons.length == 6) {
+					return blockIcons[side];
+				}
 			}
-			return block.getIcon(side, blockInfo[1]);
-		} else {
-			return getIcon(side, meta);
 		}
+		
+		return getIcon(side, meta);
 	}
 	
 	@Override
