@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 
 public enum Ore {
 
+	JUNK("", ""),
 	CHALCOPYRITE(Strings.ORE_CHALCOPYRITE_NAME, "oreChalcopyrite"),
 	COBALTITE(Strings.ORE_COBALTITE_NAME, "oreCobaltite"),
 	GALENA(Strings.ORE_GALENA_ORE, "oreGalena"),

@@ -75,7 +75,9 @@ public class BlockOre extends Block {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void getSubBlocks(int unknown, CreativeTabs tab, List subItems) {
 		for (Ore ore : Ore.values()) {
-			subItems.add(ore.toItemStack());
+			if (ore != Ore.JUNK) {
+				subItems.add(ore.toItemStack());
+			}
 		}
 	}
 
