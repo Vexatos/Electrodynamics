@@ -1,7 +1,9 @@
 package electrodynamics.block;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.client.render.block.RenderBlockOre;
@@ -23,9 +26,13 @@ import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Ore;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.util.BlockUtil;
+import electrodynamics.util.math.BlockCoord;
 
 public class BlockOre extends Block {
 
+	@SideOnly(Side.CLIENT)
+	public static Map<String, int[]> mimicCache = new HashMap<String, int[]>();
+	
 	public static Set<Integer> mimicBlacklist = new HashSet<Integer>();
 	
 	static {
@@ -109,13 +116,33 @@ public class BlockOre extends Block {
 	}
 
 	@Override
+	public void breakBlock(World world, int x, int y, int z, int oldId, int oldMeta) {
+		String coords = x + "_" + y + "_" + z + "_" + FMLClientHandler.instance().getClient().theWorld.provider.dimensionId;
+		
+		if (mimicCache.containsKey(coords)) {
+			mimicCache.remove(coords);
+		}
+	}
+	
+	@Override
 	public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
 		int meta = world.getBlockMetadata(x, y, z);
+		boolean cache = false;
+		int[] blockInfo = null;
+		String coords = x + "_" + y + "_" + z + "_" + FMLClientHandler.instance().getClient().theWorld.provider.dimensionId;
 		
-		int[] blockInfo = BlockUtil.getRandomBlockOnSide(world, x, y, z, BlockIDs.BLOCK_ORE_ID, true, Material.rock, mimicBlacklist.toArray(new Integer[mimicBlacklist.size()]));
+		if (mimicCache.containsKey(coords)) {
+			blockInfo = mimicCache.get(coords);
+		} else {
+			blockInfo = BlockUtil.getRandomBlockOnSide(world, x, y, z, BlockIDs.BLOCK_ORE_ID, true, Material.rock, mimicBlacklist.toArray(new Integer[mimicBlacklist.size()]));
+			cache = true;
+		}
 		
 		if (blockInfo.length == 2 && meta != Ore.VOIDSTONE.ordinal()) {
 			Block block = Block.blocksList[blockInfo[0]];
+			if (cache) {
+				mimicCache.put(coords, blockInfo);
+			}
 			return block.getIcon(side, blockInfo[1]);
 		} else {
 			return getIcon(side, meta);
