@@ -33,7 +33,7 @@ public class GuiHandSieve extends GuiElectrodynamics implements IHotspotCallback
 		this.container = container;
 		this.sieve = sieve;
 		
-		this.manager.registerModule(new GuiModuleHotspot("sieveClick", HOTSPOT_DIMENSIONS.pointA.x, HOTSPOT_DIMENSIONS.pointA.y, HOTSPOT_DIMENSIONS.getWidth(), HOTSPOT_DIMENSIONS.getWidth()).setCallback(this));
+		this.manager.registerModule(new GuiModuleHotspot("sieveClick", HOTSPOT_DIMENSIONS.x1, HOTSPOT_DIMENSIONS.y1, HOTSPOT_DIMENSIONS.getWidth(), HOTSPOT_DIMENSIONS.getWidth()).setCallback(this));
 	}
 
 	@Override
