@@ -15,11 +15,11 @@ public class Rectangle {
 		this.pointB = new Vector2D(x2, y2);
 	}
 
-	public int getWidth() {
+	public float getWidth() {
 		return pointB.x - pointA.x;
 	}
 	
-	public int getHeight() {
+	public float getHeight() {
 		return pointB.y - pointA.y;
 	}
 	
@@ -28,7 +28,7 @@ public class Rectangle {
 	}
 	 
 	public Rectangle copy() {
-		return new Rectangle(pointA.copy(), pointB.copy());
+		return new Rectangle(new Vector2D(pointA), new Vector2D(pointB));
 	}
 
 }
