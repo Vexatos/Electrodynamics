@@ -13,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.client.render.block.RenderBlockOre;
@@ -67,6 +68,14 @@ public class BlockOre extends Block {
 		setCreativeTab(CreativeTabED.resource);
 	}
 
+	public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side) {
+		return true;
+	}
+
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+	
 	@Override
 	public float getBlockHardness(World world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
