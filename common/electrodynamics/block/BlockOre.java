@@ -1,15 +1,15 @@
 package electrodynamics.block;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -20,12 +20,31 @@ import electrodynamics.configuration.ConfigurationSettings;
 import electrodynamics.core.CreativeTabED;
 import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Ore;
-import electrodynamics.lib.client.Sound;
 import electrodynamics.lib.core.ModInfo;
 import electrodynamics.util.BlockUtil;
 
 public class BlockOre extends Block {
 
+	public static Set<Integer> mimicBlacklist = new HashSet<Integer>();
+	
+	static {
+		mimicBlacklist.add(Block.bedrock.blockID);
+		mimicBlacklist.add(Block.oreCoal.blockID);
+		mimicBlacklist.add(Block.oreDiamond.blockID);
+		mimicBlacklist.add(Block.oreEmerald.blockID);
+		mimicBlacklist.add(Block.oreGold.blockID);
+		mimicBlacklist.add(Block.oreIron.blockID);
+		mimicBlacklist.add(Block.oreLapis.blockID);
+		mimicBlacklist.add(Block.oreNetherQuartz.blockID);
+		mimicBlacklist.add(Block.oreRedstone.blockID);
+		mimicBlacklist.add(Block.oreRedstoneGlowing.blockID);
+		mimicBlacklist.add(Block.furnaceBurning.blockID);
+		mimicBlacklist.add(Block.furnaceIdle.blockID);
+		mimicBlacklist.add(Block.silverfish.blockID);
+		mimicBlacklist.add(Block.stoneBrick.blockID);
+		mimicBlacklist.add(Block.coalBlock.blockID);
+	}
+	
     public static final float DEFAULT_RESISTANCE = 5F;
     public static final float DEFAULT_HARDNESS = 3F;
 
@@ -45,7 +64,6 @@ public class BlockOre extends Block {
 		super(i, Material.rock);
 		setHardness(DEFAULT_HARDNESS);
 		setResistance(DEFAULT_RESISTANCE);
-		setLightOpacity(255);
 		setCreativeTab(CreativeTabED.resource);
 	}
 
@@ -85,7 +103,7 @@ public class BlockOre extends Block {
 	public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
 		int meta = world.getBlockMetadata(x, y, z);
 		
-		int[] blockInfo = BlockUtil.getRandomBlockOnSide(world, x, y, z, BlockIDs.BLOCK_ORE_ID, Material.rock);
+		int[] blockInfo = BlockUtil.getRandomBlockOnSide(world, x, y, z, BlockIDs.BLOCK_ORE_ID, true, Material.rock, mimicBlacklist.toArray(new Integer[mimicBlacklist.size()]));
 		
 		if (blockInfo.length == 2 && meta != Ore.VOIDSTONE.ordinal()) {
 			Block block = Block.blocksList[blockInfo[0]];
@@ -110,7 +128,7 @@ public class BlockOre extends Block {
 		textures = new Icon[Ore.values().length];
 		oreOnly = new Icon[Ore.values().length];
 		
-		for (int i = 0; i < Ore.values().length; i++) {
+		for (int i = 1; i < Ore.values().length; i++) {
 			textures[i] = registry.registerIcon(Ore.get(i).getTextureFile());
 			oreOnly[i] = registry.registerIcon(Ore.get(i).getOreTexture());
 		}

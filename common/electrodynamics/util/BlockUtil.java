@@ -1,5 +1,6 @@
 package electrodynamics.util;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -28,12 +29,12 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockUtil {
 
-	public static int[] getRandomBlockOnSide(IBlockAccess world, int x, int y, int z, int ignore, Material mat) {
+	public static int[] getRandomBlockOnSide(IBlockAccess world, int x, int y, int z, int ignore, boolean opaque, Material mat, Integer[] blacklist) {
 		for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			int[] block = getBlockOnSide(world, x, y, z, dir);
 			Block bBlock = Block.blocksList[block[0]];
 			
-			if (block[0] != 0 && bBlock != null && (ignore != 0 && block[0] != ignore) && (mat != null && bBlock.blockMaterial == mat)) {
+			if (block[0] != 0 && bBlock != null && (ignore != 0 && block[0] != ignore) && (mat != null && bBlock.blockMaterial == mat) && (blacklist == null || blacklist.length == 0 || !Arrays.asList(blacklist).contains(block[0])) && (opaque && bBlock.isOpaqueCube())) {
 				return block;
 			}
 		}
