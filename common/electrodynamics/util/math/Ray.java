@@ -18,8 +18,9 @@ public class Ray
         if(directionInv.z < 0) sign[2] = 1; else sign[2] = 0;
     }
     
-    public boolean intersects(AABB box, float t0, float t1)
-    {
+    
+    
+    public boolean intersects(AABB box, float t0, float t1) {
         return box.intersects(this, t0, t1);
     }
 }
