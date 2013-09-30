@@ -1,5 +1,6 @@
 package electrodynamics.block;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -8,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -20,6 +22,7 @@ import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Ore;
 import electrodynamics.lib.client.Sound;
 import electrodynamics.lib.core.ModInfo;
+import electrodynamics.util.BlockUtil;
 
 public class BlockOre extends Block {
 
@@ -27,6 +30,7 @@ public class BlockOre extends Block {
     public static final float DEFAULT_HARDNESS = 3F;
 
 	public Icon[] textures;
+	public Icon[] oreOnly;
 	
 	public Icon voidstoneTexture;
 
@@ -76,6 +80,20 @@ public class BlockOre extends Block {
 	}
 
 	@Override
+	public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
+		int meta = world.getBlockMetadata(x, y, z);
+		
+		int[] blockInfo = BlockUtil.getRandomBlockOnSide(world, x, y, z, BlockIDs.BLOCK_ORE_ID, Material.rock);
+		
+		if (blockInfo.length == 2 && meta != Ore.VOIDSTONE.ordinal()) {
+			Block block = Block.blocksList[blockInfo[0]];
+			return block.getIcon(side, blockInfo[1]);
+		} else {
+			return getIcon(side, meta);
+		}
+	}
+	
+	@Override
 	public Icon getIcon(int side, int metadata) {
 		return (metadata == Ore.VOIDSTONE.ordinal() ? oreTransparency : textures[metadata]);
 	}
@@ -88,9 +106,11 @@ public class BlockOre extends Block {
 	@Override
 	public void registerIcons(IconRegister registry) {
 		textures = new Icon[Ore.values().length];
+		oreOnly = new Icon[Ore.values().length];
 		
 		for (int i = 0; i < Ore.values().length; i++) {
 			textures[i] = registry.registerIcon(Ore.get(i).getTextureFile());
+			oreOnly[i] = registry.registerIcon(Ore.get(i).getOreTexture());
 		}
 		
 		//TODO Fix this!

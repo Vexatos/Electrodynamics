@@ -1,17 +1,22 @@
 package electrodynamics.client.render.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import electrodynamics.block.BlockOre;
+import electrodynamics.lib.block.BlockIDs;
 import electrodynamics.lib.block.Ore;
+import electrodynamics.util.BlockUtil;
 import electrodynamics.util.render.GLColor;
 
 public class RenderBlockOre extends BlockRenderer implements ISimpleBlockRenderingHandler {
@@ -71,7 +76,13 @@ public class RenderBlockOre extends BlockRenderer implements ISimpleBlockRenderi
 
 	    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	    renderer.setRenderBoundsFromBlock(block);
+
 	    renderer.renderStandardBlock(block, x, y, z);
+	    
+	    if (metadata != Ore.VOIDSTONE.ordinal()) {
+	    	renderAllSides(world, x, y, z, block, renderer, ((BlockOre)block).oreOnly[metadata]);
+	    }
+	    
 	    renderer.clearOverrideBlockTexture();
 	    block.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 	    renderer.setRenderBoundsFromBlock(block);

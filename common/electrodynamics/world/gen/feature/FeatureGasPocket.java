@@ -62,7 +62,7 @@ public class FeatureGasPocket extends FeatureBase {
 	private boolean isIncased(World world, int x, int y, int z) {
 		for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
 			int[] coords = BlockUtil.getCoordsOnSide(world, x, y, z, side);
-			int blockID = BlockUtil.getBlockOnSide(world, x, y, z, side);
+			int blockID = BlockUtil.getBlockOnSide(world, x, y, z, side)[0];
 			
 			if (blockID != 0 || !world.isAirBlock(coords[0], coords[1], coords[2])) {
 				return false;

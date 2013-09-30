@@ -80,7 +80,11 @@ public class EDLanguage {
 	}
 	
 	public String translate(String tag) {
+		try {
 		return translate(tag, Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode());
+		} catch (NullPointerException ex) {
+			return tag;
+		}
 	}
 	
 	public String translate(String tag, String lang) {

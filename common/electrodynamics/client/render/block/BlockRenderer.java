@@ -109,6 +109,54 @@ public class BlockRenderer {
 		return mb;
 	}
 
+	protected static void renderSide(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer, Icon tex, ForgeDirection side) {
+		renderSide(world, x, y, z, block, renderer, tex, side, true);
+	}
+	
+	protected static void renderSide(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer, Icon tex, ForgeDirection side, boolean allsides) {
+		switch(side) {
+		case EAST: {
+			if ((allsides) || (block.shouldSideBeRendered(world, x + 1, y, z, 6))) {
+				renderer.renderFaceXNeg(block, x, y, z, tex);
+			}
+			break;
+		}
+		
+		case WEST: {
+			if ((allsides) || (block.shouldSideBeRendered(world, x - 1, y, z, 6))) {
+				renderer.renderFaceXPos(block, x, y, z, tex);
+			}
+			break;
+		}
+		case NORTH: {
+			if ((allsides) || (block.shouldSideBeRendered(world, x, y, z - 1, 6))) {
+				renderer.renderFaceZPos(block, x, y, z, tex);
+			}
+			break;
+		}
+		
+		case SOUTH: {
+			if ((allsides) || (block.shouldSideBeRendered(world, x, y, z + 1, 6))) {
+				renderer.renderFaceZNeg(block, x, y, z, tex);
+			}
+			break;
+		}
+		case UP: {
+			if ((allsides) || (block.shouldSideBeRendered(world, x, y + 1, z, 6))) {
+				renderer.renderFaceYNeg(block, x, y, z, tex);
+			}
+			break;
+		}
+		case DOWN: {
+			if ((allsides) || (block.shouldSideBeRendered(world, x, y - 1, z, 6))) {
+				renderer.renderFaceYPos(block, x, y, z, tex);
+			}
+			break;
+		}
+		default: break;
+		}
+	}
+	
 	protected static void renderAllSides(IBlockAccess world, int x, int y, int z, Block block, RenderBlocks renderer, Icon tex) {
 		renderAllSides(world, x, y, z, block, renderer, tex, true);
 	}

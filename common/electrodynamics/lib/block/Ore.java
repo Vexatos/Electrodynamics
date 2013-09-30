@@ -80,6 +80,10 @@ public enum Ore {
 		return ModInfo.ICON_PREFIX + "world/ore/" + textureFile;
 	}
 
+	public String getOreTexture() {
+		return ModInfo.ICON_PREFIX + "world/ore/oreOnly/" + textureFile;
+	}
+	
 	public ItemStack toItemStack() {
 		return new ItemStack( BlockIDs.BLOCK_ORE_ID, 1, this.ordinal() );
 	}

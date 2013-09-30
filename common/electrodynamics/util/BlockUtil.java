@@ -1,5 +1,7 @@
 package electrodynamics.util;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCocoa;
 import net.minecraft.block.BlockCrops;
@@ -7,6 +9,7 @@ import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockMushroom;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.BlockStem;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -14,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ForgeHooks;
@@ -22,10 +26,28 @@ import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.util.Random;
-
 public class BlockUtil {
 
+	public static int[] getRandomBlockOnSide(IBlockAccess world, int x, int y, int z, int ignore, Material mat) {
+		for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			int[] block = getBlockOnSide(world, x, y, z, dir);
+			Block bBlock = Block.blocksList[block[0]];
+			
+			if (block[0] != 0 && bBlock != null && (ignore != 0 && block[0] != ignore) && (mat != null && bBlock.blockMaterial == mat)) {
+				return block;
+			}
+		}
+		
+		return new int[] {};
+	}
+	
+	public static int[] getBlockOnSide(IBlockAccess world, int x, int y, int z, ForgeDirection side) {
+		x += side.offsetX;
+		y += side.offsetY;
+		z += side.offsetZ;
+		return new int[] {world.getBlockId(x, y, z), world.getBlockMetadata(x, y, z)};
+	}
+	
 	//TODO Neaten
 	public static boolean applyBonemeal(ItemStack par0ItemStack, World par1World, int par2, int par3, int par4, EntityPlayer player)
     {
@@ -178,12 +200,6 @@ public class BlockUtil {
             return true;
         }
     }
-	
-	public static int getBlockOnSide(World world, int x, int y, int z, ForgeDirection side) {
-		int[] coords = getCoordsOnSide(world, x, y, z, side);
-		if (coords == null) return 0;
-		return world.getBlockId(coords[0], coords[1], coords[2]);
-	}
 	
 	public static int[] getCoordsOnSide(World world, int x, int y, int z, ForgeDirection side) {
 		if (side == null) return null;

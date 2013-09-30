@@ -38,7 +38,7 @@ public class TileEntitySolarPanel extends TileEntityEDRoot implements IEnergyCon
 
 	@Override
 	public void onNeighborUpdate() {
-		if (BlockUtil.getBlockOnSide(worldObj, xCoord, yCoord, zCoord, attached) == 0 || this.attached == null) {
+		if (BlockUtil.getBlockOnSide(worldObj, xCoord, yCoord, zCoord, attached)[0] == 0 || this.attached == null) {
 			this.attached = ForgeDirection.UNKNOWN;
 			sendStateUpdate();
 		}
