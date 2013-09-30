@@ -149,6 +149,7 @@ public class BlockOre extends Block {
 						blockIcons = new Icon[ForgeDirection.VALID_DIRECTIONS.length];
 						for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 							blockIcons[dir.ordinal()] = block.getIcon(dir.ordinal(), blockInfo[1]);
+							mimicCache.put(coords, blockIcons);
 						}
 					}
 					return block.getIcon(side, blockInfo[1]);
