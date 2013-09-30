@@ -117,10 +117,12 @@ public class BlockOre extends Block {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int oldId, int oldMeta) {
-		String coords = x + "_" + y + "_" + z + "_" + FMLClientHandler.instance().getClient().theWorld.provider.dimensionId;
-		
-		if (mimicCache.containsKey(coords)) {
-			mimicCache.remove(coords);
+		if (FMLClientHandler.instance().getClient().theWorld != null) { // Seriously needed...? :|
+			String coords = x + "_" + y + "_" + z + "_" + FMLClientHandler.instance().getClient().theWorld.provider.dimensionId;
+			
+			if (mimicCache.containsKey(coords)) {
+				mimicCache.remove(coords);
+			}
 		}
 	}
 	
