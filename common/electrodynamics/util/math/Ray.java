@@ -8,8 +8,7 @@ public class Ray
     public Vector3D directionInv;
     public int[] sign = new int[3];
     
-    public Ray(Vector3D loc, Vector3D dir)
-    {
+    public Ray(Vector3D loc, Vector3D dir) {
         location = loc;
         direction = dir;
         directionInv = new Vector3D(1/dir.x, 1/dir.y, 1/dir.z);
