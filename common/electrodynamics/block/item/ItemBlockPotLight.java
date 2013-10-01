@@ -50,8 +50,7 @@ public class ItemBlockPotLight extends ItemBlock {
 					TileEntityPotLight tile = (TileEntityPotLight) world.getBlockTileEntity(x, y, z);
 					
 					if (tile != null) {
-						tile.mimicID = id;
-						tile.mimicMeta = meta;
+						tile.setMimickBlock(id, meta);
 						tile.hasLight[side] = true;
 						tile.requiresUpdate = true;
 						--stack.stackSize;

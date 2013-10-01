@@ -1,6 +1,7 @@
 package electrodynamics.block;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -29,6 +30,11 @@ public class BlockHiddenRedstoneSource extends BlockContainer {
 		
 	}
 
+	@Override
+	public int idDropped(int id, Random random, int meta) {
+		return 0;
+	}
+	
 	@Override
 	public int getRenderType() {
 		return -1;

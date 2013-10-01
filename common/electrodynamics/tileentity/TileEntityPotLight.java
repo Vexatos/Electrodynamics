@@ -77,6 +77,11 @@ public class TileEntityPotLight extends TileEntityEDRoot {
 		return Block.blocksList[this.mimicID];
 	}
 	
+	public void setMimickBlock(int id, int meta) {
+		this.mimicID = id;
+		this.mimicMeta = meta;
+	}
+	
 	public boolean hasLight() {
 		for (boolean bool : this.hasLight) {
 			if (bool) {

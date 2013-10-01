@@ -17,6 +17,11 @@ public class BlockLightSource extends Block {
 	}
 	
 	@Override
+	public int idDropped(int id, Random random, int meta) {
+		return 0;
+	}
+	
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}

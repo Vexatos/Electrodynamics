@@ -18,7 +18,8 @@ import electrodynamics.util.BlockUtil;
 public class BlockPotLight extends BlockContainer {
 
 	public BlockPotLight(int id) {
-		super(id, Material.rock);
+		super(id, Material.glass);
+		setHardness(1F);
 		setCreativeTab(CreativeTabED.tool);
 	}
 
@@ -33,20 +34,7 @@ public class BlockPotLight extends BlockContainer {
     }
 	
 	@Override
-	public float getBlockHardness(World world, int x, int y, int z) {
-		TileEntityPotLight tile = (TileEntityPotLight) world.getBlockTileEntity(x, y, z);
-
-		if (tile != null) {
-			return tile.getMimickedBlock().blockHardness;
-		}
-		
-		return 1.0F;
-	}
-	
-	@Override
 	public void breakBlock(World world, int x, int y, int z, int id, int meta) {
-		super.breakBlock(world, x, y, z, id, meta);
-		
 		TileEntityPotLight tile = (TileEntityPotLight) world.getBlockTileEntity(x, y, z);
 
 		if (tile != null) {
@@ -64,6 +52,9 @@ public class BlockPotLight extends BlockContainer {
 				world.setBlockToAir(coords[0], coords[1], coords[2]);
 			}
 		}
+		
+		world.setBlock(x, y, z, tile.mimicID, tile.mimicMeta, 2);
+		super.breakBlock(world, x, y, z, id, meta);
 	}
 	
 	@Override
@@ -79,6 +70,11 @@ public class BlockPotLight extends BlockContainer {
 		}
 		
 		return Block.stone.getIcon(0, 0);
+	}
+	
+	@Override
+	public Icon getIcon(int side, int meta) {
+		return Block.glass.getIcon(0, 0);
 	}
 	
 	public boolean isBlockSolidOnSide(World world, int x, int y, int z, ForgeDirection side) {
