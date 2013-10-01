@@ -61,16 +61,19 @@ public class ModelPotLight extends ModelBase {
 		setRotation(bulb, 0F, 0F, 0F);
 	}
 
-	public void render(float f5) {
+	public void renderFrame(float f5) {
 		basePlate.render(f5);
 		frame4.render(f5);
 		frame3.render(f5);
 		frame2.render(f5);
 		frame1.render(f5);
+	}
+
+	public void renderBulb(float f5) {
 		bulb2.render(f5);
 		bulb.render(f5);
 	}
-
+	
 	private void setRotation(ModelRenderer model, float x, float y, float z) {
 		model.rotateAngleX = x;
 		model.rotateAngleY = y;

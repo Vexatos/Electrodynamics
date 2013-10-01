@@ -69,7 +69,7 @@ public class ItemBlockPotLight extends ItemBlock {
 					if (!tile.hasLight()) {
 						world.setBlock(x, y, z, tile.mimicID, tile.mimicMeta, 2);
 					}
-				} else {
+				} else if (!tile.hasLight[side]){
 					tile.hasLight[side] = true;
 					tile.requiresUpdate = true;
 					--stack.stackSize;

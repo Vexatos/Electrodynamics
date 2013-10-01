@@ -66,7 +66,8 @@ public class RenderItemPotLight implements IItemRenderer {
 		GL11.glRotatef(180, 1, 0, 0);
 		
 		Textures.POT_LIGHT.bind();
-		this.potLight.render(0.0625F);
+		this.potLight.renderFrame(0.0625F);
+		this.potLight.renderBulb(0.0625F);
 		
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);

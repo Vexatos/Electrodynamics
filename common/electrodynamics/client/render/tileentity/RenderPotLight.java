@@ -63,7 +63,8 @@ public class RenderPotLight extends TileEntitySpecialRenderer {
 				}
 				
 				Textures.POT_LIGHT.bind();
-				this.model.render(0.0625F);
+				this.model.renderFrame(0.0625F);
+				this.model.renderBulb(0.0625F);
 				
 				GL11.glPopMatrix();
 			}
