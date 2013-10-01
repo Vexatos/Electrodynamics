@@ -22,6 +22,8 @@ public class RenderPotLight extends TileEntitySpecialRenderer {
 	public void renderPotLight(TileEntityPotLight tile, double x, double y, double z, float partial) {
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		GL11.glTranslated(x + 0.5, y - 1, z + 0.5);
 		
@@ -75,6 +77,7 @@ public class RenderPotLight extends TileEntitySpecialRenderer {
 			}
 		}
 		 
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 	}
