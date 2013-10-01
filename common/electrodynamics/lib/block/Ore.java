@@ -20,6 +20,11 @@ public enum Ore {
 
     // Because enums won't let me do (constructer.method) :(
     static {
+    	// Ore Dictionary
+    	CHALCOPYRITE.setOreDictionaryName("oreCopper");
+    	GALENA.setOreDictionaryName("oreLead");
+    	WOLFRAMITE.setOreDictionaryName("oreTungsten");
+    	
         // Harvest Levels
         CHALCOPYRITE.setHarvestLevel(EnumToolMaterial.STONE.getHarvestLevel());
         GALENA.setHarvestLevel(EnumToolMaterial.STONE.getHarvestLevel());

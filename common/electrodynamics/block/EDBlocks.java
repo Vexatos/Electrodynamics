@@ -24,5 +24,7 @@ public class EDBlocks {
 	public static Block blockThermometer;
 	public static Block blockAnvil;
 	public static Block blockForge;
+	public static Block blockPotLight;
+	public static Block blockLightSource;
 	
 }

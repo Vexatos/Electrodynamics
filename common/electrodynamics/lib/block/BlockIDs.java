@@ -66,4 +66,10 @@ public class BlockIDs {
 	@EDXProperty(category = CATEGORY_BLOCK)
 	public static int BLOCK_ANVIL_ID = 519;
 	
+	@EDXProperty(category = CATEGORY_BLOCK)
+	public static int BLOCK_POT_LIGHT_ID = 520;
+	
+	@EDXProperty(category = CATEGORY_BLOCK)
+	public static int BLOCK_LIGHT_SOURCE_ID = 521;
+	
 }

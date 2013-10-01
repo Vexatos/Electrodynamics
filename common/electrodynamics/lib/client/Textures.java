@@ -32,6 +32,7 @@ public enum Textures {
 	THERMOMETER("models/textures/thermometer.png"),
 	ANVIL("models/textures/anvil.png"),
 	FORGE("models/textures/forge.png"),
+	POT_LIGHT("models/textures/potLight.png"),
 	
 	/* GUI Textures */
 	GUI_METAL_TRAY("textures/gui/metalTray.png"),

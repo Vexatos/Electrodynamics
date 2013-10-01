@@ -3,6 +3,7 @@ package electrodynamics.module;
 import java.util.EnumSet;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -17,7 +18,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import electrodynamics.block.BlockAnvil;
 import electrodynamics.block.BlockForge;
+import electrodynamics.block.BlockLightSource;
 import electrodynamics.block.BlockMachine;
+import electrodynamics.block.BlockPotLight;
 import electrodynamics.block.BlockStorage;
 import electrodynamics.block.BlockStructure;
 import electrodynamics.block.BlockTable;
@@ -25,6 +28,7 @@ import electrodynamics.block.BlockThermometer;
 import electrodynamics.block.BlockUtility;
 import electrodynamics.block.EDBlocks;
 import electrodynamics.block.item.ItemBlockMachine;
+import electrodynamics.block.item.ItemBlockPotLight;
 import electrodynamics.block.item.ItemBlockStorage;
 import electrodynamics.block.item.ItemBlockStructure;
 import electrodynamics.block.item.ItemBlockTable;
@@ -34,12 +38,14 @@ import electrodynamics.client.render.block.RenderBlockUtility;
 import electrodynamics.client.render.item.RenderItemGlassJar;
 import electrodynamics.client.render.item.RenderItemHandSieve;
 import electrodynamics.client.render.item.RenderItemMachine;
+import electrodynamics.client.render.item.RenderItemPotLight;
 import electrodynamics.client.render.item.RenderItemTable;
 import electrodynamics.client.render.tileentity.RenderActuator;
 import electrodynamics.client.render.tileentity.RenderAnvil;
 import electrodynamics.client.render.tileentity.RenderBasicKiln;
 import electrodynamics.client.render.tileentity.RenderBasicSieve;
 import electrodynamics.client.render.tileentity.RenderForge;
+import electrodynamics.client.render.tileentity.RenderPotLight;
 import electrodynamics.client.render.tileentity.RenderSinteringOven;
 import electrodynamics.client.render.tileentity.RenderTable;
 import electrodynamics.client.render.tileentity.RenderThermometer;
@@ -87,6 +93,7 @@ import electrodynamics.recipe.manager.RecipeManagerSieve;
 import electrodynamics.recipe.manager.RecipeManagerTable;
 import electrodynamics.recipe.vanilla.IRecipeAlloyPickaxe;
 import electrodynamics.tileentity.TileEntityAnvil;
+import electrodynamics.tileentity.TileEntityPotLight;
 import electrodynamics.tileentity.TileEntityThermometer;
 import electrodynamics.tileentity.machine.TileEntityBasicKiln;
 import electrodynamics.tileentity.machine.TileEntityBasicSieve;
@@ -149,6 +156,13 @@ public class EDModuleMachine extends EDModule {
 		EDBlocks.blockForge = new BlockForge(BlockIDs.BLOCK_FORGE_ID).setUnlocalizedName(Strings.BLOCK_FORGE);
 		GameRegistry.registerBlock(EDBlocks.blockForge, Strings.BLOCK_FORGE);
 		EDLanguage.getInstance().registerBlock(EDBlocks.blockForge);
+		
+		EDBlocks.blockPotLight = new BlockPotLight(BlockIDs.BLOCK_POT_LIGHT_ID).setUnlocalizedName(Strings.BLOCK_POT_LIGHT);
+		GameRegistry.registerBlock(EDBlocks.blockPotLight, ItemBlockPotLight.class, Strings.BLOCK_POT_LIGHT);
+		EDLanguage.getInstance().registerBlock(EDBlocks.blockPotLight);
+		
+		EDBlocks.blockLightSource = new BlockLightSource(BlockIDs.BLOCK_LIGHT_SOURCE_ID).setUnlocalizedName("lightSource");
+		GameRegistry.registerBlock(EDBlocks.blockLightSource, "lightSource");
 		
 		/* ITEM */
 		EDItems.itemDust = new ItemDust(ItemIDs.ITEM_DUST_ID).setUnlocalizedName(Strings.ITEM_DUST);
@@ -302,6 +316,7 @@ public class EDModuleMachine extends EDModule {
 		GameRegistry.registerTileEntity(TileEntityThermometer.class, Strings.BLOCK_THERMOMETER);
 		GameRegistry.registerTileEntity(TileEntityAnvil.class, Strings.BLOCK_ANVIL);
 		GameRegistry.registerTileEntity(TileEntityForge.class, Strings.BLOCK_FORGE);
+		GameRegistry.registerTileEntity(TileEntityPotLight.class, Strings.BLOCK_POT_LIGHT);
 		
 		CraftingManager.getInstance().tableManager = new RecipeManagerTable();
 		CraftingManager.getInstance().tableManager.initRecipes();
@@ -329,6 +344,9 @@ public class EDModuleMachine extends EDModule {
 		
 		for (Ore ore : Ore.values()) {
 			OreDictionary.registerOre(ore.textureFile, ore.toItemStack());
+			if (ore.oreDictionaryName != null) {
+				OreDictionary.registerOre(ore.oreDictionaryName, ore.toItemStack());
+			}
 		}
 		
 		// Multi-block Structures
@@ -350,11 +368,13 @@ public class EDModuleMachine extends EDModule {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityThermometer.class, new RenderThermometer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAnvil.class, new RenderAnvil());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityForge.class, new RenderForge());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPotLight.class, new RenderPotLight());
 		
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockTable.blockID, new RenderItemTable());
 		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockMachine.blockID, new RenderItemMachine());
 		MinecraftForgeClient.registerItemRenderer(EDItems.itemGlassJar.itemID, new RenderItemGlassJar());
 		MinecraftForgeClient.registerItemRenderer(EDItems.itemHandheldSieve.itemID, new RenderItemHandSieve());
+		MinecraftForgeClient.registerItemRenderer(EDBlocks.blockPotLight.blockID, new RenderItemPotLight());
 	}
 
 	@Override
