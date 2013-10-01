@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import electrodynamics.client.model.ModelPotLight;
 import electrodynamics.lib.client.Textures;
 import electrodynamics.tileentity.TileEntityPotLight;
+import electrodynamics.util.render.GLColor;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -64,6 +65,10 @@ public class RenderPotLight extends TileEntitySpecialRenderer {
 				
 				Textures.POT_LIGHT.bind();
 				this.model.renderFrame(0.0625F);
+				if (tile.lightColors[i] != 0) {
+					GLColor color = new GLColor(tile.lightColors[i]);
+					color.apply();
+				}
 				this.model.renderBulb(0.0625F);
 				
 				GL11.glPopMatrix();

@@ -5,6 +5,9 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
@@ -33,6 +36,24 @@ public class BlockPotLight extends BlockContainer {
         return false;
     }
 	
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hx, float hy, float hz) {
+    	ItemStack held = player.getCurrentEquippedItem();
+    	
+    	if (!player.isSneaking() && held != null && held.getItem() == Item.dyePowder) {
+    		TileEntityPotLight tile = (TileEntityPotLight) world.getBlockTileEntity(x, y, z);
+    		
+    		if (tile != null) {
+    			tile.lightColors[side] = ItemDye.dyeColors[held.getItemDamage()];
+    			tile.requiresUpdate = true;
+    			--held.stackSize;
+    			return true;
+    		}
+    	}
+    	
+    	return false;
+    }
+    
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int id, int meta) {
 		TileEntityPotLight tile = (TileEntityPotLight) world.getBlockTileEntity(x, y, z);

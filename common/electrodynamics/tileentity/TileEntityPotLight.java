@@ -14,9 +14,11 @@ public class TileEntityPotLight extends TileEntityEDRoot {
 	public boolean requiresUpdate = true;
 	
 	public boolean[] hasLight;
+	public int[] lightColors;
 	
 	public TileEntityPotLight() {
 		this.hasLight = new boolean[ForgeDirection.VALID_DIRECTIONS.length];
+		this.lightColors = new int[ForgeDirection.VALID_DIRECTIONS.length];
 	}
 	
 	@Override
@@ -36,6 +38,8 @@ public class TileEntityPotLight extends TileEntityEDRoot {
 					}
 				}
 			}
+			
+			updateClient();
 		}
 	}
 	
@@ -49,6 +53,10 @@ public class TileEntityPotLight extends TileEntityEDRoot {
 		for (int i=0; i<hasLight.length; i++) {
 			nbt.setBoolean("Light_" + i, hasLight[i]);
 		}
+		
+		for (int i=0; i<lightColors.length; i++) {
+			nbt.setInteger("Color_" + i, lightColors[i]);
+		}
 	}
 	
 	@Override
@@ -61,6 +69,11 @@ public class TileEntityPotLight extends TileEntityEDRoot {
 		this.hasLight = new boolean[ForgeDirection.VALID_DIRECTIONS.length];
 		for (int i=0; i<hasLight.length; i++) {
 			hasLight[i] = nbt.getBoolean("Light_" + i);
+		}
+		
+		this.lightColors = new int[ForgeDirection.VALID_DIRECTIONS.length];
+		for (int i=0; i<lightColors.length; i++) {
+			lightColors[i] = nbt.getInteger("Color_" + i);
 		}
 	}
 	
