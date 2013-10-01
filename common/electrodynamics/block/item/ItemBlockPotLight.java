@@ -40,7 +40,7 @@ public class ItemBlockPotLight extends ItemBlock {
 		int id = world.getBlockId(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
 		
-		if (id != EDBlocks.blockPotLight.blockID && id != Block.grass.blockID && id != Block.leaves.blockID) {
+		if (id != EDBlocks.blockPotLight.blockID && id != Block.grass.blockID && id != Block.leaves.blockID && id != Block.doorIron.blockID && id != Block.doorWood.blockID) {
 			Block block = Block.blocksList[id];
 			
 			if (block != null && !player.isSneaking()) {
